@@ -56,7 +56,7 @@
 #'
 #' # Simulate time series
 #' N = 100000
-#' ts = simts::gen_gts(N, WN(sigma2 = 2) + RW(gamma2 = 1))
+#' ts = simts::gen_gts(N, simts::WN(sigma2 = 2) + simts::RW(gamma2 = 1))
 #'
 #' # Maximal overlap
 #' av_mat_mo = avar(ts, type = "mo")
@@ -96,7 +96,7 @@ avar = function(x, type = "mo") {
 #' set.seed(999)
 #'
 #' # Generate time series
-#' x = simts::gen_gts(100, WN(sigma2 = 1))
+#' x = simts::gen_gts(100, simts::WN(sigma2 = 1))
 #'
 #' # Compute Allan
 #' out = avar(x)
@@ -125,7 +125,7 @@ print.avar = function(x, ...) {
 #' set.seed(999)
 #'
 #' # Generate time series
-#' x = simts::gen_gts(100, WN(sigma2 = 1))
+#' x = simts::gen_gts(100, simts::WN(sigma2 = 1))
 #'
 #' # Compute Allan
 #' out = avar(x)

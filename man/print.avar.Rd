@@ -22,7 +22,7 @@ Displays the allan variance information
 set.seed(999)
 
 # Generate time series
-x = simts::gen_gts(100, WN(sigma2 = 1))
+x = simts::gen_gts(100, simts::WN(sigma2 = 1))
 
 # Compute Allan
 out = avar(x)
