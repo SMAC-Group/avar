@@ -2,9 +2,9 @@
 
 S3method(print,avar)
 S3method(summary,avar)
-export(avar)
 exportPattern("^[[:alpha:]]+")
 import(graphics)
+import(simts)
 importFrom(Rcpp,evalCpp)
 importFrom(grDevices,hcl)
 useDynLib(av)

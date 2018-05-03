@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • av</title>
+<title>Prints Allan Variance — print.avar • av</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -37,7 +37,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -78,64 +78,71 @@
       </header>
 
       <div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;0.1.0</small>
-      </h1>
+    <h1>Prints Allan Variance</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    
+    <p>Displays the allan variance information</p>
+    
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <pre class="usage"><span class='co'># S3 method for avar</span>
+<span class='fu'>print</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>A <code>avar</code> object.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Arguments to be passed to methods</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="avar.html">avar</a></code> </p>
-          </td>
-          <td><p>Calculate the Allan Variance</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="hello.html">hello</a></code> </p>
-          </td>
-          <td><p>Hello, World!</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="print.avar.html">print</a></code> </p>
-          </td>
-          <td><p>Prints Allan Variance</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="summary.avar.html">summary</a></code> </p>
-          </td>
-          <td><p>Summary Allan Variance</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
+    <p>console output</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Set seed for reproducibility</span>
+<span class='fu'>set.seed</span>(<span class='fl'>999</span>)
+
+<span class='co'># Generate time series</span>
+<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>gen_gts</span>(<span class='fl'>100</span>, <span class='fu'>WN</span>(<span class='kw'>sigma2</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+
+<span class='co'># Compute Allan</span>
+<span class='no'>out</span> <span class='kw'>=</span> <span class='fu'><a href='avar.html'>avar</a></span>(<span class='no'>x</span>)
+
+<span class='co'># Print results</span>
+<span class='fu'>print</span>( <span class='no'>out</span> )</div><div class='output co'>#&gt; 
+#&gt;  Clusters: 
+#&gt; [1]  2  4  8 16 32
+#&gt; 
+#&gt;  Allan Variances: 
+#&gt; [1] 0.459749 0.273787 0.102188 0.023327 0.015909
+#&gt; 
+#&gt;  Errors: 
+#&gt; [1] 0.10102 0.14434 0.20851 0.30861 0.48507</div></pre>
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
+    <h2>Author</h2>
+    
+JJB
+
   </div>
 </div>
 
