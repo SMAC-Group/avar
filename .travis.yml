@@ -3,6 +3,6 @@
 language: R
 sudo: false
 cache: packages
-r_github_packages: SSMAC-Group/simts
+r_github_packages: SMAC-Group/simts
 notifications:
     slack: smac-group:EWDAUVsNDTFCD126xDUGJHKK
