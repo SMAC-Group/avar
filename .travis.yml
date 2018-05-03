@@ -3,7 +3,11 @@
 language: R
 sudo: false
 cache: packages
-Imports: simts
-Remotes: SMAC-Group/simts
+Imports:
+  - simts
+  - imudata
+Remotes:
+  - SMAC-Group/simts
+  - SMAC-Group/imudata
 notifications:
     slack: smac-group:EWDAUVsNDTFCD126xDUGJHKK
