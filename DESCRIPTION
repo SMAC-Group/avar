@@ -20,7 +20,8 @@ Imports: Rcpp (>= 0.12.16),
 Suggests: imudata
 LinkingTo: Rcpp,
     RcppArmadillo
-Remotes: SMAC-Group/simts
+Remotes: SMAC-Group/simts,
+    SMAC-Group/wv
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
