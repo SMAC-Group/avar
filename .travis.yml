@@ -1,10 +1,22 @@
-# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+language: c
 
-language: R
-sudo: false
-cache: packages
+before_install:
+#  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  - curl -OL http://raw.github.com/lcolladotor/r-travis/master/scripts/travis-tool.sh
+  - chmod 755 ./travis-tool.sh
+  - ./travis-tool.sh bootstrap
+
 install:
-  - ./travis-tool.sh install_github SMAC-Group/simts
-  - ./travis-tool.sh install_github SMAC-Group/imudata
+  - ./travis-tool.sh install_bioc S4Vectors
+  - ./travis-tool.sh install_bioc IRanges
+  - ./travis-tool.sh install_r Matrix
+  - ./travis-tool.sh install_r knitr
+  - ./travis-tool.sh install_r rmarkdown
+  - ./travis-tool.sh install_r knitcitations
+  - ./travis-tool.sh install_r knitrBootstrap
+  - ./travis-tool.sh install_github lcolladotor/derfinderHelper
+  - ./travis-tool.sh install_github lcolladotor/derfinderData
+  - ./travis-tool.sh install_bioc_deps
+
 notifications:
     slack: smac-group:EWDAUVsNDTFCD126xDUGJHKK
