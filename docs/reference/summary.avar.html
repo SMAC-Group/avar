@@ -109,22 +109,25 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Set seed for reproducibility</span>
+    <pre class="examples"><div class='input'><span class='co'># Load simts package</span>
+<span class='fu'>library</span>(<span class='no'>simts</span>)
+
+<span class='co'># Set seed for reproducibility</span>
 <span class='fu'>set.seed</span>(<span class='fl'>999</span>)
 
 <span class='co'># Generate time series</span>
-<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>gen_gts</span>(<span class='fl'>100</span>, <span class='fu'>WN</span>(<span class='kw'>sigma2</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/simts/topics/gen_gts'>gen_gts</a></span>(<span class='fl'>100</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/simts/topics/WN'>WN</a></span>(<span class='kw'>sigma2</span> <span class='kw'>=</span> <span class='fl'>1</span>))
 
 <span class='co'># Compute Allan</span>
 <span class='no'>out</span> <span class='kw'>=</span> <span class='fu'><a href='avar.html'>avar</a></span>(<span class='no'>x</span>)
 
 <span class='co'># Summary</span>
-<span class='fu'>summary</span>( <span class='no'>out</span> )</div><div class='output co'>#&gt;      Time       AVAR      ADEV   Lower CI  Upper CI     Error
-#&gt; [1,]    2 0.45974858 0.6780476 0.60955447 0.7465408 0.1010153
-#&gt; [2,]    4 0.27378693 0.5232465 0.44772240 0.5987707 0.1443376
-#&gt; [3,]    8 0.10218767 0.3196681 0.25301266 0.3863235 0.2085144
-#&gt; [4,]   16 0.02332676 0.1527310 0.10559720 0.1998648 0.3086067
-#&gt; [5,]   32 0.01590866 0.1261295 0.06494773 0.1873114 0.4850713
+<span class='fu'>summary</span>( <span class='no'>out</span> )</div><div class='output co'>#&gt;      Time       AVAR      ADEV    Lower CI  Upper CI     Error
+#&gt; [1,]    2 0.45974858 0.6780476 0.541061316 0.8150339 0.1010153
+#&gt; [2,]    4 0.27378693 0.5232465 0.372198269 0.6742948 0.1443376
+#&gt; [3,]    8 0.10218767 0.3196681 0.186357263 0.4529789 0.2085144
+#&gt; [4,]   16 0.02332676 0.1527310 0.058463388 0.2469987 0.3086067
+#&gt; [5,]   32 0.01590866 0.1261295 0.003765913 0.2484932 0.4850713
 #&gt; attr(,"class")
 #&gt; [1] "summary.avar" "matrix"      </div></pre>
   </div>
