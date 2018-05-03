@@ -3,11 +3,8 @@
 language: R
 sudo: false
 cache: packages
-Imports:
-  - simts
-  - imudata
-Remotes:
-  - SMAC-Group/simts
-  - SMAC-Group/imudata
+install:
+  - ./travis-tool.sh install_github SMAC-Group/simts
+  - ./travis-tool.sh install_github SMAC-Group/imudata
 notifications:
     slack: smac-group:EWDAUVsNDTFCD126xDUGJHKK
