@@ -17,6 +17,7 @@ Description: More about what it does (maybe more than one line)
 License: CC BY-NC-SA 4.0
 Imports: Rcpp (>= 0.12.16),
     simts
+Suggests: imudata
 LinkingTo: Rcpp,
     RcppArmadillo
 Encoding: UTF-8
