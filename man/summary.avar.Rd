@@ -18,11 +18,14 @@ Summary table
 Displays the summary table of allan variance
 }
 \examples{
+# Load simts package
+library(simts)
+
 # Set seed for reproducibility
 set.seed(999)
 
 # Generate time series
-x = simts::gen_gts(100, simts::WN(sigma2 = 1))
+x = gen_gts(100, WN(sigma2 = 1))
 
 # Compute Allan
 out = avar(x)

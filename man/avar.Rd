@@ -50,12 +50,15 @@ where \eqn{ {{\bar y}_t}\left( \tau  \right) = \frac{1}{\tau }\sum\limits_{i = 0
 }
 
 \examples{
+# Load simts package
+library(simts)
+
 # Set seed for reproducibility
 set.seed(999)
 
 # Simulate time series
 N = 100000
-ts = simts::gen_gts(N, simts::WN(sigma2 = 2) + simts::RW(gamma2 = 1))
+ts = gen_gts(N, WN(sigma2 = 2) + RW(gamma2 = 1))
 
 # Maximal overlap
 av_mat_mo = avar(ts, type = "mo")
