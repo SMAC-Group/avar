@@ -1,0 +1,15 @@
+template:
+  params:
+    bootswatch: flatly
+
+navbar:
+  left:
+  - text: Syllabus
+    href: articles/syllabus.html
+  - text: Schedule
+    href: articles/schedule.html
+  - text: Reference
+    href: reference/index.html
+  right:
+  - icon: fa-github
+    href: https://github.com/SMAC-Group/av
