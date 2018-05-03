@@ -3,8 +3,7 @@
 #' @importFrom Rcpp evalCpp
 #' @importFrom grDevices hcl
 #' @useDynLib av
-#' @import graphics
-#' @import simts
+#' @import graphics simts
 #' @name av
 #' @docType package
 #' @exportPattern ^[[:alpha:]]+
