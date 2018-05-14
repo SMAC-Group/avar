@@ -1,13 +1,13 @@
-# Copyright (C) 2014 - 2016  James Balamuta, Stephane Guerrier, Roberto Molinari
+# Copyright (C) 2018 - 2018 Stephane Guerrier, Gaetan Bakalli, James Balamuta
 #
-# This file is part of GMWM R Methods Package
+# This file is part of av R Methods Package
 #
-# The `gmwm` R package is free software: you can redistribute it and/or modify
+# The `av` R package is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
 # published by the Free Software Foundation, either version 3 of the
 # License, or (at your option) any later version.
 #
-# The `gmwm` R package is distributed in the hope that it will be useful, but
+# The `av` R package is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
@@ -17,7 +17,7 @@
 #' Calculate the Allan Variance
 #'
 #' Computes the Allan Variance
-#' @param x     A \code{vec} containing the time series under observation.
+#' @param x     A \code{vec} of time series observations.
 #' @param type  A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap
 #' @return av   A \code{list} that contains:
 #' \itemize{
@@ -48,7 +48,6 @@
 #'
 #' where \eqn{ {{\bar y}_t}\left( \tau  \right) = \frac{1}{\tau }\sum\limits_{i = 0}^{\tau  - 1} {{{\bar y}_{t - i}}} }{See PDF Manual}.
 #'
-#' @author JJB
 #' @references Long-Memory Processes, the Allan Variance and Wavelets, D. B. Percival and P. Guttorp
 #' @examples
 #' # Load simts package
@@ -92,7 +91,6 @@ avar = function(x, type = "mo") {
 #' @export
 #' @param x   A \code{avar} object.
 #' @param ... Arguments to be passed to methods
-#' @author JJB
 #' @return console output
 #' @examples
 #' # Load simts package
@@ -160,7 +158,7 @@ summary.avar = function(object, ...) {
 #' @description
 #' Displays a plot of wavelet variance accounting for CI values and supplied efficiency.
 #' @method plot avar
-#' @param x                A \code{wvar} object.
+#' @param x                A \code{avar} object.
 #' @param units            A \code{string} that specifies the units of time plotted on the x axis.
 #' @param xlab             A \code{string} that gives a title for the x axis.
 #' @param ylab             A \code{string} that gives a title for the y axis.
@@ -234,7 +232,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   x_low = floor(log2(x_range[1]))
   x_high = ceiling(log2(x_range[2]))
 
-  y_range = range(cbind(x$allan - x$allan*x$errors, x$allan + x$allan*x$errors))
+  y_range = range(cbind(x$adev - x$adev*x$errors, x$adev + x$adev*x$errors))
   y_low = floor(log10(y_range[1]))
   y_high = ceiling(log10(y_range[2]))
 
@@ -300,7 +298,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 
   # CI for WV
   if (ci_wv == TRUE || is.null(ci_wv)){
-    polygon(c(x$cluster, rev(x$cluster)), c(x$allan - x$errors*x$allan, rev(x$allan + x$errors*x$allan)),
+    polygon(c(x$cluster, rev(x$cluster)), c(x$adev - x$errors*x$adev, rev(x$adev + x$errors*x$adev)),
             border = NA, col = col_ci)
   }
 
@@ -334,7 +332,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   }
 
   # Add WV
-  lines(x$clusters, x$allan, type = "l", col = col_wv, pch = 16)
+  lines(x$clusters, x$adev, type = "l", col = col_wv, pch = 16)
 
   if (is.null(point_pch)){
     point_pch = 16
@@ -343,6 +341,122 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   if (is.null(point_cex)){
     point_cex = 1.25
   }
-  lines(x$clusters, x$allan, type = "p", col = col_wv, pch = point_pch, cex = point_cex)
+  lines(x$clusters, x$adev, type = "p", col = col_wv, pch = point_pch, cex = point_cex)
 }
+
+
+
+#' Compute the latent processes parameters estimator based on the Allan Variance
+#'
+#' Computes the Allan Variance
+#' @param x     A \code{vec} of time series observations or an \code{avar} object.
+#' @param qn    A \code{vec} specifying on which scales the parameters of a Quantization Noise (QN) should be computed.
+#' @param wn    A \code{vec} specifying on which scales the parameters of a White Noise (WN) should be computed.
+#' @param rw    A \code{vec} specifying on which scales the parameters of a Random Wakk (RW) should be computed.
+#' @param dr    A \code{vec} specifying on which scales the parameters of a Drift (DR) should be computed.
+#' @param type  A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap
+#' @return Fit_av   A \code{list} that contains:
+#' \itemize{
+#'  \item{"process"}{The process selected}
+#'  \item{"theta_hat"}{The estimated parameter vector}
+#' }
+
+#' @examples
+#' # Load simts package
+#' library(simts)
+#'
+#' # Set seed for reproducibility
+#' set.seed(999)
+#'
+#' # Simulate time series
+#' N = 100000
+#' ts = gen_gts(N, WN(sigma2 = 2) + RW(gamma2 = 1))
+#'
+#' # Maximal overlap
+#' fit1 = fit_av(wn = 1:10, rw = 11:14)
+#'
+fit_av = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL){
+
+  if(is.null(x)){
+    stop("Please provide a time series vector of a 'avar' objet")
+  }else if(class(x)[1] != "avar"){
+    if(is.null(type)){
+      x = avar(x, type = "mo")
+    }else{
+      x = avar(x)
+    }
+  }
+
+  if(sum(sapply(list(qn,wn,rw,dr), is.null)) == 4){
+    stop("Please specify a least one process")
+  }
+
+  n_processes = sum(sapply(list(qn,wn,rw,dr), is.null))
+
+  counter = 1
+
+  process = rep(NA,n_processes)
+  param = rep(NA,n_processes)
+  implied = matrix(NA,length(x$clusters),n_processes)
+
+  for(i in 1:n_processes){
+    if(!is.null(wn)){
+      if(length(wn) < 2){
+        stop("wn must be a vector")
+      }
+      process[i] = "WN"
+      param[i] = exp(mean(0.5*log(x$allan[wn]) + log(2^wn)/2))
+      implied[i] = param[i]/2^(length(x$clusters))
+    }
+
+    if(!is.null(qn)){
+      if(length(qn) < 2){
+        stop("qn must be a vector")
+      }
+      process[i] = "QN"
+      param[i] = (1/sqrt(3))*exp(mean(0.5*log(x$allan[qn]) + log(2^qn)))
+      implied[i] = 3*param[i]/(2^(length(x$clusters)))^2
+    }
+
+    if(!is.null(rw)){
+      if(length(rw) < 2){
+        stop("rw must be a vector")
+      }
+      process[i] = "RW"
+      param[i] = sqrt(3)*exp(mean(0.5*log(x$allan[rw]) - log(2^rw)/2))
+      implied[i] = param[i]*2^(length(x$clusters))/3
+    }
+
+    if(!is.null(dr)){
+      if(length(dr) < 2){
+        stop("dr must be a vector")
+      }
+      process[i] = "DR"
+      param[i] = sqrt(2)*exp(mean(0.5*log(x$allan[dr]) - log(2^dr)))
+      ## Put the real implied for DR
+      implied[i] = param[i]^2*2^((length(x$clusters))^2)/2
+    }
+  }
+
+  av_fit = list(clusters = x[,1], allan=x[,2], errors=x[,3])
+  av_fit$adev = sqrt(x$allan)
+  av_fit$lci = x$adev - 2*x$errors*x$adev
+  av_fit$uci = x$adev + 2*x$errors*x$adev
+  av_fit$type = type
+  av_fit$process = process_desc
+  av_fit$theta_hat = param
+  av_fit$implied_av = implied
+
+  class(av_fit) = c("fit_av")
+  av_fit
+}
+
+#'@export
+print.fit_av = function(x, ...) {
+  cat("\n Process: \n")
+  print(av_fit$process)
+  cat("\n Prameter Value: \n")
+  print(av_fit$theta_hat)
+}
+
 
