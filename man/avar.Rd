@@ -7,7 +7,7 @@
 avar(x, type = "mo")
 }
 \arguments{
-\item{x}{A \code{vec} containing the time series under observation.}
+\item{x}{A \code{vec} of time series observations.}
 
 \item{type}{A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap}
 }
@@ -68,7 +68,4 @@ av_mat_tau = avar(ts, type = "to")
 }
 \references{
 Long-Memory Processes, the Allan Variance and Wavelets, D. B. Percival and P. Guttorp
-}
-\author{
-JJB
 }

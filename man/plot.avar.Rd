@@ -10,7 +10,7 @@
   point_cex = NULL, point_pch = NULL, ...)
 }
 \arguments{
-\item{x}{A \code{wvar} object.}
+\item{x}{A \code{avar} object.}
 
 \item{units}{A \code{string} that specifies the units of time plotted on the x axis.}
 

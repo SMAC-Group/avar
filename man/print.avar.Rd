@@ -33,6 +33,3 @@ out = avar(x)
 # Print results
 print( out )
 }
-\author{
-JJB
-}
