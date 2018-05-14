@@ -370,10 +370,10 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #'
 #' # Simulate time series
 #' N = 100000
-#' ts = gen_gts(N, WN(sigma2 = 2) + RW(gamma2 = 1))
+#' x = gen_gts(N, WN(sigma2 = 2) + RW(gamma2 = 1))
 #'
 #' # Maximal overlap
-#' fit1 = fit_av(wn = 1:10, rw = 11:14)
+#' fit1 = fit_av(x, wn = 1:10, rw = 11:14)
 #'
 fit_av = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL){
 
