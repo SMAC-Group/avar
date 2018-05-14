@@ -377,7 +377,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 fit_av = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL){
 
   if(is.null(x)){
-    stop("Please provide a time series vector of a 'avar' objet")
+    stop("Please provide a time series vector or a 'avar' objet")
   }else if(class(x)[1] != "avar"){
     if(is.null(type)){
       x = avar(x, type = "mo")
@@ -397,36 +397,43 @@ fit_av = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL){
   process = rep(NA,n_processes)
   param = rep(NA,n_processes)
   implied = matrix(NA,length(x$clusters),n_processes)
+  incl_wn = incl_qn = incl_rw = incl_dr = FALSE
 
   for(i in 1:n_processes){
-    if(!is.null(wn)){
-      if(length(wn) < 2){
-        stop("wn must be a vector")
+    if(!is.null(wn) && !incl_wn){
+      if(length(wn) < 1 || !is.whole(wn) || min(wn) < 1 || max(wn) > length(x$allan)){
+        stop("wn incorrectely formatted.")
       }
       process[i] = "WN"
       param[i] = exp(mean(0.5*log(x$allan[wn]) + log(2^wn)/2))
       implied[i] = param[i]/2^(length(x$clusters))
+      incl_wn = TRUE
+      next
     }
 
-    if(!is.null(qn)){
-      if(length(qn) < 2){
+    if(!is.null(qn) && !incl_qn){
+      if(length(qn) < 1){
         stop("qn must be a vector")
       }
       process[i] = "QN"
       param[i] = (1/sqrt(3))*exp(mean(0.5*log(x$allan[qn]) + log(2^qn)))
       implied[i] = 3*param[i]/(2^(length(x$clusters)))^2
+      incl_qn = TRUE
+      next
     }
 
-    if(!is.null(rw)){
-      if(length(rw) < 2){
+    if(!is.null(rw) && !incl_rw){
+      if(length(rw) < 1){
         stop("rw must be a vector")
       }
       process[i] = "RW"
       param[i] = sqrt(3)*exp(mean(0.5*log(x$allan[rw]) - log(2^rw)/2))
       implied[i] = param[i]*2^(length(x$clusters))/3
+      incl_rw = TRUE
+      next
     }
 
-    if(!is.null(dr)){
+    if(!is.null(dr) && !incl_dr){
       if(length(dr) < 2){
         stop("dr must be a vector")
       }
@@ -434,20 +441,22 @@ fit_av = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL){
       param[i] = sqrt(2)*exp(mean(0.5*log(x$allan[dr]) - log(2^dr)))
       ## Put the real implied for DR
       implied[i] = param[i]^2*2^((length(x$clusters))^2)/2
+      incl_dr = TRUE
+      next
     }
   }
 
-  av_fit = list(clusters = x[,1], allan=x[,2], errors=x[,3])
-  av_fit$adev = sqrt(x$allan)
-  av_fit$lci = x$adev - 2*x$errors*x$adev
-  av_fit$uci = x$adev + 2*x$errors*x$adev
-  av_fit$type = type
-  av_fit$process = process_desc
-  av_fit$theta_hat = param
-  av_fit$implied_av = implied
+  #av_fit = list(clusters = x[,1], allan=x[,2], errors=x[,3])
+  #av_fit$adev = sqrt(x$allan)
+  #av_fit$lci = x$adev - 2*x$errors*x$adev
+  #av_fit$uci = x$adev + 2*x$errors*x$adev
+  #av_fit$type = type
+  #av_fit$process = process_desc
+  #av_fit$theta_hat = param
+  #av_fit$implied_av = implied
 
-  class(av_fit) = c("fit_av")
-  av_fit
+  #class(av_fit) = c("fit_av")
+  #av_fit
 }
 
 #' @title TO DO
