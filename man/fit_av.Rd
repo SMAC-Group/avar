@@ -38,9 +38,9 @@ set.seed(999)
 
 # Simulate time series
 N = 100000
-ts = gen_gts(N, WN(sigma2 = 2) + RW(gamma2 = 1))
+x = gen_gts(N, WN(sigma2 = 2) + RW(gamma2 = 1))
 
 # Maximal overlap
-fit1 = fit_av(wn = 1:10, rw = 11:14)
+fit1 = fit_av(x, wn = 1:10, rw = 11:14)
 
 }
