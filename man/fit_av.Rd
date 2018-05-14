@@ -2,7 +2,7 @@
 % Please edit documentation in R/avar.r
 \name{fit_av}
 \alias{fit_av}
-\title{Compute the latent processes parameters estimator based on the Allan Variance}
+\title{Computes the Allan Variance}
 \usage{
 fit_av(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL)
 }
@@ -27,7 +27,7 @@ Fit_av   A \code{list} that contains:
 }
 }
 \description{
-Computes the Allan Variance
+Compute the latent processes parameters estimator based on the Allan Variance
 }
 \examples{
 # Load simts package
