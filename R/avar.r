@@ -344,11 +344,10 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   lines(x$clusters, x$adev, type = "p", col = col_wv, pch = point_pch, cex = point_cex)
 }
 
-
-
-#' Compute the latent processes parameters estimator based on the Allan Variance
+#' @title Computes the Allan Variance
 #'
-#' Computes the Allan Variance
+#' @description
+#' Compute the latent processes parameters estimator based on the Allan Variance
 #' @param x     A \code{vec} of time series observations or an \code{avar} object.
 #' @param qn    A \code{vec} specifying on which scales the parameters of a Quantization Noise (QN) should be computed.
 #' @param wn    A \code{vec} specifying on which scales the parameters of a White Noise (WN) should be computed.
@@ -451,6 +450,10 @@ fit_av = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL){
   av_fit
 }
 
+#' @title TO DO
+#'
+#' @description
+#' TO DO
 #'@export
 print.fit_av = function(x, ...) {
   cat("\n Process: \n")
