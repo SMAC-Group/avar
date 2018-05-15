@@ -160,6 +160,7 @@ summary.avar = function(object, ...) {
 #' @method plot avar
 #' @param x                A \code{avar} object.
 #' @param units            A \code{string} that specifies the units of time plotted on the x axis.
+#' @param add_legend       A \code{boolean} that determines whether the legend is displayed
 #' @param xlab             A \code{string} that gives a title for the x axis.
 #' @param ylab             A \code{string} that gives a title for the y axis.
 #' @param main             A \code{string} that gives an overall title for the plot.
@@ -491,6 +492,7 @@ print.avlr = function(x, ...) {
 #' Displays a plot of allan deviation accounting for CI values with the AD implied by the estimated parameters
 #' @method plot avar
 #' @param x                A \code{avlr} object.
+#' @param decomp           A \code{boolean} that determines whether the latent proceses individual contributions are plotted.
 #' @param units            A \code{string} that specifies the units of time plotted on the x axis.
 #' @param xlab             A \code{string} that gives a title for the x axis.
 #' @param ylab             A \code{string} that gives a title for the y axis.
@@ -517,14 +519,11 @@ print.avlr = function(x, ...) {
 #' # Generate time series
 #' x = gen_gts(100, WN(sigma2 = 1))
 #'
-#' # Compute Allan
-#' av = avar(x)
-#'
 #' # Plot example
-#' plot(av)
-#' plot(av, main = "Simulated white noise", xlab = "Scales")
-#' plot(av, units = "sec", legend_position = "topright")
-#' plot(av, col_wv = "darkred", col_ci = "pink")
+#' plot(x)
+#' plot(x, decomp = TRUE, main = "Simulated white noise", xlab = "Scales")
+#' plot(x, units = "sec", legend_position = "topright")
+#' plot(x, col_wv = "darkred", col_ci = "pink")
 plot.avlr = function(x, decomp = FALSE,
                       units = NULL, xlab = NULL, ylab = NULL, main = NULL,
                       col_wv = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,

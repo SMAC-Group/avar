@@ -12,6 +12,8 @@
 \arguments{
 \item{x}{A \code{avlr} object.}
 
+\item{decomp}{A \code{boolean} that determines whether the latent proceses individual contributions are plotted.}
+
 \item{units}{A \code{string} that specifies the units of time plotted on the x axis.}
 
 \item{xlab}{A \code{string} that gives a title for the x axis.}

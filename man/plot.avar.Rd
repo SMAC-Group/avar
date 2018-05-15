@@ -14,6 +14,8 @@
 
 \item{units}{A \code{string} that specifies the units of time plotted on the x axis.}
 
+\item{add_legend}{A \code{boolean} that determines whether the legend is displayed}
+
 \item{xlab}{A \code{string} that gives a title for the x axis.}
 
 \item{ylab}{A \code{string} that gives a title for the y axis.}
