@@ -2,7 +2,7 @@
 
 S3method(plot,avar)
 S3method(print,avar)
-S3method(print,fit_av)
+S3method(print,avlr)
 S3method(summary,avar)
 exportPattern("^[[:alpha:]]+")
 import(graphics)
