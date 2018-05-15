@@ -56,14 +56,11 @@ set.seed(999)
 # Generate time series
 x = gen_gts(100, WN(sigma2 = 1))
 
-# Compute Allan
-av = avar(x)
-
 # Plot example
-plot(av)
-plot(av, main = "Simulated white noise", xlab = "Scales")
-plot(av, units = "sec", legend_position = "topright")
-plot(av, col_wv = "darkred", col_ci = "pink")
+plot(x)
+plot(x, decomp = TRUE, main = "Simulated white noise", xlab = "Scales")
+plot(x, units = "sec", legend_position = "topright")
+plot(x, col_wv = "darkred", col_ci = "pink")
 }
 \author{
 Stephane Guerrier, Nathanael Claussen, and Justin Lee
