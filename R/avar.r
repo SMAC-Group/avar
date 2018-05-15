@@ -539,7 +539,7 @@ plot.avlr = function(x, decomp = FALSE,
     col_ci = hcl(h = 210, l = 65, c = 100, alpha = 0.2)
   }
 
-  plot(x$av, add_legend = FALSE, units = units, xlab = xlab, ylab = ylab, main = main,
+  plot.avar(x$av, units = units,add_legend = FALSE, xlab = xlab, ylab = ylab, main = main,
        col_wv = col_wv, col_ci = col_ci, nb_ticks_x = nb_ticks_x, nb_ticks_y = nb_ticks_y,
        ci_wv = ci_wv, point_cex = point_cex,
        point_pch = point_pch)
