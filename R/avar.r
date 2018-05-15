@@ -455,16 +455,20 @@ fit_av = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL){
   #av_fit$theta_hat = param
   #av_fit$implied_av = implied
 
-  #class(av_fit) = c("fit_av")
+  #class(av_fit) = c("avlr")
   #av_fit
 }
 
 #' @title TO DO
 #'
 #' @description
-#' TO DO
-#'@export
-print.fit_av = function(x, ...) {
+#' TO DO + needs example
+#' @method print avlr
+#' @param x   A \code{avlr} object.
+#' @param ... Arguments to be passed to methods
+#' @return console output
+#' @export
+print.avlr = function(x, ...) {
   cat("\n Process: \n")
   print(av_fit$process)
   cat("\n Prameter Value: \n")
