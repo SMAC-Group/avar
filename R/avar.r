@@ -307,7 +307,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 
   wv_title_part1 = "Empirical AD "
 
-  if(add_legend == TRUE){
+
     if (!is.na(legend_position)){
       if (legend_position == "topleft"){
         legend_position = 10^c(1.1*win_dim[1], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
@@ -330,7 +330,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
         }
       }
     }
-  }
+
 
   # Add WV
   lines(x$clusters, x$adev, type = "l", col = col_wv, pch = 16)
