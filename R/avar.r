@@ -506,7 +506,7 @@ print.avlr = function(x, ...) {
 #' @param ...              Additional arguments affecting the plot.
 #' @return Plot of allan deviation and confidence interval for each scale.
 #' @author Stephane Guerrier, Nathanael Claussen, and Justin Lee
-#' @export plot.avlr
+#' @export
 #' @examples
 #' # Load simts package
 #' library(simts)
@@ -525,7 +525,7 @@ print.avlr = function(x, ...) {
 #' plot(av, main = "Simulated white noise", xlab = "Scales")
 #' plot(av, units = "sec", legend_position = "topright")
 #' plot(av, col_wv = "darkred", col_ci = "pink")
-plot.avlr = function(obj_list, decomp = FALSE,
+plot.avlr = function(x, decomp = FALSE,
                       units = NULL, xlab = NULL, ylab = NULL, main = NULL,
                       col_wv = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
                       legend_position = NULL, ci_wv = NULL, point_cex = NULL,
@@ -540,12 +540,12 @@ plot.avlr = function(obj_list, decomp = FALSE,
     col_ci = hcl(h = 210, l = 65, c = 100, alpha = 0.2)
   }
 
-  plot(obj_list$av, add_legend = FALSE, units = units, xlab = xlab, ylab = ylab, main = main,
+  plot(x$av, add_legend = FALSE, units = units, xlab = xlab, ylab = ylab, main = main,
        col_wv = col_wv, col_ci = col_ci, nb_ticks_x = nb_ticks_x, nb_ticks_y = nb_ticks_y,
        ci_wv = ci_wv, point_cex = point_cex,
        point_pch = point_pch)
 
-  U = dim(obj_list$implied_ad_decomp)[2]
+  U = dim(x$implied_ad_decomp)[2]
   col_decomp = hcl(h = seq(100, 375, length = U + 1), l = 65, c = 200, alpha = 1)[1:U]
 
   # Legend Position
@@ -559,12 +559,12 @@ plot.avlr = function(obj_list, decomp = FALSE,
   if(decomp == TRUE){
     # Plot lines of decomp theo
     for (i in 1:U){
-      lines(obj_list$av$clusters, obj_list$implied_ad_decomp[,i], col = col_decomp[i])
+      lines(x$av$clusters, x$implied_ad_decomp[,i], col = col_decomp[i])
     }
   }
   # Plot implied AD
-  lines(t(obj_list$av$clusters),obj_list$implied_ad, type = "l", lwd = 3, col = "#F47F24", pch = 1, cex = 1.5)
-  lines(t(obj_list$av$clusters),obj_list$implied_ad, type = "p", lwd = 2, col = "#F47F24", pch = 1, cex = 1.5)
+  lines(t(x$av$clusters),x$implied_ad, type = "l", lwd = 3, col = "#F47F24", pch = 1, cex = 1.5)
+  lines(t(x$av$clusters),x$implied_ad, type = "p", lwd = 2, col = "#F47F24", pch = 1, cex = 1.5)
 
   # Add legend
   CI_conf = .95
@@ -573,7 +573,7 @@ plot.avlr = function(obj_list, decomp = FALSE,
   if(decomp == TRUE){
     legend_names = c(as.expression(bquote(paste(.(wv_title_part1), hat(phi)))),
                      as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AV",
-                     obj_list$process_desc)
+                     x$process_desc)
     col_legend = c(col_wv, col_ci,"#F47F24",col_decomp)
     p_cex_legend = c(1.25, 3, 1.5,rep(NA,U))
     lty_legend = c(1, NA, rep(1,U))

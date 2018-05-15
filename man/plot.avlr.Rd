@@ -4,12 +4,14 @@
 \alias{plot.avlr}
 \title{Plot Allan Variance Linear Regression Fit}
 \usage{
-\method{plot}{avar}(obj_list, decomp = FALSE, units = NULL, xlab = NULL,
+\method{plot}{avar}(x, decomp = FALSE, units = NULL, xlab = NULL,
   ylab = NULL, main = NULL, col_wv = NULL, col_ci = NULL,
   nb_ticks_x = NULL, nb_ticks_y = NULL, legend_position = NULL,
   ci_wv = NULL, point_cex = NULL, point_pch = NULL, ...)
 }
 \arguments{
+\item{x}{A \code{avlr} object.}
+
 \item{units}{A \code{string} that specifies the units of time plotted on the x axis.}
 
 \item{xlab}{A \code{string} that gives a title for the x axis.}
@@ -35,8 +37,6 @@
 \item{point_pch}{A \code{double} that specifies the symbol type to be plotted.}
 
 \item{...}{Additional arguments affecting the plot.}
-
-\item{x}{A \code{avlr} object.}
 }
 \value{
 Plot of allan deviation and confidence interval for each scale.
