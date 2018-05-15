@@ -516,7 +516,8 @@ print.avlr = function(x, ...) {
 #' # Set seed for reproducibility
 #' set.seed(999)
 #'
-#' # Generate time series
+#' # Simulate time series
+#' N = 100000
 #' x = gen_gts(N, WN(sigma2 = 1) + RW(gamma2 = 1e-7))
 #'
 #' # Plot example
