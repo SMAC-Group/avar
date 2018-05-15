@@ -160,7 +160,6 @@ summary.avar = function(object, ...) {
 #' @method plot avar
 #' @param x                A \code{avar} object.
 #' @param units            A \code{string} that specifies the units of time plotted on the x axis.
-#' @param add_legend       A \code{boolean} that determines whether the legend is displayed
 #' @param xlab             A \code{string} that gives a title for the x axis.
 #' @param ylab             A \code{string} that gives a title for the y axis.
 #' @param main             A \code{string} that gives an overall title for the plot.
@@ -194,7 +193,7 @@ summary.avar = function(object, ...) {
 #' plot(av, main = "Simulated white noise", xlab = "Scales")
 #' plot(av, units = "sec", legend_position = "topright")
 #' plot(av, col_wv = "darkred", col_ci = "pink")
-plot.avar = function(x, units = NULL,add_legend = TRUE, xlab = NULL, ylab = NULL, main = NULL,
+plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
                      col_wv = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
                      legend_position = NULL, ci_wv = NULL, point_cex = NULL,
                      point_pch = NULL, ...){

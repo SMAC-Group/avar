@@ -4,17 +4,15 @@
 \alias{plot.avar}
 \title{Plot Allan Deviation}
 \usage{
-\method{plot}{avar}(x, units = NULL, add_legend = TRUE, xlab = NULL,
-  ylab = NULL, main = NULL, col_wv = NULL, col_ci = NULL,
-  nb_ticks_x = NULL, nb_ticks_y = NULL, legend_position = NULL,
-  ci_wv = NULL, point_cex = NULL, point_pch = NULL, ...)
+\method{plot}{avar}(x, units = NULL, xlab = NULL, ylab = NULL,
+  main = NULL, col_wv = NULL, col_ci = NULL, nb_ticks_x = NULL,
+  nb_ticks_y = NULL, legend_position = NULL, ci_wv = NULL,
+  point_cex = NULL, point_pch = NULL, ...)
 }
 \arguments{
 \item{x}{A \code{avar} object.}
 
 \item{units}{A \code{string} that specifies the units of time plotted on the x axis.}
-
-\item{add_legend}{A \code{boolean} that determines whether the legend is displayed}
 
 \item{xlab}{A \code{string} that gives a title for the x axis.}
 
