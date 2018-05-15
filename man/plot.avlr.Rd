@@ -57,7 +57,7 @@ set.seed(999)
 N = 100000
 ts = gen_gts(N, WN(sigma2 = 1) + RW(gamma2 = 1e-7))
 
-x = avar(ts)
+x = avlr(x, wn = 1:12, rw = 12:15)
 
 # Plot example
 plot.avlr(x)
