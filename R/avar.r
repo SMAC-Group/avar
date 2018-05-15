@@ -518,7 +518,9 @@ print.avlr = function(x, ...) {
 #'
 #' # Simulate time series
 #' N = 100000
-#' x = gen_gts(N, WN(sigma2 = 1) + RW(gamma2 = 1e-7))
+#' ts = gen_gts(N, WN(sigma2 = 1) + RW(gamma2 = 1e-7))
+#'
+#' x = avar(ts)
 #'
 #' # Plot example
 #' plot.avlr(x)
