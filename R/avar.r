@@ -153,10 +153,10 @@ summary.avar = function(object, ...) {
   out_matrix
 }
 
-#' @title Plot Wavelet Variances
+#' @title Plot Allan Deviation
 #'
 #' @description
-#' Displays a plot of wavelet variance accounting for CI values and supplied efficiency.
+#' Displays a plot of allan deviation accounting for CI values.
 #' @method plot avar
 #' @param x                A \code{avar} object.
 #' @param units            A \code{string} that specifies the units of time plotted on the x axis.
@@ -172,7 +172,7 @@ summary.avar = function(object, ...) {
 #' @param point_pch        A \code{double} that specifies the symbol type to be plotted.
 #' @param point_cex        A \code{double} that specifies the size of each symbol to be plotted.
 #' @param ...              Additional arguments affecting the plot.
-#' @return Plot of wavelet variance and confidence interval for each scale.
+#' @return Plot of allan deviation and confidence interval for each scale.
 #' @author Stephane Guerrier, Nathanael Claussen, and Justin Lee
 #' @export
 #' @examples
@@ -193,7 +193,7 @@ summary.avar = function(object, ...) {
 #' plot(av, main = "Simulated white noise", xlab = "Scales")
 #' plot(av, units = "sec", legend_position = "topright")
 #' plot(av, col_wv = "darkred", col_ci = "pink")
-plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
+plot.avar = function(x, units = NULL,add_legend = TRUE, xlab = NULL, ylab = NULL, main = NULL,
                      col_wv = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
                      legend_position = NULL, ci_wv = NULL, point_cex = NULL,
                      point_pch = NULL, ...){
@@ -208,7 +208,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   }
 
   if (is.null(ylab)){
-    ylab = expression(paste("Allan Deviation ", phi^2, sep = ""))
+    ylab = expression(paste("Allan Deviation ", phi, sep = ""))
   }else{
     ylab = ylab
   }
@@ -303,30 +303,31 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   }
 
   # Add legend
-  CI_conf = 1 - x$alpha
+  CI_conf = .95
 
-  wv_title_part1 = "Empirical AV "
+  wv_title_part1 = "Empirical AD "
 
-
-  if (!is.na(legend_position)){
-    if (legend_position == "topleft"){
-      legend_position = 10^c(1.1*win_dim[1], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
-      legend(x = legend_position[1], y = legend_position[2],
-             legend = c(as.expression(bquote(paste(.(wv_title_part1), hat(nu)^2))),
-                        as.expression(bquote(paste("CI(",hat(nu)^2,", ",.(CI_conf),")")))),
-             pch = c(16, 15), lty = c(1, NA), col = c(col_wv, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
-    }else{
-      if (legend_position == "topright"){
-        legend_position = 10^c(0.7*win_dim[2], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
+  if(add_legend == TRUE){
+    if (!is.na(legend_position)){
+      if (legend_position == "topleft"){
+        legend_position = 10^c(1.1*win_dim[1], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
         legend(x = legend_position[1], y = legend_position[2],
-               legend = c(as.expression(bquote(paste(.(wv_title_part1), hat(nu)^2))),
-                          as.expression(bquote(paste("CI(",hat(nu)^2,", ",.(CI_conf),")")))),
+               legend = c(as.expression(bquote(paste(.(wv_title_part1), hat(phi)))),
+                          as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")")))),
                pch = c(16, 15), lty = c(1, NA), col = c(col_wv, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
       }else{
-        legend(legend_position,
-               legend = c(as.expression(bquote(paste(.(wv_title_part1), hat(nu)^2))),
-                          as.expression(bquote(paste("CI(",hat(nu)^2,", ",.(CI_conf),")")))),
-               pch = c(16, 15), lty = c(1, NA), col = c(col_wv, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
+        if (legend_position == "topright"){
+          legend_position = 10^c(0.7*win_dim[2], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
+          legend(x = legend_position[1], y = legend_position[2],
+                 legend = c(as.expression(bquote(paste(.(wv_title_part1), hat(phi)))),
+                            as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")")))),
+                 pch = c(16, 15), lty = c(1, NA), col = c(col_wv, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
+        }else{
+          legend(legend_position,
+                 legend = c(as.expression(bquote(paste(.(wv_title_part1), hat(phi)))),
+                            as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")")))),
+                 pch = c(16, 15), lty = c(1, NA), col = c(col_wv, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
+        }
       }
     }
   }
@@ -344,7 +345,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   lines(x$clusters, x$adev, type = "p", col = col_wv, pch = point_pch, cex = point_cex)
 }
 
-#' @title Computes the Allan Variance
+#' @title Computes the Allan Variance Linear Regression estimator
 #'
 #' @description
 #' Compute the latent processes parameters estimator based on the Allan Variance
@@ -354,10 +355,12 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #' @param rw    A \code{vec} specifying on which scales the parameters of a Random Wakk (RW) should be computed.
 #' @param dr    A \code{vec} specifying on which scales the parameters of a Drift (DR) should be computed.
 #' @param type  A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap
-#' @return Fit_av   A \code{list} that contains:
+#' @return avlr   A \code{list} that contains:
 #' \itemize{
-#'  \item{"process"}{The process selected}
-#'  \item{"theta_hat"}{The estimated parameter vector}
+#'  \item{"estimates"}
+#'  \item{"implied_ad"}{The Allan Deviation implied by the estimated parameter.}
+#'  \item{"implied_ad_decomp"}{The Allan Deviation implied by the estimated parameter for the sub-processes.}
+#'  \item{"av"}{The \code{avar} object provided or corresponding to the data provided.}
 #' }
 
 #' @examples
@@ -369,12 +372,12 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #'
 #' # Simulate time series
 #' N = 100000
-#' x = gen_gts(N, WN(sigma2 = 2) + RW(gamma2 = 1))
+#' x = gen_gts(N, WN(sigma2 = 1) + RW(gamma2 = 1e-7))
 #'
 #' # Maximal overlap
-#' fit1 = fit_av(x, wn = 1:10, rw = 11:14)
+#' fit1 = avlr(x, wn = 1:12, rw = 12:15)
 #'
-fit_av = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL){
+avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL){
 
   if(is.null(x)){
     stop("Please provide a time series vector or a 'avar' objet")
@@ -392,87 +395,215 @@ fit_av = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL){
 
   n_processes = sum(sapply(list(qn,wn,rw,dr), is.null))
 
-  counter = 1
-
   process = rep(NA,n_processes)
   param = rep(NA,n_processes)
   implied = matrix(NA,length(x$clusters),n_processes)
-  incl_wn = incl_qn = incl_rw = incl_dr = FALSE
 
-  for(i in 1:n_processes){
-    if(!is.null(wn) && !incl_wn){
+  counter = 1
+
+    if(!is.null(wn)){
       if(length(wn) < 1 || !is.whole(wn) || min(wn) < 1 || max(wn) > length(x$allan)){
         stop("wn incorrectely formatted.")
       }
-      process[i] = "WN"
-      param[i] = exp(mean(0.5*log(x$allan[wn]) + log(2^wn)/2))
-      implied[i] = param[i]/2^(length(x$clusters))
-      incl_wn = TRUE
-      next
+      process[counter] = "WN"
+      param[counter] = exp(mean(log(x$adev[wn]) + log(x$clusters[wn])/2))
+      implied[,counter] = param[counter]/sqrt(x$clusters)
+      counter = counter + 1
     }
 
-    if(!is.null(qn) && !incl_qn){
-      if(length(qn) < 1){
-        stop("qn must be a vector")
+    if(!is.null(qn)){
+      if(length(qn) < 1 || !is.whole(qn) || min(qn) < 1 || max(qn) > length(x$allan)){
+        stop("qn incorrectely formatted.")
       }
-      process[i] = "QN"
-      param[i] = (1/sqrt(3))*exp(mean(0.5*log(x$allan[qn]) + log(2^qn)))
-      implied[i] = 3*param[i]/(2^(length(x$clusters)))^2
-      incl_qn = TRUE
-      next
+      process[counter] = "QN"
+      param[counter] = (1/sqrt(3))*exp(mean(log(x$adev[qn]) + log(x$clusters[qn])))
+      implied[,counter] = sqrt(3)*param[counter]/(x$clusters)
+      counter = counter + 1
     }
 
-    if(!is.null(rw) && !incl_rw){
-      if(length(rw) < 1){
-        stop("rw must be a vector")
+    if(!is.null(rw)){
+      if(length(rw) < 1 || !is.whole(rw) || min(rw) < 1 || max(rw) > length(x$allan)){
+        stop("rw incorrectely formatted.")
       }
-      process[i] = "RW"
-      param[i] = sqrt(3)*exp(mean(0.5*log(x$allan[rw]) - log(2^rw)/2))
-      implied[i] = param[i]*2^(length(x$clusters))/3
-      incl_rw = TRUE
-      next
+      process[counter] = "RW"
+      param[counter] = sqrt(3)*exp(mean(log(x$adev[rw]) - log(x$clusters[rw])/2))
+      implied[,counter] = param[counter]*sqrt(x$clusters/3)
+      counter = counter + 1
     }
 
-    if(!is.null(dr) && !incl_dr){
-      if(length(dr) < 2){
-        stop("dr must be a vector")
+    if(!is.null(dr)){
+      if(length(dr) < 1 || !is.whole(dr) || min(dr) < 1 || max(dr) > length(x$allan)){
+        stop("dr incorrectely formatted.")
       }
-      process[i] = "DR"
-      param[i] = sqrt(2)*exp(mean(0.5*log(x$allan[dr]) - log(2^dr)))
-      ## Put the real implied for DR
-      implied[i] = param[i]^2*2^((length(x$clusters))^2)/2
-      incl_dr = TRUE
-      next
+      process[counter] = "DR"
+      param[counter] = sqrt(2)*exp(mean(log(x$adev[dr]) - log(x$clusters[dr])))
+      implied[,counter] = param[counter]*x$clusters/2
+      counter = counter + 1
     }
-  }
 
-  #av_fit = list(clusters = x[,1], allan=x[,2], errors=x[,3])
-  #av_fit$adev = sqrt(x$allan)
-  #av_fit$lci = x$adev - 2*x$errors*x$adev
-  #av_fit$uci = x$adev + 2*x$errors*x$adev
-  #av_fit$type = type
-  #av_fit$process = process_desc
-  #av_fit$theta_hat = param
-  #av_fit$implied_av = implied
+  implied_ad = apply(implied, 1, sum)
 
-  #class(av_fit) = c("avlr")
-  #av_fit
+  estimates = t(t(param))
+  rownames(estimates) = process
+  colnames(estimates) = "Value"
+
+  x = structure(list(estimates = estimates,
+                     process_desc = process,
+                     implied_ad = implied_ad,
+                     implied_ad_decomp = implied,
+                     av = x), class = "avlr")
+  invisible(x)
 }
 
-#' @title TO DO
+#' Print gmwm object
+#'
+#' Displays information about GMWM object
+#' @method print avlr
+#' @export
+#' @keywords internal
+#' @param x   A \code{avlr} object
+#' @param ... Other arguments passed to specific methods
+#' @return Text output via print
+#' @examples
+#' \dontrun{
+#' # Load simts package
+#' library(simts)
+#'
+#' # Set seed for reproducibility
+#' set.seed(999)
+#'
+#' # Simulate time series
+#' N = 100000
+#' x = gen_gts(N, WN(sigma2 = 1) + RW(gamma2 = 1e-7))
+#'
+#' # Maximal overlap
+#' fit1 = avlr(x, wn = 1:12, rw = 12:15)
+#' print(fit1)
+#' }
+print.avlr = function(x, ...) {
+  cat("\n Estimates: \n")
+  print(x$estimates)
+}
+
+#' @title Plot Allan Variance Linear Regression Fit
 #'
 #' @description
-#' TO DO + needs example
-#' @method print avlr
-#' @param x   A \code{avlr} object.
-#' @param ... Arguments to be passed to methods
-#' @return console output
-#' @export
-print.avlr = function(x, ...) {
-  cat("\n Process: \n")
-  print(av_fit$process)
-  cat("\n Prameter Value: \n")
-  print(av_fit$theta_hat)
-}
+#' Displays a plot of allan deviation accounting for CI values with the AD implied by the estimated parameters
+#' @method plot avar
+#' @param x                A \code{avlr} object.
+#' @param units            A \code{string} that specifies the units of time plotted on the x axis.
+#' @param xlab             A \code{string} that gives a title for the x axis.
+#' @param ylab             A \code{string} that gives a title for the y axis.
+#' @param main             A \code{string} that gives an overall title for the plot.
+#' @param col_wv           A \code{string} that specifies the color of the wavelet variance line.
+#' @param col_ci           A \code{string} that specifies the color of the confidence interval polygon.
+#' @param ci_wv            A \code{boolean} that determines whether a confidence interval polygon will be drawn.
+#' @param nb_ticks_x       An \code{integer} that specifies the maximum number of ticks for the x-axis.
+#' @param nb_ticks_y       An \code{integer} that specifies the maximum number of ticks for the y-axis.
+#' @param legend_position  A \code{string} that specifies the position of the legend (use \code{legend_position = NA} to remove legend).
+#' @param point_pch        A \code{double} that specifies the symbol type to be plotted.
+#' @param point_cex        A \code{double} that specifies the size of each symbol to be plotted.
+#' @param ...              Additional arguments affecting the plot.
+#' @return Plot of allan deviation and confidence interval for each scale.
+#' @author Stephane Guerrier, Nathanael Claussen, and Justin Lee
+#' @export plot.avlr
+#' @examples
+#' # Load simts package
+#' library(simts)
+#'
+#' # Set seed for reproducibility
+#' set.seed(999)
+#'
+#' # Generate time series
+#' x = gen_gts(100, WN(sigma2 = 1))
+#'
+#' # Compute Allan
+#' av = avar(x)
+#'
+#' # Plot example
+#' plot(av)
+#' plot(av, main = "Simulated white noise", xlab = "Scales")
+#' plot(av, units = "sec", legend_position = "topright")
+#' plot(av, col_wv = "darkred", col_ci = "pink")
+plot.avlr = function(obj_list, decomp = FALSE,
+                      units = NULL, xlab = NULL, ylab = NULL, main = NULL,
+                      col_wv = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
+                      legend_position = NULL, ci_wv = NULL, point_cex = NULL,
+                      point_pch = NULL, ...){
 
+  # Line and CI colors
+  if (is.null(col_wv)){
+    col_wv = "darkblue"
+  }
+
+  if (is.null(col_ci)){
+    col_ci = hcl(h = 210, l = 65, c = 100, alpha = 0.2)
+  }
+
+  plot(obj_list$av, add_legend = FALSE, units = units, xlab = xlab, ylab = ylab, main = main,
+       col_wv = col_wv, col_ci = col_ci, nb_ticks_x = nb_ticks_x, nb_ticks_y = nb_ticks_y,
+       ci_wv = ci_wv, point_cex = point_cex,
+       point_pch = point_pch)
+
+  U = dim(obj_list$implied_ad_decomp)[2]
+  col_decomp = hcl(h = seq(100, 375, length = U + 1), l = 65, c = 200, alpha = 1)[1:U]
+
+  # Legend Position
+  if (is.null(legend_position)){
+    #if (which.min(abs(c(y_low, y_high) - log2(x$variance[1]))) == 1){
+    #  legend_position = "topleft"
+    #}else{
+    legend_position = "bottomleft"
+    #}
+  }
+  if(decomp == TRUE){
+    # Plot lines of decomp theo
+    for (i in 1:U){
+      lines(obj_list$av$clusters, obj_list$implied_ad_decomp[,i], col = col_decomp[i])
+    }
+  }
+  # Plot implied AD
+  lines(t(obj_list$av$clusters),obj_list$implied_ad, type = "l", lwd = 3, col = "#F47F24", pch = 1, cex = 1.5)
+  lines(t(obj_list$av$clusters),obj_list$implied_ad, type = "p", lwd = 2, col = "#F47F24", pch = 1, cex = 1.5)
+
+  # Add legend
+  CI_conf = .95
+  wv_title_part1 = "Empirical AV "
+
+  if(decomp == TRUE){
+    legend_names = c(as.expression(bquote(paste(.(wv_title_part1), hat(phi)))),
+                     as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AV",
+                     obj_list$process_desc)
+    col_legend = c(col_wv, col_ci,"#F47F24",col_decomp)
+    p_cex_legend = c(1.25, 3, 1.5,rep(NA,U))
+    lty_legend = c(1, NA, rep(1,U))
+    pch_legend = c(16,15,1,rep(NA,U))
+  }else{
+    legend_names = c(as.expression(bquote(paste(.(wv_title_part1), hat(phi)))),
+                     as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AV")
+    col_legend = c(col_wv, col_ci,"#F47F24")
+    p_cex_legend = c(1.25, 3, 1.5)
+    lty_legend = c(1, NA)
+    pch_legend = c(16,15,1)
+  }
+  if (!is.na(legend_position)){
+    if (legend_position == "topleft"){
+      legend_position = 10^c(1.1*win_dim[1], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
+      legend(x = legend_position[1], y = legend_position[2],
+             legend = legend_names, pch = pch_legend, lty = lty_legend,
+             col = col_legend, cex = 1, pt.cex = p_cex_legend, bty = "n")
+    }else{
+      if (legend_position == "topright"){
+        legend_position = 10^c(0.7*win_dim[2], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
+        legend(x = legend_position[1], y = legend_position[2],
+               legend =legend_names, pch = pch_legend, lty = lty_legend,
+               col = col_legend, cex = 1, pt.cex = p_cex_legend, bty = "n")
+      }else{
+        legend(legend_position,
+               legend = legend_names, pch = pch_legend, lty = lty_legend,
+               col = col_legend, cex = 1, pt.cex = p_cex_legend, bty = "n")
+      }
+    }
+  }
+}
 

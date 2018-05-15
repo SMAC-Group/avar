@@ -2,18 +2,36 @@
 % Please edit documentation in R/avar.r
 \name{print.avlr}
 \alias{print.avlr}
-\title{TO DO}
+\title{Print gmwm object}
 \usage{
 \method{print}{avlr}(x, ...)
 }
 \arguments{
-\item{x}{A \code{avlr} object.}
+\item{x}{A \code{avlr} object}
 
-\item{...}{Arguments to be passed to methods}
+\item{...}{Other arguments passed to specific methods}
 }
 \value{
-console output
+Text output via print
 }
 \description{
-TO DO + needs example
+Displays information about GMWM object
 }
+\examples{
+\dontrun{
+# Load simts package
+library(simts)
+
+# Set seed for reproducibility
+set.seed(999)
+
+# Simulate time series
+N = 100000
+x = gen_gts(N, WN(sigma2 = 1) + RW(gamma2 = 1e-7))
+
+# Maximal overlap
+fit1 = avlr(x, wn = 1:12, rw = 12:15)
+print(fit1)
+}
+}
+\keyword{internal}
