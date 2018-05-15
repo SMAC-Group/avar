@@ -517,13 +517,13 @@ print.avlr = function(x, ...) {
 #' set.seed(999)
 #'
 #' # Generate time series
-#' x = gen_gts(100, WN(sigma2 = 1))
+#' x = gen_gts(N, WN(sigma2 = 1) + RW(gamma2 = 1e-7))
 #'
 #' # Plot example
-#' plot(x)
-#' plot(x, decomp = TRUE, main = "Simulated white noise", xlab = "Scales")
-#' plot(x, units = "sec", legend_position = "topright")
-#' plot(x, col_wv = "darkred", col_ci = "pink")
+#' plot.avlr(x)
+#' plot.avlr(x, decomp = TRUE, main = "Simulated white noise", xlab = "Scales")
+#' plot.avlr(x, units = "sec", legend_position = "topright")
+#' plot.avlr(x, col_wv = "darkred", col_ci = "pink")
 plot.avlr = function(x, decomp = FALSE,
                       units = NULL, xlab = NULL, ylab = NULL, main = NULL,
                       col_wv = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
