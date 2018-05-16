@@ -17,7 +17,8 @@ Description: More about what it does (maybe more than one line)
 License: CC BY-NC-SA 4.0
 Imports: Rcpp (>= 0.12.16),
     simts
-Suggests: imudata
+Suggests: imudata,
+    covr
 LinkingTo: Rcpp,
     RcppArmadillo
 Remotes: SMAC-Group/simts,
