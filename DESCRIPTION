@@ -16,9 +16,9 @@ Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: CC BY-NC-SA 4.0
 Imports: Rcpp (>= 0.12.16),
-    simts
-Suggests: imudata,
-    covr,
+    simts,
+    imudata
+Suggests: covr,
     testthat
 LinkingTo: Rcpp,
     RcppArmadillo
