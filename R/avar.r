@@ -393,7 +393,7 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL){
     stop("Please specify a least one process")
   }
 
-  n_processes = sum(sapply(list(qn,wn,rw,dr), is.null))
+  n_processes = 4 - sum(sapply(list(qn,wn,rw,dr), is.null))
 
   process = rep(NA,n_processes)
   param = rep(NA,n_processes)
