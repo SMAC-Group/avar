@@ -9,6 +9,17 @@ install:
 
 warnings_are_errors: false
 
+Imports:
+  - simts
+  - imudata
+
+Remotes:
+  - SMAC-Group/simts
+  - SMAC-Group/imudata
+
+notifications:
+    slack: smac-group:EWDAUVsNDTFCD126xDUGJHKK
+
 cache:
   packages: true
   directories:
