@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot Allan Deviation — plot.avar • av</title>
+<title>Plot Allan Variance Linear Regression Fit — plot.avlr • av</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -80,25 +80,29 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot Allan Deviation</h1>
+    <h1>Plot Allan Variance Linear Regression Fit</h1>
     </div>
 
     
-    <p>Displays a plot of allan deviation accounting for CI values.</p>
+    <p>Displays a plot of allan deviation accounting for CI values with the AD implied by the estimated parameters</p>
     
 
     <pre class="usage"><span class='co'># S3 method for avar</span>
-<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>units</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_wv</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_ci</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>nb_ticks_x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>nb_ticks_y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend_position</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ci_wv</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>point_cex</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>point_pch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>decomp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>units</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_wv</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_ci</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>nb_ticks_x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>nb_ticks_y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend_position</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>ci_wv</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>point_cex</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>point_pch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A <code>avar</code> object.</p></td>
+      <td><p>A <code>avlr</code> object.</p></td>
+    </tr>
+    <tr>
+      <th>decomp</th>
+      <td><p>A <code>boolean</code> that determines whether the latent proceses individual contributions are plotted.</p></td>
     </tr>
     <tr>
       <th>units</th>
@@ -166,14 +170,14 @@
 <span class='co'># Set seed for reproducibility</span>
 <span class='fu'>set.seed</span>(<span class='fl'>999</span>)
 
-<span class='co'># Generate time series</span>
-<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/simts/topics/gen_gts'>gen_gts</a></span>(<span class='fl'>100</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/simts/topics/WN'>WN</a></span>(<span class='kw'>sigma2</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='co'># Simulate time series</span>
+<span class='no'>N</span> <span class='kw'>=</span> <span class='fl'>100000</span>
+<span class='no'>ts</span> <span class='kw'>=</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/simts/topics/gen_gts'>gen_gts</a></span>(<span class='no'>N</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/simts/topics/WN'>WN</a></span>(<span class='kw'>sigma2</span> <span class='kw'>=</span> <span class='fl'>1</span>) + <span class='fu'><a href='http://www.rdocumentation.org/packages/simts/topics/RW'>RW</a></span>(<span class='kw'>gamma2</span> <span class='kw'>=</span> <span class='fl'>1e-7</span>))
 
-<span class='co'># Compute Allan</span>
-<span class='no'>av</span> <span class='kw'>=</span> <span class='fu'><a href='avar.html'>avar</a></span>(<span class='no'>x</span>)
+<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='avlr.html'>avlr</a></span>(<span class='no'>ts</span>, <span class='kw'>wn</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>12</span>, <span class='kw'>rw</span> <span class='kw'>=</span> <span class='fl'>12</span>:<span class='fl'>15</span>)
 
 <span class='co'># Plot example</span>
-<span class='fu'>plot</span>(<span class='no'>av</span>)</div><div class='img'><img src='plot.avar-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>av</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Simulated white noise"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Scales"</span>)</div><div class='img'><img src='plot.avar-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>av</span>, <span class='kw'>units</span> <span class='kw'>=</span> <span class='st'>"sec"</span>, <span class='kw'>legend_position</span> <span class='kw'>=</span> <span class='st'>"topright"</span>)</div><div class='img'><img src='plot.avar-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>av</span>, <span class='kw'>col_wv</span> <span class='kw'>=</span> <span class='st'>"darkred"</span>, <span class='kw'>col_ci</span> <span class='kw'>=</span> <span class='st'>"pink"</span>)</div><div class='img'><img src='plot.avar-4.png' alt='' width='700' height='432.632880098887' /></div></pre>
+<span class='fu'>plot.avlr</span>(<span class='no'>x</span>)</div><div class='img'><img src='plot.avlr-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'><span class='fu'>plot.avlr</span>(<span class='no'>x</span>, <span class='kw'>decomp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Simulated white noise"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Scales"</span>)</div><div class='img'><img src='plot.avlr-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'><span class='fu'>plot.avlr</span>(<span class='no'>x</span>, <span class='kw'>units</span> <span class='kw'>=</span> <span class='st'>"sec"</span>, <span class='kw'>legend_position</span> <span class='kw'>=</span> <span class='st'>"topright"</span>)</div><div class='img'><img src='plot.avlr-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'><span class='fu'>plot.avlr</span>(<span class='no'>x</span>, <span class='kw'>col_wv</span> <span class='kw'>=</span> <span class='st'>"darkred"</span>, <span class='kw'>col_ci</span> <span class='kw'>=</span> <span class='st'>"pink"</span>)</div><div class='img'><img src='plot.avlr-4.png' alt='' width='700' height='432.632880098887' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
