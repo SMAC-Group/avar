@@ -2,11 +2,6 @@ language: r
 
 sudo: false
 
-dist: trusty
-
-install:
-  - R -e "0" --args --bootstrap-packrat
-
 warnings_are_errors: false
 
 Imports:
@@ -18,4 +13,4 @@ Remotes:
   - SMAC-Group/imudata
 
 notifications:
-    slack: smac-group:EWDAUVsNDTFCD126xDUGJHKK
+    slack: smac-group: EWDAUVsNDTFCD126xDUGJHKK
