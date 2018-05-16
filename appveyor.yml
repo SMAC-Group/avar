@@ -16,6 +16,8 @@ cache:
 # Adapt as necessary starting from here
 
 build_script:
+  - travis-tool.sh install_github SMAC-Group/simts
+  - travis-tool.sh install_github SMAC-Group/imudata
   - travis-tool.sh install_deps
 
 test_script:
