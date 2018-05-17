@@ -22,3 +22,4 @@ cache:
 
 notifications:
   email: false
+  slack: bin2LnQ2kjb7yh6kP5iRrHUB
