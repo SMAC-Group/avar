@@ -14,12 +14,8 @@ Remotes:
   - SMAC-Group/simts
   - SMAC-Group/imudata
 
-notifications:
-  slack: smac-group: bin2LnQ2kjb7yh6kP5iRrHUB
-
 cache:
   packages: true
 
 notifications:
-  email: false
-  slack: bin2LnQ2kjb7yh6kP5iRrHUB
+  slack: smac-group:bin2LnQ2kjb7yh6kP5iRrHUB
