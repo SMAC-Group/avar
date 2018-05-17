@@ -4,9 +4,6 @@ sudo: false
 
 dist: trusty
 
-install:
-  - R -e "0" --args --bootstrap-packrat
-
 warnings_are_errors: false
 
 Imports:
@@ -22,9 +19,6 @@ notifications:
 
 cache:
   packages: true
-  directories:
-    - $TRAVIS_BUILD_DIR/_bookdown_files
-    - $TRAVIS_BUILD_DIR/packrat/
 
 notifications:
   email: false
