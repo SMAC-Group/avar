@@ -12,6 +12,4 @@ Remotes:
 
 notifications:
   slack: smac-group: EWDAUVsNDTFCD126xDUGJHKK
-
-notifications:
   email: false
