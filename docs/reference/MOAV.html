@@ -112,13 +112,23 @@ n is an integer larger than 1 and smaller than \(floor\left(log_2 \left(dim\left
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>simts</span>)
 <span class='fu'>set.seed</span>(<span class='fl'>999</span>)
-<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/simts/topics/gen_gts'>gen_gts</a></span>(<span class='fu'><a href='http://www.rdocumentation.org/packages/simts/topics/AR1'>AR1</a></span>(<span class='kw'>phi</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>sigma2</span> <span class='kw'>=</span> <span class='fl'>1</span>), <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>freq</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='error'>Error in gen_gts(AR1(phi = 0.3, sigma2 = 1), N = 1000, freq = 1): unused argument (N = 1000)</span></div><div class='input'><span class='fu'><a href='avar.html'>avar</a></span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"to"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in as.vector(x): object 'x' not found</span></div><div class='input'>
+<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/simts/topics/gen_gts'>gen_gts</a></span>(<span class='fu'><a href='http://www.rdocumentation.org/packages/simts/topics/AR1'>AR1</a></span>(<span class='kw'>phi</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>sigma2</span> <span class='kw'>=</span> <span class='fl'>1</span>), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>freq</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='fu'><a href='avar.html'>avar</a></span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"to"</span>)</div><div class='output co'>#&gt; 
+#&gt;  Clusters: 
+#&gt; [1]   2   4   8  16  32  64 128 256
+#&gt; 
+#&gt;  Allan Variances: 
+#&gt; [1] 0.4564547 0.4862027 0.2664077 0.1376303 0.0423879 0.0361422 0.0081693
+#&gt; [8] 0.0070663
+#&gt; 
+#&gt;  Errors: 
+#&gt; [1] 0.031654 0.044811 0.063500 0.090167 0.128565 0.184900 0.270914 0.414781</div><div class='input'>
 <span class='no'>a</span> <span class='kw'>=</span> <span class='fu'>matrix</span>(<span class='fu'>rep</span>(<span class='fl'>0</span>, <span class='fl'>1000</span>^<span class='fl'>2</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
 <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>1000</span>){
   <span class='no'>a</span>[,<span class='no'>i</span>] <span class='kw'>=</span> <span class='fu'>seq</span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='fl'>1</span> - <span class='no'>i</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
 }
 <span class='no'>a.diag</span> <span class='kw'>=</span> <span class='fu'>diag</span>(<span class='no'>a</span>)
-<span class='no'>a</span>[<span class='fu'>upper.tri</span>(<span class='no'>a</span>,<span class='kw'>diag</span><span class='kw'>=</span><span class='no'>T</span>)] <span class='kw'>=</span> <span class='fl'>0</span>
+<span class='no'>a</span>[<span class='fu'>upper.tri</span>(<span class='no'>a</span>,<span class='kw'>diag</span><span class='kw'>=</span><span class='fl'>TRUE</span>)] <span class='kw'>=</span> <span class='fl'>0</span>
 <span class='no'>a</span> <span class='kw'>=</span> <span class='no'>a</span> + <span class='fu'>t</span>(<span class='no'>a</span>) + <span class='fu'>diag</span>(<span class='no'>a.diag</span>)
 <span class='no'>covmat</span> <span class='kw'>=</span> <span class='fl'>0.3</span>^<span class='no'>a</span>
 <span class='fu'>sapply</span>(<span class='fl'>1</span>:<span class='fl'>8</span>, <span class='kw'>function</span>(<span class='no'>y</span>){<span class='fu'>MOAV</span>(<span class='fl'>2</span>^<span class='no'>y</span>, <span class='no'>covmat</span>)})</div><div class='output co'>#&gt; [1] 0.523250000 0.350727081 0.203446388 0.108896684 0.056242028 0.028569436
@@ -145,7 +155,7 @@ Haotian Xu
 
       <footer>
       <div class="copyright">
-  <p>Developed by Stephane Guerrier, James Balamuta, Gaetan Bakalli, Roberto Molinari, Justin Lee, Hoatian Xu, Yuming Zhang.</p>
+  <p>Developed by Stephane Guerrier, James Balamuta, Gaetan Bakalli, Roberto Molinari, Justin Lee, Ahmed Radi, Hoatian Xu, Yuming Zhang.</p>
 </div>
 
 <div class="pkgdown">

@@ -32,7 +32,7 @@ for (i in 1:1000){
   a[,i] = seq(from = 1 - i, length.out = 1000)
 }
 a.diag = diag(a)
-a[upper.tri(a,diag=T)] = 0
+a[upper.tri(a,diag=TRUE)] = 0
 a = a + t(a) + diag(a.diag)
 covmat = 0.3^a
 sapply(1:8, function(y){MOAV(2^y, covmat)})
