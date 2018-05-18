@@ -4,7 +4,8 @@
 \alias{avlr}
 \title{Computes the Allan Variance Linear Regression estimator}
 \usage{
-avlr(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL)
+avlr(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = "mo",
+  ci = FALSE, B = 100, alpha = 0.05)
 }
 \arguments{
 \item{x}{A \code{vec} of time series observations or an \code{avar} object.}
@@ -17,7 +18,7 @@ avlr(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL)
 
 \item{dr}{A \code{vec} specifying on which scales the parameters of a Drift (DR) should be computed.}
 
-\item{type}{A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap}
+\item{type}{A \code{string} containing either \code{"mo"} (default) for Maximal Overlap or \code{"to"} for Tau Overlap}
 }
 \value{
 avlr   A \code{list} that contains:
@@ -40,9 +41,22 @@ set.seed(999)
 
 # Simulate time series
 N = 100000
-x = gen_gts(N, WN(sigma2 = 1) + RW(gamma2 = 1e-7))
+x = gen_gts(N, WN(sigma2 = 1) + RW(gamma2 = 1e-5))
 
-# Maximal overlap
-fit1 = avlr(x, wn = 1:12, rw = 12:15)
+# Compute av
+av = avar(x)
+plot(av)
 
+# Parameter estimation
+fit = avlr(av, wn = 1:8, rw = 10:15)
+plot(fit, decomp = TRUE)
+
+# Point estimates
+fit
+
+# Compute confidence intervals (this can take some time)
+fit = avlr(av, wn = 1:8, rw = 10:15, ci = TRUE)
+
+# Estimated confidence intervals and standard deviations
+fit$ci
 }

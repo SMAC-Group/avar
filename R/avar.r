@@ -15,6 +15,8 @@
 #' \itemize{
 #'  \item{"clusters"}{The size of the cluster}
 #'  \item{"allan"}{The Allan variance}
+#'  \item{"type"}{Type of estimator (\code{mo} or \code{to})}
+#'  \item{"n"}{Sample size of the time series}
 #'  \item{"errors"}{The error associated with the variance estimation.}
 #' }
 #' @details
@@ -71,6 +73,7 @@ avar = function(x, type = "mo") {
   av$lci = av$adev - 2*av$errors*av$adev
   av$uci = av$adev + 2*av$errors*av$adev
   av$type = type
+  av$n = length(x)
   class(av) = c("avar", "list")
   av
 }
@@ -346,7 +349,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #' @param wn    A \code{vec} specifying on which scales the parameters of a White Noise (WN) should be computed.
 #' @param rw    A \code{vec} specifying on which scales the parameters of a Random Wakk (RW) should be computed.
 #' @param dr    A \code{vec} specifying on which scales the parameters of a Drift (DR) should be computed.
-#' @param type  A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap
+#' @param type  A \code{string} containing either \code{"mo"} (default) for Maximal Overlap or \code{"to"} for Tau Overlap
 #' @return avlr   A \code{list} that contains:
 #' \itemize{
 #'  \item{"estimates"}
@@ -364,12 +367,26 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #'
 #' # Simulate time series
 #' N = 100000
-#' x = gen_gts(N, WN(sigma2 = 1) + RW(gamma2 = 1e-7))
+#' x = gen_gts(N, WN(sigma2 = 1) + RW(gamma2 = 1e-5))
 #'
-#' # Maximal overlap
-#' fit1 = avlr(x, wn = 1:12, rw = 12:15)
+#' # Compute av
+#' av = avar(x)
+#' plot(av)
 #'
-avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL){
+#' # Parameter estimation
+#' fit = avlr(av, wn = 1:8, rw = 10:15)
+#' plot(fit, decomp = TRUE)
+#'
+#' # Point estimates
+#' fit
+#'
+#' # Compute confidence intervals (this can take some time)
+#' fit = avlr(av, wn = 1:8, rw = 10:15, ci = TRUE)
+#'
+#' # Estimated confidence intervals and standard deviations
+#' fit$ci
+avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
+                type = "mo", ci = FALSE, B = 100, alpha = 0.05){
 
   if(is.null(x)){
     stop("Please provide a time series vector or a 'avar' objet")
@@ -391,46 +408,72 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL){
   param = rep(NA,n_processes)
   implied = matrix(NA,length(x$clusters),n_processes)
 
-  counter = 1
+  counter = 0
 
     if(!is.null(wn)){
       if(length(wn) < 1 || !is.whole(wn) || min(wn) < 1 || max(wn) > length(x$allan)){
         stop("wn incorrectely formatted.")
       }
+      counter = counter + 1
       process[counter] = "WN"
       param[counter] = exp(mean(log(x$adev[wn]) + log(x$clusters[wn])/2))
       implied[,counter] = param[counter]/sqrt(x$clusters)
-      counter = counter + 1
+
+      if (counter == 1){
+        model_estimated = WN(sigma2 = (param[counter])^2)
+      }else{
+        model_estimated = model_estimated + WN(sigma2 = (param[counter])^2)
+      }
+
     }
 
     if(!is.null(qn)){
       if(length(qn) < 1 || !is.whole(qn) || min(qn) < 1 || max(qn) > length(x$allan)){
         stop("qn incorrectely formatted.")
       }
+      counter = counter + 1
       process[counter] = "QN"
       param[counter] = (1/sqrt(3))*exp(mean(log(x$adev[qn]) + log(x$clusters[qn])))
       implied[,counter] = sqrt(3)*param[counter]/(x$clusters)
-      counter = counter + 1
+
+      if (counter == 1){
+        model_estimated = QN(q2 = (param[counter])^2)
+      }else{
+        model_estimated = model_estimated + QN(q2 = (param[counter])^2)
+      }
+
     }
 
     if(!is.null(rw)){
       if(length(rw) < 1 || !is.whole(rw) || min(rw) < 1 || max(rw) > length(x$allan)){
         stop("rw incorrectely formatted.")
       }
+      counter = counter + 1
       process[counter] = "RW"
       param[counter] = sqrt(3)*exp(mean(log(x$adev[rw]) - log(x$clusters[rw])/2))
       implied[,counter] = param[counter]*sqrt(x$clusters/3)
-      counter = counter + 1
+
+      if (counter == 1){
+        model_estimated = RW(gamma2 = (param[counter])^2)
+      }else{
+        model_estimated = model_estimated + RW(gamma2 = (param[counter])^2)
+      }
     }
 
     if(!is.null(dr)){
       if(length(dr) < 1 || !is.whole(dr) || min(dr) < 1 || max(dr) > length(x$allan)){
         stop("dr incorrectely formatted.")
       }
+      counter = counter + 1
       process[counter] = "DR"
       param[counter] = sqrt(2)*exp(mean(log(x$adev[dr]) - log(x$clusters[dr])))
       implied[,counter] = param[counter]*x$clusters/2
-      counter = counter + 1
+
+      if (counter == 1){
+        model_estimated = DR(omega = param[counter])
+      }else{
+        model_estimated = model_estimated + DR(omega = param[counter])
+      }
     }
 
   implied_ad = apply(implied, 1, sum)
@@ -439,13 +482,50 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = NULL){
   rownames(estimates) = process
   colnames(estimates) = "Value"
 
+  # Bootstrap parameters
+  if (ci == TRUE){
+    out_boot = boostrap_ci_avlr(model = model_estimated,
+                                B = B, n = x$n, qn = qn,
+                                wn = wn, rw = rw, dr = dr,
+                                type = type, alpha = alpha)
+  }else{
+    out_boot = NULL
+  }
+
   x = structure(list(estimates = estimates,
                      process_desc = process,
                      implied_ad = implied_ad,
                      implied_ad_decomp = implied,
-                     av = x), class = "avlr")
+                     av = x,
+                     model = model_estimated,
+                     ci = out_boot), class = "avlr")
   invisible(x)
 }
+
+
+boostrap_ci_avlr = function(model, B, n, qn, wn, rw, dr, type, alpha){
+  results = matrix(NA, B, model$plength)
+  print("Starting bootstrap:")
+  pb = txtProgressBar(min = 0, max = B, style = 3)
+
+  for (i in 1:B){
+    x_star = gen_gts(n = n, model = model)
+    results[i, ] = as.numeric(avlr(x_star, qn = qn, wn = wn, rw = rw,
+                    dr = dr, type = type, ci = FALSE)$estimates)
+    setTxtProgressBar(pb, i)
+  }
+  close(pb)
+
+  ci_parameters = matrix(NA, model$plength, 2)
+  sd_parameters = rep(NA, model$plength)
+
+  for (i in 1:model$plength){
+    ci_parameters[i, ] = as.numeric(quantile(results[,i], probs = c(alpha/2, 1 - alpha/2)))
+    sd_parameters[i] = sd(results[,i])
+  }
+  list(ci = ci_parameters, sd = sd_parameters)
+}
+
 
 #' Print gmwm object
 #'

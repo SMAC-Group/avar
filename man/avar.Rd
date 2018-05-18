@@ -16,6 +16,8 @@ av   A \code{list} that contains:
 \itemize{
  \item{"clusters"}{The size of the cluster}
  \item{"allan"}{The Allan variance}
+ \item{"type"}{Type of estimator (\code{mo} or \code{to})}
+ \item{"n"}{Sample size of the time series}
  \item{"errors"}{The error associated with the variance estimation.}
 }
 }
