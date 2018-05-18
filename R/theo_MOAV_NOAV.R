@@ -20,7 +20,7 @@
 #' @examples
 #' library(simts)
 #' set.seed(999)
-#' x = gen_gts(AR1(phi = 0.3, sigma2 = 1), N = 1000, freq = 1)
+#' x = gen_gts(AR1(phi = 0.3, sigma2 = 1), n = 1000, freq = 1)
 #' avar(x, type = "to")
 #'
 #' a = matrix(rep(0, 1000^2), nrow = 1000)
@@ -67,7 +67,7 @@ MOAV = function(n, covmat){
 #' @examples
 #' library(simts)
 #' set.seed(999)
-#' x = gen_gts(AR1(phi = 0.3, sigma2 = 1), N = 1000, freq = 1)
+#' x = gen_gts(AR1(phi = 0.3, sigma2 = 1), n = 1000, freq = 1)
 #' avar(x, type = "to")
 #'
 #' a = matrix(rep(0, 1000^2), nrow = 1000)
