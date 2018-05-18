@@ -66,5 +66,5 @@ plot.avlr(x, units = "sec", legend_position = "topright")
 plot.avlr(x, col_wv = "darkred", col_ci = "pink")
 }
 \author{
-Stephane Guerrier, Nathanael Claussen, and Justin Lee
+Stephane Guerrier and Justin Lee
 }
