@@ -4,7 +4,7 @@
 #' @title Compute Tau-Overlap Allan Variance
 #' @description Computation of Tau-Overlap Allan Variance
 #' @usage avar_to_cpp(x)
-#' @param x A \code{vector} with dimensions N x 1. 
+#' @param x A \code{vector} with dimensions N x 1.
 #' @return av A \code{matrix} that contains:
 #' \itemize{
 #'  \item{Col 1}{The size of the cluster}
@@ -15,11 +15,11 @@
 #' Given \eqn{N} equally spaced samples with averaging time \eqn{\tau = n\tau _0}{tau = n*tau_0},
 #' where \eqn{n} is an integer such that \eqn{ 1 \le n \le \frac{N}{2}}{1<= n <= N/2}.
 #' Therefore, \eqn{n} is able to be selected from \eqn{\left\{ {n|n < \left\lfloor {{{\log }_2}\left( N \right)} \right\rfloor } \right\}}{{n|n< floor(log2(N))}}
-#' Then, a sampling of \eqn{m = \left\lfloor {\frac{{N - 1}}{n}} \right\rfloor  - 1} samples exist. 
+#' Then, a sampling of \eqn{m = \left\lfloor {\frac{{N - 1}}{n}} \right\rfloor  - 1} samples exist.
 #' The tau-overlap estimator is given by:
-#' 
+#'
 #' where \eqn{ {{\bar y}_t}\left( \tau  \right) = \frac{1}{\tau }\sum\limits_{i = 0}^{\tau  - 1} {{{\bar y}_{t - i}}} }.
-#' 
+#'
 #' @author JJB
 #' @references Long-Memory Processes, the Allan Variance and Wavelets, D. B. Percival and P. Guttorp
 #' @examples
@@ -40,7 +40,7 @@ avar_to_cpp <- function(x) {
 #' @title Compute Maximal-Overlap Allan Variance using Means
 #' @description Computation of Maximal-Overlap Allan Variance
 #' @usage avar_mo_cpp(x)
-#' @param x A \code{vector} with dimensions N x 1. 
+#' @param x A \code{vector} with dimensions N x 1.
 #' @return av A \code{list} that contains:
 #' \itemize{
 #'  \item{"clusters"}{The size of the cluster}
@@ -51,10 +51,10 @@ avar_to_cpp <- function(x) {
 #' Given \eqn{N} equally spaced samples with averaging time \eqn{\tau = n\tau _0}{tau = n*tau_0},
 #' where \eqn{n} is an integer such that \eqn{ 1 \le n \le \frac{N}{2}}{1<= n <= N/2}.
 #' Therefore, \eqn{n} is able to be selected from \eqn{\left\{ {n|n < \left\lfloor {{{\log }_2}\left( N \right)} \right\rfloor } \right\}}{{n|n< floor(log2(N))}}
-#' Then, \eqn{M = N - 2n} samples exist. 
+#' Then, \eqn{M = N - 2n} samples exist.
 #' The Maximal-overlap estimator is given by:
 #' \eqn{\frac{1}{{2\left( {N - 2k + 1} \right)}}\sum\limits_{t = 2k}^N {{{\left[ {{{\bar Y}_t}\left( k \right) - {{\bar Y}_{t - k}}\left( k \right)} \right]}^2}} }
-#' 
+#'
 #' where \eqn{ {{\bar y}_t}\left( \tau  \right) = \frac{1}{\tau }\sum\limits_{i = 0}^{\tau  - 1} {{{\bar y}_{t - i}}} }.
 #' @author JJB
 #' @references Long-Memory Processes, the Allan Variance and Wavelets, D. B. Percival and P. Guttorp

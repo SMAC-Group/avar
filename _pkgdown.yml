@@ -2,12 +2,24 @@ template:
   params:
     bootswatch: flatly
 
+
+reference:
+  - title: Allan Variance
+    contents:
+    - avar
+    - plot.avar
+    - print.avar
+    - summary.avar
+  - title: Estimation of time series parameters
+    contents:
+    - avlr
+    - plot.avlr
+    - print.avlr
+
 navbar:
   left:
-  - text: Syllabus
-    href: articles/syllabus.html
-  - text: Schedule
-    href: articles/schedule.html
+  - text: Examples
+    href: articles/example.html
   - text: Reference
     href: reference/index.html
   right:

@@ -1,18 +1,10 @@
-# Copyright (C) 2018 - 2018 Stephane Guerrier, Gaetan Bakalli, James Balamuta
+# Copyright (C) 2017 - 2018 Stéphane Guerrier and Roberto Molinari
 #
 # This file is part of av R Methods Package
-#
-# The `av` R package is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as
-# published by the Free Software Foundation, either version 3 of the
-# License, or (at your option) any later version.
 #
 # The `av` R package is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #' Calculate the Allan Variance
 #'
@@ -506,7 +498,7 @@ print.avlr = function(x, ...) {
 #' @param point_cex        A \code{double} that specifies the size of each symbol to be plotted.
 #' @param ...              Additional arguments affecting the plot.
 #' @return Plot of allan deviation and confidence interval for each scale.
-#' @author Stephane Guerrier, Nathanael Claussen, and Justin Lee
+#' @author Stephane Guerrier and Justin Lee
 #' @export
 #' @examples
 #' # Load simts package
