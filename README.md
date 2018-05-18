@@ -11,6 +11,9 @@ version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-
 [![CRAN](http://www.r-pkg.org/badges/version/av)](https://cran.r-project.org/package=av)
 [![packageversion](https://img.shields.io/badge/Package%20version-0.1.0-orange.svg?style=flat-square)](commits/develop)
 [![Last-changedate](https://img.shields.io/badge/last%20change-2018--05--18-yellowgreen.svg)](/commits/master)
+<a href="https://twitter.com/intent/follow?screen_name=SMAC_Group">
+<img src="https://img.shields.io/twitter/follow/SMAC_Group.svg?style=social&logo=twitter"
+  alt="follow on Twitter"></a>
 
 # Welcome to `av` package <a href="https://smac-group.com/"><img src="man/figures/logo.png" align="right" style="width: 16%; height: 16%"/></a>
 
