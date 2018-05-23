@@ -673,8 +673,8 @@ plot.avlr = function(x, decomp = FALSE,
   }
 
   # Range
-  x_range = range(x$clusters)
-  if(length(x$clusters) >= 10){
+  x_range = range(x$av$clusters)
+  if(length(x$av$clusters) >= 10){
     x_low = floor(log10(x_range[1]))
     x_high = ceiling(log10(x_range[2]))
   }else{
@@ -701,7 +701,7 @@ plot.avlr = function(x, decomp = FALSE,
     x_ticks = x_low + ceiling((x_high - x_low)/(nb_ticks_x + 1))*(0:nb_ticks_x)
   }
 
-  if(length(x$clusters) >= 10){
+  if(length(x$av$clusters) >= 10){
     x_labels = sapply(x_ticks, function(i) as.expression(bquote(10^ .(i))))
   }else{
     x_labels = sapply(x_ticks, function(i) as.expression(bquote(2^ .(i))))
@@ -733,7 +733,7 @@ plot.avlr = function(x, decomp = FALSE,
   win_dim = par("usr")
 
   # Add Grid
-  if(length(x$clusters) >=10){
+  if(length(x$av$clusters) >=10){
     abline(v = 10^x_ticks, lty = 1, col = "grey95")
   }else{
     abline(v = 2^x_ticks, lty = 1, col = "grey95")
@@ -753,7 +753,7 @@ plot.avlr = function(x, decomp = FALSE,
   #y_ticks = y_ticks[(2^y_ticks) < 10^(win_dim[4] - 0.09*(win_dim[4] - win_dim[3]))]
   y_labels = y_labels[1:length(y_ticks)]
   box()
-  if(length(x$clusters) >=10){
+  if(length(x$av$clusters) >=10){
     axis(1, at = 10^x_ticks, labels = x_labels, padj = 0.3)
   }else{
     axis(1, at = 2^x_ticks, labels = x_labels, padj = 0.3)
