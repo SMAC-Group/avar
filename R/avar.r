@@ -11,6 +11,8 @@
 #' Computes the Allan Variance
 #' @param x     A \code{vec} of time series observations.
 #' @param type  A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap
+#' @param freq  A \code{integer} with the frequency of the error signal.
+
 #' @return av   A \code{list} that contains:
 #' \itemize{
 #'  \item{"clusters"}{The size of the cluster}
@@ -55,11 +57,16 @@
 #' ts = gen_gts(N, WN(sigma2 = 2) + RW(gamma2 = 1))
 #'
 #' # Maximal overlap
-#' av_mat_mo = avar(ts, type = "mo")
+#' av_mat_mo = avar(ts, type = "mo", freq = 100)
 #'
 #' # Tau overlap
 #' av_mat_tau = avar(ts, type = "to")
-avar = function(x, type = "mo") {
+avar = function(x, type = "mo", freq = 1) {
+
+  if(sum(class(x) == "imu") == 1){
+    freq = attributes(cont.imu1)$freq
+  }
+
   x = as.vector(x)
 
   if(type == "mo"){
@@ -68,7 +75,7 @@ avar = function(x, type = "mo") {
     av = avar_to_cpp(x)
   }
 
-  av = list(clusters = av[,1], allan=av[,2], errors=av[,3])
+  av = list(clusters = av[,1]/freq, allan=av[,2], errors=av[,3])
   av$adev = sqrt(av$allan)
   av$lci = av$adev - 2*av$errors*av$adev
   av$uci = av$adev + 2*av$errors*av$adev
@@ -224,8 +231,13 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 
   # Range
   x_range = range(x$clusters)
-  x_low = floor(log2(x_range[1]))
-  x_high = ceiling(log2(x_range[2]))
+  if(length(x$clusters) >= 10){
+    x_low = floor(log10(x_range[1]))
+    x_high = ceiling(log10(x_range[2]))
+  }else{
+    x_low = floor(log2(x_range[1]))
+    x_high = ceiling(log2(x_range[2]))
+  }
 
   y_range = range(cbind(x$adev - x$adev*x$errors, x$adev + x$adev*x$errors))
   y_low = floor(log10(y_range[1]))
@@ -244,7 +256,12 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   if (length(x_ticks) > nb_ticks_x){
     x_ticks = x_low + ceiling((x_high - x_low)/(nb_ticks_x + 1))*(0:nb_ticks_x)
   }
-  x_labels = sapply(x_ticks, function(i) as.expression(bquote(2^ .(i))))
+
+  if(length(x$clusters) >= 10){
+    x_labels = sapply(x_ticks, function(i) as.expression(bquote(10^ .(i))))
+  }else{
+    x_labels = sapply(x_ticks, function(i) as.expression(bquote(2^ .(i))))
+  }
 
   y_ticks <- seq(y_low, y_high, by = 1)
   if (length(y_ticks) > nb_ticks_y){
@@ -257,7 +274,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
     #if (which.min(abs(c(y_low, y_high) - log2(x$variance[1]))) == 1){
     #  legend_position = "topleft"
     #}else{
-      legend_position = "bottomleft"
+    legend_position = "bottomleft"
     #}
   }
 
@@ -272,7 +289,12 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   win_dim = par("usr")
 
   # Add Grid
-  abline(v = 2^x_ticks, lty = 1, col = "grey95")
+  if(length(x$clusters) >=10){
+    abline(v = 10^x_ticks, lty = 1, col = "grey95")
+  }else{
+    abline(v = 2^x_ticks, lty = 1, col = "grey95")
+  }
+
   abline(h = 10^y_ticks, lty = 1, col = "grey95")
 
   # Add Title
@@ -288,7 +310,11 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   #y_ticks = y_ticks[(2^y_ticks) < 10^(win_dim[4] - 0.09*(win_dim[4] - win_dim[3]))]
   y_labels = y_labels[1:length(y_ticks)]
   box()
-  axis(1, at = 2^x_ticks, labels = x_labels, padj = 0.3)
+  if(length(x$clusters) >=10){
+    axis(1, at = 10^x_ticks, labels = x_labels, padj = 0.3)
+  }else{
+    axis(1, at = 2^x_ticks, labels = x_labels, padj = 0.3)
+  }
   axis(2, at = 10^y_ticks, labels = y_labels, padj = -0.2)
 
   # CI for WV
@@ -303,28 +329,28 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   wv_title_part1 = "Empirical AD "
 
 
-    if (!is.na(legend_position)){
-      if (legend_position == "topleft"){
-        legend_position = 10^c(1.1*win_dim[1], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
+  if (!is.na(legend_position)){
+    if (legend_position == "topleft"){
+      legend_position = 10^c(1.1*win_dim[1], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
+      legend(x = legend_position[1], y = legend_position[2],
+             legend = c(as.expression(bquote(paste(.(wv_title_part1), hat(phi)))),
+                        as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")")))),
+             pch = c(16, 15), lty = c(1, NA), col = c(col_wv, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
+    }else{
+      if (legend_position == "topright"){
+        legend_position = 10^c(0.7*win_dim[2], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
         legend(x = legend_position[1], y = legend_position[2],
                legend = c(as.expression(bquote(paste(.(wv_title_part1), hat(phi)))),
                           as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")")))),
                pch = c(16, 15), lty = c(1, NA), col = c(col_wv, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
       }else{
-        if (legend_position == "topright"){
-          legend_position = 10^c(0.7*win_dim[2], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
-          legend(x = legend_position[1], y = legend_position[2],
-                 legend = c(as.expression(bquote(paste(.(wv_title_part1), hat(phi)))),
-                            as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")")))),
-                 pch = c(16, 15), lty = c(1, NA), col = c(col_wv, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
-        }else{
-          legend(legend_position,
-                 legend = c(as.expression(bquote(paste(.(wv_title_part1), hat(phi)))),
-                            as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")")))),
-                 pch = c(16, 15), lty = c(1, NA), col = c(col_wv, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
-        }
+        legend(legend_position,
+               legend = c(as.expression(bquote(paste(.(wv_title_part1), hat(phi)))),
+                          as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")")))),
+               pch = c(16, 15), lty = c(1, NA), col = c(col_wv, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
       }
     }
+  }
 
 
   # Add WV
@@ -410,71 +436,71 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
 
   counter = 0
 
-    if(!is.null(wn)){
-      if(length(wn) < 1 || !is.whole(wn) || min(wn) < 1 || max(wn) > length(x$allan)){
-        stop("wn incorrectely formatted.")
-      }
-      counter = counter + 1
-      process[counter] = "WN"
-      param[counter] = exp(mean(log(x$adev[wn]) + log(x$clusters[wn])/2))
-      implied[,counter] = param[counter]/sqrt(x$clusters)
+  if(!is.null(wn)){
+    if(length(wn) < 1 || !is.whole(wn) || min(wn) < 1 || max(wn) > length(x$allan)){
+      stop("wn incorrectely formatted.")
+    }
+    counter = counter + 1
+    process[counter] = "WN"
+    param[counter] = exp(mean(log(x$adev[wn]) + log(x$clusters[wn])/2))
+    implied[,counter] = param[counter]/sqrt(x$clusters)
 
-      if (counter == 1){
-        model_estimated = WN(sigma2 = (param[counter])^2)
-      }else{
-        model_estimated = model_estimated + WN(sigma2 = (param[counter])^2)
-      }
-
+    if (counter == 1){
+      model_estimated = WN(sigma2 = (param[counter])^2)
+    }else{
+      model_estimated = model_estimated + WN(sigma2 = (param[counter])^2)
     }
 
-    if(!is.null(qn)){
-      if(length(qn) < 1 || !is.whole(qn) || min(qn) < 1 || max(qn) > length(x$allan)){
-        stop("qn incorrectely formatted.")
-      }
-      counter = counter + 1
-      process[counter] = "QN"
-      param[counter] = (1/sqrt(3))*exp(mean(log(x$adev[qn]) + log(x$clusters[qn])))
-      implied[,counter] = sqrt(3)*param[counter]/(x$clusters)
+  }
 
-      if (counter == 1){
-        model_estimated = QN(q2 = (param[counter])^2)
-      }else{
-        model_estimated = model_estimated + QN(q2 = (param[counter])^2)
-      }
+  if(!is.null(qn)){
+    if(length(qn) < 1 || !is.whole(qn) || min(qn) < 1 || max(qn) > length(x$allan)){
+      stop("qn incorrectely formatted.")
+    }
+    counter = counter + 1
+    process[counter] = "QN"
+    param[counter] = (1/sqrt(3))*exp(mean(log(x$adev[qn]) + log(x$clusters[qn])))
+    implied[,counter] = sqrt(3)*param[counter]/(x$clusters)
 
+    if (counter == 1){
+      model_estimated = QN(q2 = (param[counter])^2)
+    }else{
+      model_estimated = model_estimated + QN(q2 = (param[counter])^2)
     }
 
-    if(!is.null(rw)){
-      if(length(rw) < 1 || !is.whole(rw) || min(rw) < 1 || max(rw) > length(x$allan)){
-        stop("rw incorrectely formatted.")
-      }
-      counter = counter + 1
-      process[counter] = "RW"
-      param[counter] = sqrt(3)*exp(mean(log(x$adev[rw]) - log(x$clusters[rw])/2))
-      implied[,counter] = param[counter]*sqrt(x$clusters/3)
+  }
 
-      if (counter == 1){
-        model_estimated = RW(gamma2 = (param[counter])^2)
-      }else{
-        model_estimated = model_estimated + RW(gamma2 = (param[counter])^2)
-      }
+  if(!is.null(rw)){
+    if(length(rw) < 1 || !is.whole(rw) || min(rw) < 1 || max(rw) > length(x$allan)){
+      stop("rw incorrectely formatted.")
     }
+    counter = counter + 1
+    process[counter] = "RW"
+    param[counter] = sqrt(3)*exp(mean(log(x$adev[rw]) - log(x$clusters[rw])/2))
+    implied[,counter] = param[counter]*sqrt(x$clusters/3)
 
-    if(!is.null(dr)){
-      if(length(dr) < 1 || !is.whole(dr) || min(dr) < 1 || max(dr) > length(x$allan)){
-        stop("dr incorrectely formatted.")
-      }
-      counter = counter + 1
-      process[counter] = "DR"
-      param[counter] = sqrt(2)*exp(mean(log(x$adev[dr]) - log(x$clusters[dr])))
-      implied[,counter] = param[counter]*x$clusters/2
-
-      if (counter == 1){
-        model_estimated = DR(omega = param[counter])
-      }else{
-        model_estimated = model_estimated + DR(omega = param[counter])
-      }
+    if (counter == 1){
+      model_estimated = RW(gamma2 = (param[counter])^2)
+    }else{
+      model_estimated = model_estimated + RW(gamma2 = (param[counter])^2)
     }
+  }
+
+  if(!is.null(dr)){
+    if(length(dr) < 1 || !is.whole(dr) || min(dr) < 1 || max(dr) > length(x$allan)){
+      stop("dr incorrectely formatted.")
+    }
+    counter = counter + 1
+    process[counter] = "DR"
+    param[counter] = sqrt(2)*exp(mean(log(x$adev[dr]) - log(x$clusters[dr])))
+    implied[,counter] = param[counter]*x$clusters/2
+
+    if (counter == 1){
+      model_estimated = DR(omega = param[counter])
+    }else{
+      model_estimated = model_estimated + DR(omega = param[counter])
+    }
+  }
 
   implied_ad = apply(implied, 1, sum)
 
@@ -511,7 +537,7 @@ boostrap_ci_avlr = function(model, B, n, qn, wn, rw, dr, type, alpha){
   for (i in 1:B){
     x_star = gen_gts(n = n, model = model)
     results[i, ] = as.numeric(avlr(x_star, qn = qn, wn = wn, rw = rw,
-                    dr = dr, type = type, ci = FALSE)$estimates)
+                                   dr = dr, type = type, ci = FALSE)$estimates)
     setTxtProgressBar(pb, i)
   }
   close(pb)
@@ -611,10 +637,10 @@ print.avlr = function(x, ...) {
 #' plot.avlr(x, units = "sec", legend_position = "topright")
 #' plot.avlr(x, col_wv = "darkred", col_ci = "pink")
 plot.avlr = function(x, decomp = FALSE,
-                      units = NULL, xlab = NULL, ylab = NULL, main = NULL,
-                      col_wv = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
-                      legend_position = NULL, ci_wv = NULL, point_cex = NULL,
-                      point_pch = NULL, ...){
+                     units = NULL, xlab = NULL, ylab = NULL, main = NULL,
+                     col_wv = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
+                     legend_position = NULL, ci_wv = NULL, point_cex = NULL,
+                     point_pch = NULL, ...){
 
 
   # Labels
@@ -647,9 +673,15 @@ plot.avlr = function(x, decomp = FALSE,
   }
 
   # Range
-  x_range = range(x$av$clusters)
-  x_low = floor(log2(x_range[1]))
-  x_high = ceiling(log2(x_range[2]))
+  x_range = range(x$clusters)
+  if(length(x$clusters) >= 10){
+    x_low = floor(log10(x_range[1]))
+    x_high = ceiling(log10(x_range[2]))
+  }else{
+    x_low = floor(log2(x_range[1]))
+    x_high = ceiling(log2(x_range[2]))
+  }
+
 
   y_range = range(cbind(x$av$adev - x$av$adev*x$av$errors, x$av$adev + x$av$adev*x$av$errors))
   y_low = floor(log10(y_range[1]))
@@ -668,7 +700,12 @@ plot.avlr = function(x, decomp = FALSE,
   if (length(x_ticks) > nb_ticks_x){
     x_ticks = x_low + ceiling((x_high - x_low)/(nb_ticks_x + 1))*(0:nb_ticks_x)
   }
-  x_labels = sapply(x_ticks, function(i) as.expression(bquote(2^ .(i))))
+
+  if(length(x$clusters) >= 10){
+    x_labels = sapply(x_ticks, function(i) as.expression(bquote(10^ .(i))))
+  }else{
+    x_labels = sapply(x_ticks, function(i) as.expression(bquote(2^ .(i))))
+  }
 
   y_ticks <- seq(y_low, y_high, by = 1)
   if (length(y_ticks) > nb_ticks_y){
@@ -696,7 +733,11 @@ plot.avlr = function(x, decomp = FALSE,
   win_dim = par("usr")
 
   # Add Grid
-  abline(v = 2^x_ticks, lty = 1, col = "grey95")
+  if(length(x$clusters) >=10){
+    abline(v = 10^x_ticks, lty = 1, col = "grey95")
+  }else{
+    abline(v = 2^x_ticks, lty = 1, col = "grey95")
+  }
   abline(h = 10^y_ticks, lty = 1, col = "grey95")
 
   # Add Title
@@ -712,7 +753,11 @@ plot.avlr = function(x, decomp = FALSE,
   #y_ticks = y_ticks[(2^y_ticks) < 10^(win_dim[4] - 0.09*(win_dim[4] - win_dim[3]))]
   y_labels = y_labels[1:length(y_ticks)]
   box()
-  axis(1, at = 2^x_ticks, labels = x_labels, padj = 0.3)
+  if(length(x$clusters) >=10){
+    axis(1, at = 10^x_ticks, labels = x_labels, padj = 0.3)
+  }else{
+    axis(1, at = 2^x_ticks, labels = x_labels, padj = 0.3)
+  }
   axis(2, at = 10^y_ticks, labels = y_labels, padj = -0.2)
 
   # CI for WV
