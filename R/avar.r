@@ -492,7 +492,7 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
     out_boot = NULL
   }
 
-  x = structure(list(estimates = estimates,
+  x = structure(list(estimates = param,
                      process_desc = process,
                      implied_ad = implied_ad,
                      implied_ad_decomp = implied,
@@ -527,9 +527,9 @@ boostrap_ci_avlr = function(model, B, n, qn, wn, rw, dr, type, alpha){
 }
 
 
-#' Print gmwm object
+#' Print avlr object
 #'
-#' Displays information about GMWM object
+#' Displays information about avlr object
 #' @method print avlr
 #' @export
 #' @keywords internal
@@ -553,8 +553,20 @@ boostrap_ci_avlr = function(model, B, n, qn, wn, rw, dr, type, alpha){
 #' print(fit1)
 #' }
 print.avlr = function(x, ...) {
-  cat("\n Estimates: \n")
-  print(x$estimates)
+  if(is.null(x$ci)){
+    cat("\n Estimates: \n")
+    estimates = t(t(x$estimates))
+    rownames(estimates) = x$process_desc
+    colnames(estimates) = "Value"
+    print(estimates)
+  }else{
+    cat("\n Estimates: \n")
+    estimates = t(t(x$estimates))
+    mat = cbind(t(t(x$estimates)),x$ci$ci, x$ci$sd )
+    rownames(mat) = x$process_desc
+    colnames(mat) = c("Value", "CI Low", "CI High", "SD")
+    print(mat)
+  }
 }
 
 #' @title Plot Allan Variance Linear Regression Fit

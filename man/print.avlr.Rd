@@ -2,7 +2,7 @@
 % Please edit documentation in R/avar.r
 \name{print.avlr}
 \alias{print.avlr}
-\title{Print gmwm object}
+\title{Print avlr object}
 \usage{
 \method{print}{avlr}(x, ...)
 }
@@ -15,7 +15,7 @@
 Text output via print
 }
 \description{
-Displays information about GMWM object
+Displays information about avlr object
 }
 \examples{
 \dontrun{
