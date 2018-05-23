@@ -4,14 +4,12 @@
 \alias{avar}
 \title{Calculate the Allan Variance}
 \usage{
-avar(x, type = "mo", freq = 1)
+avar(x, type = "mo")
 }
 \arguments{
 \item{x}{A \code{vec} of time series observations.}
 
 \item{type}{A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap}
-
-\item{freq}{A \code{integer} with the frequency of the error signal.}
 }
 \value{
 av   A \code{list} that contains:
@@ -65,7 +63,7 @@ N = 100000
 ts = gen_gts(N, WN(sigma2 = 2) + RW(gamma2 = 1))
 
 # Maximal overlap
-av_mat_mo = avar(ts, type = "mo", freq = 100)
+av_mat_mo = avar(ts, type = "mo")
 
 # Tau overlap
 av_mat_tau = avar(ts, type = "to")
