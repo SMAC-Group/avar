@@ -16,22 +16,18 @@ A \code{double} indicating the theoretical allan variance for the white noise
 process.
 }
 \description{
-This function allows us to calculate the theoretical allan variance for stationary 
+This function allows us to calculate the theoretical allan variance for stationary
 white noise process.
 }
 \note{
-This function is based on the calculation of the theoretical allan variance 
-for stationary white noise process raised in "Allan Variance of Time Series Models for 
-Measurement Data" by Nien Fan Zhang. (For more details: 
+This function is based on the calculation of the theoretical allan variance
+for stationary white noise process raised in "Allan Variance of Time Series Models for
+Measurement Data" by Nien Fan Zhang. (For more details:
 \url{http://iopscience.iop.org/article/10.1088/0026-1394/45/5/009/meta}.) This calculation
-is fundamental and necessary for the study in "A Study of the Allan Variance for Constant-Mean 
-Non-Stationary Processes" by Xu et al. (IEEE Signal Processing Letters, 2017), preprint available:
-\url{https://arxiv.org/abs/1702.07795}.
+is fundamental and necessary for the study in "A Study of the Allan Variance for Constant-Mean
+Non-Stationary Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.
 }
 \examples{
 av1 = av_wn(sigma2 = 1, n = 5)
 av2 = av_wn(sigma2 = 2, n = 8)
-}
-\author{
-Yuming Zhang
 }

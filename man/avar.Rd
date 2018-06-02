@@ -9,26 +9,26 @@ avar(x, type = "mo", freq = 1)
 \arguments{
 \item{x}{A \code{vec} of time series observations.}
 
-\item{type}{A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap}
+\item{type}{A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap.}
 
 \item{freq}{A \code{integer} with the frequency of the error signal.}
 }
 \value{
-av   A \code{list} that contains:
+A \code{list} that contains:
 \itemize{
- \item{"clusters"}{The size of the cluster}
- \item{"allan"}{The Allan variance}
- \item{"type"}{Type of estimator (\code{mo} or \code{to})}
- \item{"n"}{Sample size of the time series}
- \item{"errors"}{The error associated with the variance estimation.}
+ \item{"clusters": }{The size of the cluster.}
+ \item{"allan": }{The Allan variance.}
+ \item{"type": }{Type of estimator (\code{mo} or \code{to}).}
+ \item{"n": }{Sample size of the time series.}
+ \item{"errors": }{The errors associated with the variance estimation.}
 }
 }
 \description{
-Computes the Allan Variance
+This function computes the Allan variance.
 }
 \details{
-The decomposition and the amount of time it takes to perform it depends on whether you are using
-the Tau Overlap or the Maximal Overlap.
+The decomposition and the amount of time it takes to perform this function depends on whether you are using
+the Maximal Overlap or the Tau Overlap.
 }
 \section{Maximal Overlap Allan Variance}{
 

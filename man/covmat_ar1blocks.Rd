@@ -19,21 +19,20 @@ covmat_ar1blocks(n_total, n_block, phi, sigma2)
 The theoretical covariance \code{matrix} of the AR(1) blocks process.
 }
 \description{
-This function allows us to calculate the theoretical covariance matrix of 
+This function allows us to calculate the theoretical covariance matrix of
 a non-stationary AR(1) blocks process.
 }
 \note{
-This function helps calculate the theoretical covariance matrix of a non-stationary 
-process, AR(1) blocks. It is helpful to calculate the theoretical allan variance of 
-non-stationary processes, which can be used to compare with the theoretical allan variance 
-of stationary processes as shown in "A Study of the Allan Variance for Constant-Mean Non-Stationary 
-Processes" by Xu et al. (IEEE Signal Processing Letters, 2017), preprint available: 
-\url{https://arxiv.org/abs/1702.07795}.
+This function helps calculate the theoretical covariance matrix of a non-stationary
+process, AR(1) blocks. It is helpful to calculate the theoretical allan variance of
+non-stationary processes, which can be used to compare with the theoretical allan variance
+of stationary processes as shown in "A Study of the Allan Variance for Constant-Mean Non-Stationary
+Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.
 }
 \examples{
-covmat1 = covmat_ar1blocks(n_total = 1000, n_block = 10, 
+covmat1 = covmat_ar1blocks(n_total = 1000, n_block = 10,
 phi = 0.9, sigma2 = 1)
-covmat2 = covmat_ar1blocks(n_total = 800, n_block = 20, 
+covmat2 = covmat_ar1blocks(n_total = 800, n_block = 20,
 phi = 0.5, sigma2 = 2)
 }
 \author{

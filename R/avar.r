@@ -8,22 +8,22 @@
 
 #' Calculate the Allan Variance
 #'
-#' Computes the Allan Variance
+#' This function computes the Allan variance.
 #' @param x     A \code{vec} of time series observations.
-#' @param type  A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap
+#' @param type  A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap.
 #' @param freq  A \code{integer} with the frequency of the error signal.
 
-#' @return av   A \code{list} that contains:
+#' @return  A \code{list} that contains:
 #' \itemize{
-#'  \item{"clusters"}{The size of the cluster}
-#'  \item{"allan"}{The Allan variance}
-#'  \item{"type"}{Type of estimator (\code{mo} or \code{to})}
-#'  \item{"n"}{Sample size of the time series}
-#'  \item{"errors"}{The error associated with the variance estimation.}
+#'  \item{"clusters": }{The size of the cluster.}
+#'  \item{"allan": }{The Allan variance.}
+#'  \item{"type": }{Type of estimator (\code{mo} or \code{to}).}
+#'  \item{"n": }{Sample size of the time series.}
+#'  \item{"errors": }{The errors associated with the variance estimation.}
 #' }
 #' @details
-#' The decomposition and the amount of time it takes to perform it depends on whether you are using
-#' the Tau Overlap or the Maximal Overlap.
+#' The decomposition and the amount of time it takes to perform this function depends on whether you are using
+#' the Maximal Overlap or the Tau Overlap.
 #'
 #' @section Maximal Overlap Allan Variance:
 #' Given \eqn{N} equally spaced samples with averaging time \eqn{\tau = n\tau _0}{tau = n*tau_0},
@@ -158,7 +158,7 @@ summary.avar = function(object, ...) {
 #' @title Plot Allan Deviation
 #'
 #' @description
-#' Displays a plot of allan deviation accounting for CI values.
+#' Displays a plot of Allan deviation accounting for confidence interval values.
 #' @method plot avar
 #' @param x                A \code{avar} object.
 #' @param units            A \code{string} that specifies the units of time plotted on the x axis.
@@ -174,7 +174,7 @@ summary.avar = function(object, ...) {
 #' @param point_pch        A \code{double} that specifies the symbol type to be plotted.
 #' @param point_cex        A \code{double} that specifies the size of each symbol to be plotted.
 #' @param ...              Additional arguments affecting the plot.
-#' @return Plot of allan deviation and confidence interval for each scale.
+#' @return A plot of Allan deviation and confidence interval for each scale.
 #' @author Stephane Guerrier, Nathanael Claussen, and Justin Lee
 #' @export
 #' @examples

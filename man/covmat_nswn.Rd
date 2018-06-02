@@ -9,7 +9,7 @@ covmat_nswn(sigma2, n_total)
 \arguments{
 \item{sigma2}{A \code{double} value for the variance parameter \eqn{\sigma ^2}{sigma^2}.}
 
-\item{n_total}{An \code{integer} indicating the length of the whole non-stationary white noise 
+\item{n_total}{An \code{integer} indicating the length of the whole non-stationary white noise
 process.}
 }
 \value{
@@ -20,12 +20,11 @@ This function allows us to calculate the theoretical covariance matrix of a non-
 white noise process.
 }
 \note{
-This function helps calculate the theoretical covariance matrix of a non-stationary 
-process, non-stationary white noise. It is helpful to calculate the theoretical allan variance of 
-non-stationary processes, which can be used to compare with the theoretical allan variance 
-of stationary processes as shown in "A Study of the Allan Variance for Constant-Mean Non-Stationary 
-Processes" by Xu et al. (IEEE Signal Processing Letters, 2017), preprint available: 
-\url{https://arxiv.org/abs/1702.07795}.
+This function helps calculate the theoretical covariance matrix of a non-stationary
+process, non-stationary white noise. It is helpful to calculate the theoretical allan variance of
+non-stationary processes, which can be used to compare with the theoretical allan variance
+of stationary processes as shown in "A Study of the Allan Variance for Constant-Mean Non-Stationary
+Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.
 }
 \examples{
 covmat1 = covmat_nswn(sigma2 = 1, n_total = 1000)

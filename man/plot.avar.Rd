@@ -39,10 +39,10 @@
 \item{...}{Additional arguments affecting the plot.}
 }
 \value{
-Plot of allan deviation and confidence interval for each scale.
+A plot of Allan deviation and confidence interval for each scale.
 }
 \description{
-Displays a plot of allan deviation accounting for CI values.
+Displays a plot of Allan deviation accounting for confidence interval values.
 }
 \examples{
 # Load simts package

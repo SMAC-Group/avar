@@ -7,8 +7,8 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 #' @title Calculate Theoretical Covariance Matrix of AR(1) Blocks Process
-#' @description 
-#' This function allows us to calculate the theoretical covariance matrix of 
+#' @description
+#' This function allows us to calculate the theoretical covariance matrix of
 #' a non-stationary AR(1) blocks process.
 #' @export
 #' @usage covmat_ar1blocks(n_total, n_block, phi, sigma2)
@@ -17,17 +17,16 @@
 #' @param phi A \code{double} value for the autocorrection parameter \eqn{\phi}{phi}.
 #' @param sigma2 A \code{double} value for the variance parameter \eqn{\sigma ^2}{sigma^2}.
 #' @return The theoretical covariance \code{matrix} of the AR(1) blocks process.
-#' @note This function helps calculate the theoretical covariance matrix of a non-stationary 
-#' process, AR(1) blocks. It is helpful to calculate the theoretical allan variance of 
-#' non-stationary processes, which can be used to compare with the theoretical allan variance 
-#' of stationary processes as shown in "A Study of the Allan Variance for Constant-Mean Non-Stationary 
-#' Processes" by Xu et al. (IEEE Signal Processing Letters, 2017), preprint available: 
-#' \url{https://arxiv.org/abs/1702.07795}.
+#' @note This function helps calculate the theoretical covariance matrix of a non-stationary
+#' process, AR(1) blocks. It is helpful to calculate the theoretical allan variance of
+#' non-stationary processes, which can be used to compare with the theoretical allan variance
+#' of stationary processes as shown in "A Study of the Allan Variance for Constant-Mean Non-Stationary
+#' Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.
 #' @author Yuming Zhang
 #' @examples
-#' covmat1 = covmat_ar1blocks(n_total = 1000, n_block = 10, 
+#' covmat1 = covmat_ar1blocks(n_total = 1000, n_block = 10,
 #' phi = 0.9, sigma2 = 1)
-#' covmat2 = covmat_ar1blocks(n_total = 800, n_block = 20, 
+#' covmat2 = covmat_ar1blocks(n_total = 800, n_block = 20,
 #' phi = 0.5, sigma2 = 2)
 covmat_ar1blocks = function(n_total, n_block, phi, sigma2){
   a = matrix(rep(0, n_block^2), nrow = n_block)
@@ -38,28 +37,27 @@ covmat_ar1blocks = function(n_total, n_block, phi, sigma2){
   a[upper.tri(a,diag=T)] = 0
   a = a + t(a) + diag(a.diag)
   covmat_single = phi^a
-  
+
   covmat = sigma2/(1- phi^2)*kronecker(diag(rep(1,floor(n_total/n_block))), covmat_single)
   return(covmat)
 }
 
 
 #' @title Calculate Theoretical Covariance Matrix of Non-Stationary White Noise Process
-#' @description 
+#' @description
 #' This function allows us to calculate the theoretical covariance matrix of a non-stationary
 #' white noise process.
 #' @export
 #' @usage covmat_nswn(sigma2, n_total)
 #' @param sigma2 A \code{double} value for the variance parameter \eqn{\sigma ^2}{sigma^2}.
-#' @param n_total An \code{integer} indicating the length of the whole non-stationary white noise 
+#' @param n_total An \code{integer} indicating the length of the whole non-stationary white noise
 #' process.
 #' @return The theoretical covariance \code{matrix} of the non-stationary white noise process.
-#' @note This function helps calculate the theoretical covariance matrix of a non-stationary 
-#' process, non-stationary white noise. It is helpful to calculate the theoretical allan variance of 
-#' non-stationary processes, which can be used to compare with the theoretical allan variance 
-#' of stationary processes as shown in "A Study of the Allan Variance for Constant-Mean Non-Stationary 
-#' Processes" by Xu et al. (IEEE Signal Processing Letters, 2017), preprint available: 
-#' \url{https://arxiv.org/abs/1702.07795}.
+#' @note This function helps calculate the theoretical covariance matrix of a non-stationary
+#' process, non-stationary white noise. It is helpful to calculate the theoretical allan variance of
+#' non-stationary processes, which can be used to compare with the theoretical allan variance
+#' of stationary processes as shown in "A Study of the Allan Variance for Constant-Mean Non-Stationary
+#' Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.
 #' @author Yuming Zhang
 #' @examples
 #' covmat1 = covmat_nswn(sigma2 = 1, n_total = 1000)
@@ -71,22 +69,21 @@ covmat_nswn = function(sigma2, n_total){
 
 
 #' @title Calculate Theoretical Covariance Matrix of Bias-Instability Process
-#' @description 
+#' @description
 #' This function allows us to calculate the theoretical covariance matrix of a bias-instability
 #' process.
 #' @export
 #' @usage covmat_bi(sigma2, n_total, n_block)
 #' @param sigma2 A \code{double} value for the variance parameter \eqn{\sigma ^2}{sigma^2}.
-#' @param n_total An \code{integer} indicating the length of the whole bias-instability process. 
-#' @param n_block An \code{integer} indicating the length of each block of the bias-instability 
+#' @param n_total An \code{integer} indicating the length of the whole bias-instability process.
+#' @param n_block An \code{integer} indicating the length of each block of the bias-instability
 #' process.
 #' @return The theoretical covariance \code{matrix} of the bias-instability process.
-#' @note This function helps calculate the theoretical covariance matrix of a non-stationary 
-#' process, bias-instability. It is helpful to calculate the theoretical allan variance of 
-#' non-stationary processes, which can be used to compare with the theoretical allan variance 
-#' of stationary processes as shown in "A Study of the Allan Variance for Constant-Mean Non-Stationary 
-#' Processes" by Xu et al. (IEEE Signal Processing Letters, 2017), preprint available: 
-#' \url{https://arxiv.org/abs/1702.07795}.
+#' @note This function helps calculate the theoretical covariance matrix of a non-stationary
+#' process, bias-instability. It is helpful to calculate the theoretical allan variance of
+#' non-stationary processes, which can be used to compare with the theoretical allan variance
+#' of stationary processes as shown in "A Study of the Allan Variance for Constant-Mean Non-Stationary
+#' Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.
 #' @author Yuming Zhang
 #' @examples
 #' covmat1 = covmat_bi(sigma2 = 1, n_total = 1000, n_block = 10)

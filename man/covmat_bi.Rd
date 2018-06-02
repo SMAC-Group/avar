@@ -11,7 +11,7 @@ covmat_bi(sigma2, n_total, n_block)
 
 \item{n_total}{An \code{integer} indicating the length of the whole bias-instability process.}
 
-\item{n_block}{An \code{integer} indicating the length of each block of the bias-instability 
+\item{n_block}{An \code{integer} indicating the length of each block of the bias-instability
 process.}
 }
 \value{
@@ -22,12 +22,11 @@ This function allows us to calculate the theoretical covariance matrix of a bias
 process.
 }
 \note{
-This function helps calculate the theoretical covariance matrix of a non-stationary 
-process, bias-instability. It is helpful to calculate the theoretical allan variance of 
-non-stationary processes, which can be used to compare with the theoretical allan variance 
-of stationary processes as shown in "A Study of the Allan Variance for Constant-Mean Non-Stationary 
-Processes" by Xu et al. (IEEE Signal Processing Letters, 2017), preprint available: 
-\url{https://arxiv.org/abs/1702.07795}.
+This function helps calculate the theoretical covariance matrix of a non-stationary
+process, bias-instability. It is helpful to calculate the theoretical allan variance of
+non-stationary processes, which can be used to compare with the theoretical allan variance
+of stationary processes as shown in "A Study of the Allan Variance for Constant-Mean Non-Stationary
+Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.
 }
 \examples{
 covmat1 = covmat_bi(sigma2 = 1, n_total = 1000, n_block = 10)

@@ -7,19 +7,19 @@
 MOAV(n, covmat)
 }
 \arguments{
-\item{n}{A \code{integer} indicating the length of each vector of consecutive observations considered for the average.}
+\item{n}{An \code{integer} indicating the length of each vector of consecutive observations considered for the average.}
 
 \item{covmat}{A \code{matrix} indicating the T-by-T covariance matrix of the time series with length T.}
 }
 \value{
-A \code{field<numeric>} that is the theoritical Maximal-overlapping Allan Variance for constant-mean non-stationary time series data
+A \code{field <numeric>} that is the theoretical Maximal-overlapping Allan variance for constant-mean non-stationary time series data.
 }
 \description{
-Calculation of the theoritical Maximal-overlapping Allan Variance for constant-mean non-stationary time series data
+Calculation of the theoretical Maximal-overlapping Allan variance for constant-mean non-stationary time series data.
 }
 \details{
-Calculate Maximal-overlapping Allan Variance based on the defination on "Xu, Haotian, et al. "A Study of the Allan Variance for Constant-Mean Non-Stationary Processes." arXiv preprint arXiv:1702.07795 (2017)".
-n is an integer larger than 1 and smaller than \eqn{floor\left(log_2 \left(dim\left(covmat\right)[1]\right)\right)-1}{floor(log2(dim(T)[1]))-1}
+This calculation of Maximal-overlapping Allan variance is based on the definition on "A Study of the Allan Variance for Constant-Mean Non-Stationary Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.
+Here n is an integer larger than 1 and smaller than \eqn{floor\left(log_2 \left(dim\left(covmat\right)[1]\right)\right)-1}{floor(log2(dim(T)[1]))-1}.
 }
 \examples{
 library(simts)
