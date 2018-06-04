@@ -155,10 +155,10 @@ summary.avar = function(object, ...) {
   out_matrix
 }
 
-#' @title Plot Allan Deviation
+#' @title Plot Allan Variance
 #'
 #' @description
-#' Displays a plot of Allan deviation accounting for confidence interval values.
+#' Displays a plot of Allan variance accounting for confidence interval values.
 #' @method plot avar
 #' @param x                A \code{avar} object.
 #' @param units            A \code{string} that specifies the units of time plotted on the x axis.
@@ -174,7 +174,7 @@ summary.avar = function(object, ...) {
 #' @param point_pch        A \code{double} that specifies the symbol type to be plotted.
 #' @param point_cex        A \code{double} that specifies the size of each symbol to be plotted.
 #' @param ...              Additional arguments affecting the plot.
-#' @return A plot of Allan deviation and confidence interval for each scale.
+#' @return A plot of Allan variance and confidence interval for each scale.
 #' @author Stephane Guerrier, Nathanael Claussen, and Justin Lee
 #' @export
 #' @examples
@@ -210,7 +210,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   }
 
   if (is.null(ylab)){
-    ylab = expression(paste("Allan Deviation ", phi, sep = ""))
+    ylab = expression(paste("Allan Variance ", phi, sep = ""))
   }else{
     ylab = ylab
   }
@@ -284,7 +284,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   win_dim = par("usr")
 
   par(new = TRUE)
-  plot(NA, xlim = x_range, ylim = 10^c(win_dim[3], win_dim[4] + 0.09*(win_dim[4] - win_dim[3])),
+  plot(NA, xlim = x_range, ylim = 10^c(win_dim[3], win_dim[4] + 0.45*(win_dim[4] - win_dim[3])),
        xlab = xlab, ylab = ylab, log = "xy", xaxt = 'n', yaxt = 'n', bty = "n")
   win_dim = par("usr")
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/avar.r
 \name{plot.avar}
 \alias{plot.avar}
-\title{Plot Allan Deviation}
+\title{Plot Allan Variance}
 \usage{
 \method{plot}{avar}(x, units = NULL, xlab = NULL, ylab = NULL,
   main = NULL, col_wv = NULL, col_ci = NULL, nb_ticks_x = NULL,
@@ -39,10 +39,10 @@
 \item{...}{Additional arguments affecting the plot.}
 }
 \value{
-A plot of Allan deviation and confidence interval for each scale.
+A plot of Allan variance and confidence interval for each scale.
 }
 \description{
-Displays a plot of Allan deviation accounting for confidence interval values.
+Displays a plot of Allan variance accounting for confidence interval values.
 }
 \examples{
 # Load simts package
