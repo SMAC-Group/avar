@@ -7,7 +7,7 @@
 avar(x, type = "mo", freq = 1)
 }
 \arguments{
-\item{x}{A \code{vec} of time series observations.}
+\item{x}{A \code{vec} of time series observations or an \code{imu} object.}
 
 \item{type}{A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap.}
 

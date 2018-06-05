@@ -9,7 +9,7 @@
 #' Calculate the Allan Variance
 #'
 #' This function computes the Allan variance.
-#' @param x     A \code{vec} of time series observations.
+#' @param x     A \code{vec} of time series observations or an \code{imu} object.
 #' @param type  A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap.
 #' @param freq  A \code{integer} with the frequency of the error signal.
 
@@ -63,11 +63,14 @@
 #' av_mat_tau = avar(ts, type = "to")
 avar = function(x, type = "mo", freq = 1) {
 
-  if(sum(class(x) == "imu") == 1){
-    freq = attributes(cont.imu1)$freq
+  if(is.null(x) | length(x) <=1 | dim(x)[2] >1){
+    stop("Provide a vector or an 'imu' object")
   }
 
-  x = as.vector(x)
+  if(sum(class(x) == "imu") == 1){
+    freq = attributes(cont.imu1)$freq
+    x = as.vector(x)
+  }
 
   if(type == "mo"){
     av = avar_mo_cpp(x)
@@ -370,7 +373,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #'
 #' @description
 #' Compute the latent processes parameters estimator based on the Allan Variance
-#' @param x     A \code{vec} of time series observations or an \code{avar} object.
+#' @param x     A \code{vec} of time series observations, an \code{imu} object or an \code{avar} object.
 #' @param qn    A \code{vec} specifying on which scales the parameters of a Quantization Noise (QN) should be computed.
 #' @param wn    A \code{vec} specifying on which scales the parameters of a White Noise (WN) should be computed.
 #' @param rw    A \code{vec} specifying on which scales the parameters of a Random Wakk (RW) should be computed.
@@ -414,14 +417,17 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
                 type = "mo", ci = FALSE, B = 100, alpha = 0.05){
 
-  if(is.null(x)){
-    stop("Please provide a time series vector or a 'avar' objet")
+  if(is.null(x) | length(x) <=1){
+    stop("Please provide a time series vector, an 'imu' object or a 'avar' objet")
   }else if(class(x)[1] != "avar"){
-    if(is.null(type)){
-      x = avar(x, type = "mo")
-    }else{
-      x = avar(x)
+    if(dim(x)[2] >1){
+      stop("Please provide a time series vector, an 'imu' object or a 'avar' objet")
     }
+      if(is.null(type)){
+        x = avar(x, type = "mo")
+      }else{
+        x = avar(x)
+      }
   }
 
   if(sum(sapply(list(qn,wn,rw,dr), is.null)) == 4){
