@@ -8,7 +8,7 @@ avlr(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = "mo",
   ci = FALSE, B = 100, alpha = 0.05)
 }
 \arguments{
-\item{x}{A \code{vec} of time series observations or an \code{avar} object.}
+\item{x}{A \code{vec} of time series observations, an \code{imu} object or an \code{avar} object.}
 
 \item{qn}{A \code{vec} specifying on which scales the parameters of a Quantization Noise (QN) should be computed.}
 
