@@ -60,3 +60,78 @@ av_wn = function(sigma2, n){
   result = sigma2/n
   return(result)
 }
+
+
+#' @title Calculate Theoretical Allan Variance for Stationary Quantization Noise Process
+#' @description
+#' This function allows us to calculate the theoretical allan variance for stationary
+#' quantization noise process.
+#' @export
+#' @usage av_qn(Q2, n)
+#' @param Q2 A \code{double} value for the noise parameter \eqn{Q^2}{Q^2}.
+#' @param n An \code{integer} value for the size of the cluster.
+#' @return A \code{double} indicating the theoretical allan variance for the quantization noise
+#' process.
+#' @note This function is based on the calculation of the theoretical allan variance
+#' for stationary quantization noise process raised in "Allan Variance of Time Series Models for
+#' Measurement Data" by Nien Fan Zhang. (For more details:
+#' \url{http://iopscience.iop.org/article/10.1088/0026-1394/45/5/009/meta}.) This calculation
+#' is fundamental and necessary for the study in "A Study of the Allan Variance for Constant-Mean
+#' Non-Stationary Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.
+#' @examples
+#' av1 = av_qn(Q2 = 1, n = 5)
+#' av2 = av_qn(Q2 = 2, n = 8)
+av_qn = function(Q2, n){
+  result = 3*Q2 / n^2
+  return(result)
+}
+
+
+#' @title Calculate Theoretical Allan Variance for Random Walk Process
+#' @description
+#' This function allows us to calculate the theoretical allan variance for
+#' random walk process.
+#' @export
+#' @usage av_rw(omega2, n)
+#' @param omega2 A \code{double} value for the noise parameter \eqn{\omega ^2}{omega^2}.
+#' @param n An \code{integer} value for the size of the cluster.
+#' @return A \code{double} indicating the theoretical allan variance for the random walk
+#' process.
+#' @note This function is based on the calculation of the theoretical allan variance
+#' for random walk process raised in "Allan Variance of Time Series Models for
+#' Measurement Data" by Nien Fan Zhang. (For more details:
+#' \url{http://iopscience.iop.org/article/10.1088/0026-1394/45/5/009/meta}.) This calculation
+#' is fundamental and necessary for the study in "A Study of the Allan Variance for Constant-Mean
+#' Non-Stationary Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.
+#' @examples
+#' av1 = av_rw(omega2 = 1, n = 5)
+#' av2 = av_rw(omega2 = 2, n = 8)
+av_rw = function(omega2, n){
+  result = (2 * n^2 + 1)*omega2 / (6*n)
+  return(result)
+}
+
+
+#' @title Calculate Theoretical Allan Variance for Drift Process
+#' @description
+#' This function allows us to calculate the theoretical allan variance for
+#' drift process.
+#' @export
+#' @usage av_dr(delta, n)
+#' @param delta A \code{double} value for the noise parameter \eqn{\delta}{delta}.
+#' @param n An \code{integer} value for the size of the cluster.
+#' @return A \code{double} indicating the theoretical allan variance for the drift
+#' process.
+#' @note This function is based on the calculation of the theoretical allan variance
+#' for drift process raised in "Allan Variance of Time Series Models for
+#' Measurement Data" by Nien Fan Zhang. (For more details:
+#' \url{http://iopscience.iop.org/article/10.1088/0026-1394/45/5/009/meta}.) This calculation
+#' is fundamental and necessary for the study in "A Study of the Allan Variance for Constant-Mean
+#' Non-Stationary Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.
+#' @examples
+#' av1 = av_dr(delta = 1, n = 5)
+#' av2 = av_dr(delta = 2, n = 8)
+av_dr = function(delta, n){
+  result = (n^2 * delta^2) / 2
+  return(result)
+}

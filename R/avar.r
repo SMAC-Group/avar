@@ -329,7 +329,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   # Add legend
   CI_conf = .95
 
-  wv_title_part1 = "Empirical AD "
+  wv_title_part1 = "Empirical AV "
 
 
   if (!is.na(legend_position)){
