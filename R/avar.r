@@ -379,6 +379,9 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #' @param rw    A \code{vec} specifying on which scales the parameters of a Random Wakk (RW) should be computed.
 #' @param dr    A \code{vec} specifying on which scales the parameters of a Drift (DR) should be computed.
 #' @param type  A \code{string} containing either \code{"mo"} (default) for Maximal Overlap or \code{"to"} for Tau Overlap
+#' @param ci    A \code{bolean} to compute confidence intervals for the parameter.
+#' @param B     A \code{double} for the number of bootsrap replicates to compute the confidence intervals.
+#' @param alpha A \code{double} for the level of confidence \code{alpha} to compute the confidence intervals.
 #' @return avlr   A \code{list} that contains:
 #' \itemize{
 #'  \item{"estimates"}
@@ -410,7 +413,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #' fit
 #'
 #' # Compute confidence intervals (this can take some time)
-#' fit = avlr(av, wn = 1:8, rw = 10:15, ci = TRUE)
+#' fit = avlr(av, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
 #'
 #' # Estimated confidence intervals and standard deviations
 #' fit$ci
@@ -534,11 +537,10 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
   invisible(x)
 }
 
-
+#'@keywords internal
 boostrap_ci_avlr = function(model, B, n, qn, wn, rw, dr, type, alpha){
   results = matrix(NA, B, model$plength)
   print("Starting bootstrap:")
-  pb = txtProgressBar(min = 0, max = B, style = 3)
 
   for (i in 1:B){
     x_star = gen_gts(n = n, model = model)
@@ -546,7 +548,6 @@ boostrap_ci_avlr = function(model, B, n, qn, wn, rw, dr, type, alpha){
                                    dr = dr, type = type, ci = FALSE)$estimates)
     setTxtProgressBar(pb, i)
   }
-  close(pb)
 
   ci_parameters = matrix(NA, model$plength, 2)
   sd_parameters = rep(NA, model$plength)

@@ -19,6 +19,12 @@ avlr(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = "mo",
 \item{dr}{A \code{vec} specifying on which scales the parameters of a Drift (DR) should be computed.}
 
 \item{type}{A \code{string} containing either \code{"mo"} (default) for Maximal Overlap or \code{"to"} for Tau Overlap}
+
+\item{ci}{A \code{bolean} to compute confidence intervals for the parameter.}
+
+\item{B}{A \code{double} for the number of bootsrap replicates to compute the confidence intervals.}
+
+\item{alpha}{A \code{double} for the level of confidence \code{alpha} to compute the confidence intervals.}
 }
 \value{
 avlr   A \code{list} that contains:
@@ -55,7 +61,7 @@ plot(fit, decomp = TRUE)
 fit
 
 # Compute confidence intervals (this can take some time)
-fit = avlr(av, wn = 1:8, rw = 10:15, ci = TRUE)
+fit = avlr(av, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
 
 # Estimated confidence intervals and standard deviations
 fit$ci
