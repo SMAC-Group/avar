@@ -546,7 +546,6 @@ boostrap_ci_avlr = function(model, B, n, qn, wn, rw, dr, type, alpha){
     x_star = gen_gts(n = n, model = model)
     results[i, ] = as.numeric(avlr(x_star, qn = qn, wn = wn, rw = rw,
                                    dr = dr, type = type, ci = FALSE)$estimates)
-    setTxtProgressBar(pb, i)
   }
 
   ci_parameters = matrix(NA, model$plength, 2)
