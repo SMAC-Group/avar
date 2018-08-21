@@ -6,20 +6,19 @@
 # WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-#' Calculate the Allan Variance
+#' Compute the Empirical Allan Variance
 #'
-#' This function computes the Allan variance.
+#' This function estimates the Allan variance.
 #' @param x     A \code{vec} of time series observations or an \code{imu} object.
 #' @param type  A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap.
-#' @param freq  A \code{integer} with the frequency of the error signal.
+#' @param freq  An \code{integer} with the frequency of the error signal.
 
 #' @return  A \code{list} that contains:
 #' \itemize{
-#'  \item{"clusters": }{The size of the cluster.}
-#'  \item{"allan": }{The Allan variance.}
+#'  \item{"levels": }{The length of the Allan filter at each level.}
+#'  \item{"allan": }{The estimated Allan variance.}
 #'  \item{"type": }{Type of estimator (\code{mo} or \code{to}).}
-#'  \item{"n": }{Sample size of the time series.}
-#'  \item{"errors": }{The errors associated with the variance estimation.}
+#'  \item{"n": }{Length of the observed time series.}
 #' }
 #' @details
 #' The decomposition and the amount of time it takes to perform this function depends on whether you are using
@@ -27,9 +26,9 @@
 #'
 #' @section Maximal Overlap Allan Variance:
 #' Given \eqn{N} equally spaced samples with averaging time \eqn{\tau = n\tau _0}{tau = n*tau_0},
-#' where \eqn{n} is an integer such that \eqn{ 1 \le n \le \frac{N}{2}}{1<= n <= N/2}.
-#' Therefore, \eqn{n} is able to be selected from \eqn{\left\{ {n|n < \left\lfloor {{{\log }_2}\left( N \right)} \right\rfloor } \right\}}{{n | n < floor(log2(N))}}
-#' Then, \eqn{M = N - 2n} samples exist.
+#' we define \eqn{n} as an integer such that \eqn{ 1 \le n \le \frac{N}{2}}{1<= n <= N/2}.
+#' Therefore, \eqn{n} can be selected from \eqn{\left\{ {n|n < \left\lfloor {{{\log }_2}\left( N \right)} \right\rfloor } \right\}}{{n | n < floor(log2(N))}}
+#' Based on the latter, we have \eqn{M = N - 2n} levels of decomposition.
 #' The Maximal-overlap estimator is given by:
 #' \deqn{\frac{1}{{2\left( {N - 2k + 1} \right)}}\sum\limits_{t = 2k}^N {{{\left[ {{{\bar Y}_t}\left( k \right) - {{\bar Y}_{t - k}}\left( k \right)} \right]}^2}} }{See PDF Manual}
 #'
@@ -37,9 +36,9 @@
 #'
 #' @section Tau-Overlap Allan Variance:
 #' Given \eqn{N} equally spaced samples with averaging time \eqn{\tau = n\tau _0}{tau = n*tau_0},
-#' where \eqn{n} is an integer such that \eqn{ 1 \le n \le \frac{N}{2}}{1<= n <= N/2}.
-#' Therefore, \eqn{n} is able to be selected from \eqn{\left\{ {n|n < \left\lfloor {{{\log }_2}\left( N \right)} \right\rfloor } \right\}}{{n | n < floor(log2(N))}}
-#' Then, a sampling of \eqn{m = \left\lfloor {\frac{{N - 1}}{n}} \right\rfloor  - 1} samples exist.
+#' we define \eqn{n} as an integer such that \eqn{ 1 \le n \le \frac{N}{2}}{1<= n <= N/2}.
+#' Therefore, \eqn{n} can be selected from \eqn{\left\{ {n|n < \left\lfloor {{{\log }_2}\left( N \right)} \right\rfloor } \right\}}{{n | n < floor(log2(N))}}
+#' Based on the latter, we have \eqn{m = \left\lfloor {\frac{{N - 1}}{n}} \right\rfloor  - 1} levels of decomposition.
 #' The tau-overlap estimator is given by:
 #'
 #' where \eqn{ {{\bar y}_t}\left( \tau  \right) = \frac{1}{\tau }\sum\limits_{i = 0}^{\tau  - 1} {{{\bar y}_{t - i}}} }{See PDF Manual}.
@@ -63,7 +62,7 @@
 #' av_mat_tau = avar(ts, type = "to")
 avar = function(x, type = "mo", freq = 1) {
 
-  if(is.null(x) | length(x) <=1 | dim(x)[2] >1){
+  if(is.null(x) | length(x) <=1 | dim(as.matrix(x))[2] >1){
     stop("Provide a vector or an 'imu' object")
   }
 
@@ -78,7 +77,7 @@ avar = function(x, type = "mo", freq = 1) {
     av = avar_to_cpp(x)
   }
 
-  av = list(clusters = av[,1]/freq, allan=av[,2], errors=av[,3])
+  av = list(levels = av[,1]/freq, allan=av[,2], errors = av[,3])
   av$adev = sqrt(av$allan)
   av$lci = av$adev - 2*av$errors*av$adev
   av$uci = av$adev + 2*av$errors*av$adev
@@ -114,11 +113,9 @@ avar = function(x, type = "mo", freq = 1) {
 #' print( out )
 print.avar = function(x, ...) {
   cat("\n Clusters: \n")
-  print(x$clusters, digits=5)
+  print(x$levels, digits=5)
   cat("\n Allan Variances: \n")
   print(x$allan, digits=5)
-  cat("\n Errors: \n")
-  print(x$errors, digits=5)
 }
 
 #' Summary Allan Variance
@@ -145,14 +142,13 @@ print.avar = function(x, ...) {
 #' # Summary
 #' summary( out )
 summary.avar = function(object, ...) {
-  out_matrix = matrix(0, nrow = length(object$clusters), ncol = 6)
-  colnames(out_matrix) = c("Time", "AVAR", "ADEV", "Lower CI", "Upper CI", "Error")
-  out_matrix[,"Time"] = object$clusters
+  out_matrix = matrix(0, nrow = length(object$levels), ncol = 5)
+  colnames(out_matrix) = c("Time", "AVAR", "ADEV", "Lower CI", "Upper CI")
+  out_matrix[,"Time"] = object$levels
   out_matrix[,"AVAR"] = object$allan
   out_matrix[,"ADEV"] = object$adev
   out_matrix[,"Lower CI"] = object$lci
   out_matrix[,"Upper CI"] = object$uci
-  out_matrix[,"Error"] = object$errors
 
   class(out_matrix) = c("summary.avar","matrix")
   out_matrix
@@ -213,14 +209,14 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   }
 
   if (is.null(ylab)){
-    ylab = expression(paste("Allan Variance ", phi, sep = ""))
+    ylab = expression(paste("Allan Deviation ", phi, sep = ""))
   }else{
     ylab = ylab
   }
 
   # Main Title
   if (is.null(main)){
-    main = "Allan Variance Representation"
+    main = "Allan Deviation Representation"
   }
 
   # Line and CI colors
@@ -233,8 +229,8 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   }
 
   # Range
-  x_range = range(x$clusters)
-  if(length(x$clusters) >= 10){
+  x_range = range(x$levels)
+  if(length(x$levels) >= 10){
     x_low = floor(log10(x_range[1]))
     x_high = ceiling(log10(x_range[2]))
   }else{
@@ -313,7 +309,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   #y_ticks = y_ticks[(2^y_ticks) < 10^(win_dim[4] - 0.09*(win_dim[4] - win_dim[3]))]
   y_labels = y_labels[1:length(y_ticks)]
   box()
-  if(length(x$clusters) >=10){
+  if(length(x$levels) >=10){
     axis(1, at = 10^x_ticks, labels = x_labels, padj = 0.3)
   }else{
     axis(1, at = 2^x_ticks, labels = x_labels, padj = 0.3)
@@ -322,14 +318,14 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 
   # CI for WV
   if (ci_wv == TRUE || is.null(ci_wv)){
-    polygon(c(x$cluster, rev(x$cluster)), c(x$adev - x$errors*x$adev, rev(x$adev + x$errors*x$adev)),
+    polygon(c(x$levels, rev(x$levels)), c(x$adev - x$errors*x$adev, rev(x$adev + x$errors*x$adev)),
             border = NA, col = col_ci)
   }
 
   # Add legend
   CI_conf = .95
 
-  wv_title_part1 = "Empirical AV "
+  wv_title_part1 = "Empirical AD "
 
 
   if (!is.na(legend_position)){
@@ -356,8 +352,8 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   }
 
 
-  # Add WV
-  lines(x$clusters, x$adev, type = "l", col = col_wv, pch = 16)
+  # Add AD
+  lines(x$levels, x$adev, type = "l", col = col_wv, pch = 16)
 
   if (is.null(point_pch)){
     point_pch = 16
@@ -366,13 +362,13 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   if (is.null(point_cex)){
     point_cex = 1.25
   }
-  lines(x$clusters, x$adev, type = "p", col = col_wv, pch = point_pch, cex = point_cex)
+  lines(x$levels, x$adev, type = "p", col = col_wv, pch = point_pch, cex = point_cex)
 }
 
 #' @title Computes the Allan Variance Linear Regression estimator
 #'
 #' @description
-#' Compute the latent processes parameters estimator based on the Allan Variance
+#' Estimate the parameters of time series models based on the Allan Variance Linear Regression (AVLR) approach
 #' @param x     A \code{vec} of time series observations, an \code{imu} object or an \code{avar} object.
 #' @param qn    A \code{vec} specifying on which scales the parameters of a Quantization Noise (QN) should be computed.
 #' @param wn    A \code{vec} specifying on which scales the parameters of a White Noise (WN) should be computed.

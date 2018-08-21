@@ -1,5 +1,6 @@
 ---
 output: github_document
+bibliography: biblio.bib
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -30,7 +31,7 @@ library(av)
 
 # Welcome to `av` package <a href="https://smac-group.com/"><img src="man/figures/logo.png" align="right" style="width: 16%; height: 16%"/></a>
 
-ADD INTRODUCTION TEXT
+This package provides the tools necessary to compute the empirical Allan Variance (AV) and use it to estimate the parameters of (latent) time series models. The estimation of the Allan Variance is based on the estimator proposed by @allan1966statistics and, based on this quantity, the Allan Variance Linear Regression approach is often used by engineers to retrieve the parameters of time series models which are assumed to underlie the observed signals [see for example @guerrier2016theoretical]. These estimators are implemented in this package along with the relevant plotting and summary functions.
 
 ```{r, eval = F}
 # Install dependencies
@@ -40,3 +41,4 @@ install.packages(c("devtools"))
 devtools::install_github("SMAC-Group/av")
 ```
 
+# References
