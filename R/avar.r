@@ -402,31 +402,26 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #' plot(av)
 #'
 #' # Parameter estimation
-#' fit = avlr(av, wn = 1:8, rw = 10:15)
+#' fit = avlr(x, wn = 1:8, rw = 10:15)
 #' plot(fit, decomp = TRUE)
 #'
 #' # Point estimates
 #' fit
 #'
 #' # Compute confidence intervals (this can take some time)
-#' fit = avlr(av, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
+#' fit = avlr(x, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
 #'
 #' # Estimated confidence intervals and standard deviations
 #' fit$ci
 avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
-                type = "mo", ci = FALSE, B = 100, alpha = 0.05){
+                ci = FALSE, B = 100, alpha = 0.05){
 
   if(is.null(x) | length(x) <=1){
     stop("Please provide a time series vector, an 'imu' object or a 'avar' objet")
   }else if(class(x)[1] != "avar"){
-    if(dim(x)[2] >1){
+    if(dim(as.matrix(x))[2] >1){
       stop("Please provide a time series vector, an 'imu' object or a 'avar' objet")
     }
-      if(is.null(type)){
-        x = avar(x, type = "mo")
-      }else{
-        x = avar(x)
-      }
   }
 
   if(sum(sapply(list(qn,wn,rw,dr), is.null)) == 4){
@@ -437,18 +432,18 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
 
   process = rep(NA,n_processes)
   param = rep(NA,n_processes)
-  implied = matrix(NA,length(x$clusters),n_processes)
+  implied = matrix(NA,length(x$levels),n_processes)
 
   counter = 0
 
   if(!is.null(wn)){
     if(length(wn) < 1 || !is.whole(wn) || min(wn) < 1 || max(wn) > length(x$allan)){
-      stop("wn incorrectely formatted.")
+      stop("wn incorrectly formatted.")
     }
     counter = counter + 1
     process[counter] = "WN"
-    param[counter] = exp(mean(log(x$adev[wn]) + log(x$clusters[wn])/2))
-    implied[,counter] = param[counter]/sqrt(x$clusters)
+    param[counter] = exp(mean(log(x$adev[wn]) + log(x$levels[wn])/2))
+    implied[,counter] = param[counter]/sqrt(x$levels)
 
     if (counter == 1){
       model_estimated = WN(sigma2 = (param[counter])^2)
@@ -464,8 +459,8 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
     }
     counter = counter + 1
     process[counter] = "QN"
-    param[counter] = (1/sqrt(3))*exp(mean(log(x$adev[qn]) + log(x$clusters[qn])))
-    implied[,counter] = sqrt(3)*param[counter]/(x$clusters)
+    param[counter] = (1/sqrt(3))*exp(mean(log(x$adev[qn]) + log(x$levels[qn])))
+    implied[,counter] = sqrt(3)*param[counter]/(x$levels)
 
     if (counter == 1){
       model_estimated = QN(q2 = (param[counter])^2)
@@ -481,8 +476,8 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
     }
     counter = counter + 1
     process[counter] = "RW"
-    param[counter] = sqrt(3)*exp(mean(log(x$adev[rw]) - log(x$clusters[rw])/2))
-    implied[,counter] = param[counter]*sqrt(x$clusters/3)
+    param[counter] = sqrt(3)*exp(mean(log(x$adev[rw]) - log(x$levels[rw])/2))
+    implied[,counter] = param[counter]*sqrt(x$levels/3)
 
     if (counter == 1){
       model_estimated = RW(gamma2 = (param[counter])^2)
@@ -497,8 +492,8 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
     }
     counter = counter + 1
     process[counter] = "DR"
-    param[counter] = sqrt(2)*exp(mean(log(x$adev[dr]) - log(x$clusters[dr])))
-    implied[,counter] = param[counter]*x$clusters/2
+    param[counter] = sqrt(2)*exp(mean(log(x$adev[dr]) - log(x$levels[dr])))
+    implied[,counter] = param[counter]*x$levels/2
 
     if (counter == 1){
       model_estimated = DR(omega = param[counter])
@@ -662,7 +657,7 @@ plot.avlr = function(x, decomp = FALSE,
 
   # Main Title
   if (is.null(main)){
-    main = "Allan Variance Representation"
+    main = "Allan Deviation Representation"
   }
 
   # Line and CI colors
@@ -675,8 +670,8 @@ plot.avlr = function(x, decomp = FALSE,
   }
 
   # Range
-  x_range = range(x$av$clusters)
-  if(length(x$av$clusters) >= 10){
+  x_range = range(x$av$levels)
+  if(length(x$av$levels) >= 10){
     x_low = floor(log10(x_range[1]))
     x_high = ceiling(log10(x_range[2]))
   }else{
@@ -735,7 +730,7 @@ plot.avlr = function(x, decomp = FALSE,
   win_dim = par("usr")
 
   # Add Grid
-  if(length(x$av$clusters) >=10){
+  if(length(x$av$levels) >=10){
     abline(v = 10^x_ticks, lty = 1, col = "grey95")
   }else{
     abline(v = 2^x_ticks, lty = 1, col = "grey95")
@@ -755,7 +750,7 @@ plot.avlr = function(x, decomp = FALSE,
   #y_ticks = y_ticks[(2^y_ticks) < 10^(win_dim[4] - 0.09*(win_dim[4] - win_dim[3]))]
   y_labels = y_labels[1:length(y_ticks)]
   box()
-  if(length(x$av$clusters) >=10){
+  if(length(x$av$levels) >=10){
     axis(1, at = 10^x_ticks, labels = x_labels, padj = 0.3)
   }else{
     axis(1, at = 2^x_ticks, labels = x_labels, padj = 0.3)
@@ -764,7 +759,7 @@ plot.avlr = function(x, decomp = FALSE,
 
   # CI for WV
   if (ci_wv == TRUE || is.null(ci_wv)){
-    polygon(c(x$av$cluster, rev(x$av$cluster)), c(x$av$adev - x$av$errors*x$av$adev, rev(x$av$adev + x$av$errors*x$av$adev)),
+    polygon(c(x$av$levels, rev(x$av$levels)), c(x$av$adev - x$av$errors*x$av$adev, rev(x$av$adev + x$av$errors*x$av$adev)),
             border = NA, col = col_ci)
   }
 
@@ -783,15 +778,15 @@ plot.avlr = function(x, decomp = FALSE,
   if(decomp == TRUE){
     # Plot lines of decomp theo
     for (i in 1:U){
-      lines(x$av$clusters, x$implied_ad_decomp[,i], col = col_decomp[i])
+      lines(x$av$levels, x$implied_ad_decomp[,i], col = col_decomp[i])
     }
   }
   # Plot implied AD
-  lines(t(x$av$clusters),x$implied_ad, type = "l", lwd = 3, col = "#F47F24", pch = 1, cex = 1.5)
-  lines(t(x$av$clusters),x$implied_ad, type = "p", lwd = 2, col = "#F47F24", pch = 1, cex = 1.5)
+  lines(t(x$av$levels),x$implied_ad, type = "l", lwd = 3, col = "#F47F24", pch = 1, cex = 1.5)
+  lines(t(x$av$levels),x$implied_ad, type = "p", lwd = 2, col = "#F47F24", pch = 1, cex = 1.5)
 
   # Add WV
-  lines(x$av$clusters, x$av$adev, type = "l", col = col_wv, pch = 16)
+  lines(x$av$levels, x$av$adev, type = "l", col = col_wv, pch = 16)
 
   if (is.null(point_pch)){
     point_pch = 16
@@ -800,7 +795,7 @@ plot.avlr = function(x, decomp = FALSE,
   if (is.null(point_cex)){
     point_cex = 1.25
   }
-  lines(x$av$clusters, x$av$adev, type = "p", col = col_wv, pch = point_pch, cex = point_cex)
+  lines(x$av$levels, x$av$adev, type = "p", col = col_wv, pch = point_pch, cex = point_cex)
 
   # Add legend
   CI_conf = .95

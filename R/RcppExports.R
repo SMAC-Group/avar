@@ -3,7 +3,6 @@
 
 #' @title Compute Tau-Overlap Allan Variance
 #' @description Computation of Tau-Overlap Allan Variance
-#' @usage avar_to_cpp(x)
 #' @param x A \code{vector} with dimensions N x 1.
 #' @return av A \code{matrix} that contains:
 #' \itemize{
@@ -39,7 +38,6 @@ avar_to_cpp <- function(x) {
 
 #' @title Compute Maximal-Overlap Allan Variance using Means
 #' @description Computation of Maximal-Overlap Allan Variance
-#' @usage avar_mo_cpp(x)
 #' @param x A \code{vector} with dimensions N x 1.
 #' @return av A \code{list} that contains:
 #' \itemize{
