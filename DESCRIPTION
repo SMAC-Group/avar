@@ -1,6 +1,6 @@
 Package: av
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Allan Variance Linear Regresssion Estimator
 Version: 0.1.0
 Authors@R: c(
     person("Stephane", "Guerrier", email = "stef.guerrier@gmail.com", role = c("aut","cre","cph")),

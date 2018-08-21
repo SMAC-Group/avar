@@ -12,7 +12,6 @@
 #' This function allows us to calculate the theoretical allan variance for stationary
 #' first-order autoregressive (AR1) process.
 #' @export
-#' @usage av_ar1(n, phi, sigma2)
 #' @param n An \code{integer} value for the size of the cluster.
 #' @param phi A \code{double} value for the autocorrection parameter \eqn{\phi}{phi}.
 #' @param sigma2 A \code{double} value for the variance parameter \eqn{\sigma ^2}{sigma^2}.
@@ -42,7 +41,6 @@ av_ar1 = function(n, phi, sigma2){
 #' This function allows us to calculate the theoretical allan variance for stationary
 #' white noise process.
 #' @export
-#' @usage av_wn(sigma2, n)
 #' @param sigma2 A \code{double} value for the variance parameter \eqn{\sigma ^2}{sigma^2}.
 #' @param n An \code{integer} value for the size of the cluster.
 #' @return A \code{double} indicating the theoretical allan variance for the white noise
@@ -67,7 +65,6 @@ av_wn = function(sigma2, n){
 #' This function allows us to calculate the theoretical allan variance for stationary
 #' quantization noise process.
 #' @export
-#' @usage av_qn(Q2, n)
 #' @param Q2 A \code{double} value for the noise parameter \eqn{Q^2}{Q^2}.
 #' @param n An \code{integer} value for the size of the cluster.
 #' @return A \code{double} indicating the theoretical allan variance for the quantization noise
@@ -92,7 +89,6 @@ av_qn = function(Q2, n){
 #' This function allows us to calculate the theoretical allan variance for
 #' random walk process.
 #' @export
-#' @usage av_rw(omega2, n)
 #' @param omega2 A \code{double} value for the noise parameter \eqn{\omega ^2}{omega^2}.
 #' @param n An \code{integer} value for the size of the cluster.
 #' @return A \code{double} indicating the theoretical allan variance for the random walk
@@ -117,7 +113,6 @@ av_rw = function(omega2, n){
 #' This function allows us to calculate the theoretical allan variance for
 #' drift process.
 #' @export
-#' @usage av_dr(delta, n)
 #' @param delta A \code{double} value for the noise parameter \eqn{\delta}{delta}.
 #' @param n An \code{integer} value for the size of the cluster.
 #' @return A \code{double} indicating the theoretical allan variance for the drift

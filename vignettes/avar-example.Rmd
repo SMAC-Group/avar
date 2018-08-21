@@ -1,0 +1,72 @@
+---
+title: "Allan Variance Linear Regression Estimator Example"
+author: "Gaetan Bakalli"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Beforehand, we need to load the following packages:
+
+```{r, include=T}
+library(av)
+library(simts)
+library(imudata)
+```
+## Data Analysis
+
+To understand the capabilities of the `avar` packages, we are going to analyze data coming from the `imudata` package, specificaly from a Adis 16405 IMU Gyroscope Y-axis, for which the Allan-deviation representation is given in the following figure:
+
+```{r, fig.height = 7, fig.width = 7, fig.align = 'center', fig.cap = "Allan Variance Representation Adis 16405 IMU Gyroscope Y-axis."}
+data(adis_16405_imu1)
+
+# Select the axis
+data = adis_16405_imu1[,2]
+
+# Compute the Maximum-Overlap Allan Variance
+allan_variance = avar(data, type = "mo")
+
+# Log-Log representation of the Allan Variance
+plot(allan_variance)
+```
+
+Based on this graph, we can see that our model should include a White Noise (WN) process for the 12 first scale wether we will consider a Random Walk (RW) for the remaining ones. 
+
+```{r, warning = F, cache = T}
+
+# Specify the scale at which we want to fit the WN and RW process
+wn = 1:12
+rw = 16:18
+
+# Compute the Allan Variance Linear Regression Estimator (AVLR)
+fit = avlr(allan_variance, wn = 1:12, rw = 16:18)
+fit
+```
+
+Now that we have computed the parameters of interest, we can see graphically if the choosen latent model fits well the data at hand:
+
+```{r, fig.height = 7, fig.width = 7, fig.align = 'center', fig.cap = "Empirical AV with AV implied by the latent model WN + RW"}
+
+plot(fit)
+plot(fit, decomp = T)
+```
+
+
+As we can see, the model fits the data well, therefore, we are going to compute the confidence intervals for those parameter through the option `ci = TRUE`.
+
+```{r, warning = F, eval = F}
+
+# AVLR estimator with 95% confidence intervals
+fit_ci = avlr(allan_variance, wn = 1:12, rw = 16:18, ci = TRUE, B = 100)
+
+```
