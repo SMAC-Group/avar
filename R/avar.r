@@ -402,7 +402,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #' plot(av)
 #'
 #' # Parameter estimation
-#' fit = avlr(x, wn = 1:8, rw = 10:15)
+#' fit = avlr(av, wn = 1:8, rw = 10:15)
 #' plot(fit, decomp = TRUE)
 #'
 #' # Point estimates
