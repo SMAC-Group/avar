@@ -1,7 +1,7 @@
 Package: av
 Type: Package
 Title: Allan Variance Linear Regresssion Estimator
-Version: 0.1.0
+Version: 1.1.0
 Authors@R: c(
     person("Stephane", "Guerrier", email = "stef.guerrier@gmail.com", role = c("aut","cre","cph")),
     person("James", "Balamuta", role = "aut"),
@@ -13,15 +13,16 @@ Authors@R: c(
     person("Yuming", "Zhang", role = "aut")
     )
 Maintainer: Maintainer: Stephane Guerrier <stef.guerrier@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: This package implement the Allan Variance and 
+    Allan Variance Linear Regression Estimator for Latent time series models.
 License: CC BY-NC-SA 4.0
 Imports: Rcpp (>= 0.12.16), 
     simts,
-    imudata
+    imudata, 
 Suggests: covr,
     testthat,
     knitr,
+    stats,
     rmarkdown
 LinkingTo: Rcpp,
     RcppArmadillo

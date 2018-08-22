@@ -67,7 +67,7 @@ avar = function(x, type = "mo", freq = 1) {
   }
 
   if(sum(class(x) == "imu") == 1){
-    freq = attributes(cont.imu1)$freq
+    freq = attributes(x)$freq
     x = as.vector(x)
   }
 
@@ -536,7 +536,25 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
   invisible(x)
 }
 
-#'@keywords internal
+#' Compute bootstrap confidence intervals for avlr estimator
+#'
+#' Displays information about avlr object
+#' @keywords internal
+#' @importFrom stats quantile sd
+#' @param model A \code{ts.model} object that was estimated with the avlr function.
+#' @param B     A \code{double} for the number of bootsrap replicates to compute the confidence intervals.
+#' @param n     A \code{double} with the sample size
+#' @param qn    A \code{vec} specifying on which scales the parameters of a Quantization Noise (QN) was computed.
+#' @param wn    A \code{vec} specifying on which scales the parameters of a White Noise (WN) was computed.
+#' @param rw    A \code{vec} specifying on which scales the parameters of a Random Wakk (RW) was computed.
+#' @param dr    A \code{vec} specifying on which scales the parameters of a Drift (DR) was computed.
+#' @param type  A \code{string} containing either \code{"mo"} (default) for Maximal Overlap or \code{"to"} for Tau Overlap
+#' @param alpha A \code{double} for the level of confidence \code{alpha} to compute the confidence intervals.
+#' @return   A \code{list} that contains:
+#' \itemize{
+#'  \item{"ci"}{The \code{alpha}-level confidence intervals.}
+#'  \item{"sd"}{The the standard deviation of the estimated parameter.}
+#' }
 boostrap_ci_avlr = function(model, B, n, qn, wn, rw, dr, type, alpha){
   results = matrix(NA, B, model$plength)
   print("Starting bootstrap:")
@@ -604,7 +622,7 @@ print.avlr = function(x, ...) {
 #'
 #' @description
 #' Displays a plot of allan deviation accounting for CI values with the AD implied by the estimated parameters
-#' @method plot avar
+#' @method plot avlr
 #' @param x                A \code{avlr} object.
 #' @param decomp           A \code{boolean} that determines whether the latent proceses individual contributions are plotted.
 #' @param units            A \code{string} that specifies the units of time plotted on the x axis.

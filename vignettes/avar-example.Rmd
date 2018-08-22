@@ -42,7 +42,7 @@ plot(allan_variance)
 
 Based on this graph, we can see that our model should include a White Noise (WN) process for the 12 first scale wether we will consider a Random Walk (RW) for the remaining ones. 
 
-```{r, warning = F, cache = T}
+```{r, warning = F}
 
 # Specify the scale at which we want to fit the WN and RW process
 wn = 1:12
