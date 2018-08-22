@@ -29,6 +29,7 @@ To understand the capabilities of the `avar` packages, we are going to analyze d
 ```{r, fig.height = 7, fig.width = 7, fig.align = 'center', fig.cap = "Allan Variance Representation Adis 16405 IMU Gyroscope Y-axis."}
 model = WN(0.01) + RW(1e-9)
 
+set.seed(2710)
 # Select the axis
 data = gen_gts(100000, model)
 

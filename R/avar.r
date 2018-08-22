@@ -391,30 +391,31 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #' library(simts)
 #'
 #' # Set seed for reproducibility
-#' set.seed(999)
+#' set.seed(99)
 #'
 #' # Simulate time series
+#'
 #' N = 100000
-#' x = gen_gts(N, WN(sigma2 = 1) + RW(gamma2 = 1e-5))
+#' x = gen_gts(N, WN(sigma2 = 1)  + RW(gamma2 = 1e-5))
 #'
 #' # Compute av
 #' av = avar(x)
 #' plot(av)
 #'
 #' # Parameter estimation
-#' fit = avlr(av, wn = 1:8, rw = 10:15)
+#' fit = avlr(x, wn = 1:8, rw = 11:15)
 #' plot(fit, decomp = TRUE)
 #'
 #' # Point estimates
 #' fit
 #'
 #' # Compute confidence intervals (this can take some time)
-#' fit = avlr(x, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
+#' fit = avlr(av, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
 #'
 #' # Estimated confidence intervals and standard deviations
 #' fit$ci
 avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
-                ci = FALSE, B = 100, alpha = 0.05){
+                type = "mo", ci = FALSE, B = 100, alpha = 0.05){
 
   if(is.null(x) | length(x) <=1){
     stop("Please provide a time series vector, an 'imu' object or a 'avar' objet")
@@ -422,7 +423,14 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
     if(dim(as.matrix(x))[2] >1){
       stop("Please provide a time series vector, an 'imu' object or a 'avar' objet")
     }
+    if(is.null(type)){
+      x = avar(x, type = "mo")
+    }else{
+      x = avar(x)
+    }
   }
+
+
 
   if(sum(sapply(list(qn,wn,rw,dr), is.null)) == 4){
     stop("Please specify a least one process")
