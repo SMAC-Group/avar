@@ -2,7 +2,7 @@
 % Please edit documentation in R/avar.r
 \name{avar}
 \alias{avar}
-\title{Calculate the Allan Variance}
+\title{Compute the Empirical Allan Variance}
 \usage{
 avar(x, type = "mo", freq = 1)
 }
@@ -11,20 +11,19 @@ avar(x, type = "mo", freq = 1)
 
 \item{type}{A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap.}
 
-\item{freq}{A \code{integer} with the frequency of the error signal.}
+\item{freq}{An \code{integer} with the frequency of the error signal.}
 }
 \value{
 A \code{list} that contains:
 \itemize{
- \item{"clusters": }{The size of the cluster.}
- \item{"allan": }{The Allan variance.}
+ \item{"levels": }{The length of the Allan filter at each level.}
+ \item{"allan": }{The estimated Allan variance.}
  \item{"type": }{Type of estimator (\code{mo} or \code{to}).}
- \item{"n": }{Sample size of the time series.}
- \item{"errors": }{The errors associated with the variance estimation.}
+ \item{"n": }{Length of the observed time series.}
 }
 }
 \description{
-This function computes the Allan variance.
+This function estimates the Allan variance.
 }
 \details{
 The decomposition and the amount of time it takes to perform this function depends on whether you are using
@@ -33,9 +32,9 @@ the Maximal Overlap or the Tau Overlap.
 \section{Maximal Overlap Allan Variance}{
 
 Given \eqn{N} equally spaced samples with averaging time \eqn{\tau = n\tau _0}{tau = n*tau_0},
-where \eqn{n} is an integer such that \eqn{ 1 \le n \le \frac{N}{2}}{1<= n <= N/2}.
-Therefore, \eqn{n} is able to be selected from \eqn{\left\{ {n|n < \left\lfloor {{{\log }_2}\left( N \right)} \right\rfloor } \right\}}{{n | n < floor(log2(N))}}
-Then, \eqn{M = N - 2n} samples exist.
+we define \eqn{n} as an integer such that \eqn{ 1 \le n \le \frac{N}{2}}{1<= n <= N/2}.
+Therefore, \eqn{n} can be selected from \eqn{\left\{ {n|n < \left\lfloor {{{\log }_2}\left( N \right)} \right\rfloor } \right\}}{{n | n < floor(log2(N))}}
+Based on the latter, we have \eqn{M = N - 2n} levels of decomposition.
 The Maximal-overlap estimator is given by:
 \deqn{\frac{1}{{2\left( {N - 2k + 1} \right)}}\sum\limits_{t = 2k}^N {{{\left[ {{{\bar Y}_t}\left( k \right) - {{\bar Y}_{t - k}}\left( k \right)} \right]}^2}} }{See PDF Manual}
 
@@ -45,9 +44,9 @@ where \deqn{ {{\bar y}_t}\left( \tau  \right) = \frac{1}{\tau }\sum\limits_{i = 
 \section{Tau-Overlap Allan Variance}{
 
 Given \eqn{N} equally spaced samples with averaging time \eqn{\tau = n\tau _0}{tau = n*tau_0},
-where \eqn{n} is an integer such that \eqn{ 1 \le n \le \frac{N}{2}}{1<= n <= N/2}.
-Therefore, \eqn{n} is able to be selected from \eqn{\left\{ {n|n < \left\lfloor {{{\log }_2}\left( N \right)} \right\rfloor } \right\}}{{n | n < floor(log2(N))}}
-Then, a sampling of \eqn{m = \left\lfloor {\frac{{N - 1}}{n}} \right\rfloor  - 1} samples exist.
+we define \eqn{n} as an integer such that \eqn{ 1 \le n \le \frac{N}{2}}{1<= n <= N/2}.
+Therefore, \eqn{n} can be selected from \eqn{\left\{ {n|n < \left\lfloor {{{\log }_2}\left( N \right)} \right\rfloor } \right\}}{{n | n < floor(log2(N))}}
+Based on the latter, we have \eqn{m = \left\lfloor {\frac{{N - 1}}{n}} \right\rfloor  - 1} levels of decomposition.
 The tau-overlap estimator is given by:
 
 where \eqn{ {{\bar y}_t}\left( \tau  \right) = \frac{1}{\tau }\sum\limits_{i = 0}^{\tau  - 1} {{{\bar y}_{t - i}}} }{See PDF Manual}.

@@ -4,8 +4,8 @@
 \alias{avlr}
 \title{Computes the Allan Variance Linear Regression estimator}
 \usage{
-avlr(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = "mo",
-  ci = FALSE, B = 100, alpha = 0.05)
+avlr(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, ci = FALSE,
+  B = 100, alpha = 0.05)
 }
 \arguments{
 \item{x}{A \code{vec} of time series observations, an \code{imu} object or an \code{avar} object.}
@@ -18,13 +18,13 @@ avlr(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = "mo",
 
 \item{dr}{A \code{vec} specifying on which scales the parameters of a Drift (DR) should be computed.}
 
-\item{type}{A \code{string} containing either \code{"mo"} (default) for Maximal Overlap or \code{"to"} for Tau Overlap}
-
 \item{ci}{A \code{bolean} to compute confidence intervals for the parameter.}
 
 \item{B}{A \code{double} for the number of bootsrap replicates to compute the confidence intervals.}
 
 \item{alpha}{A \code{double} for the level of confidence \code{alpha} to compute the confidence intervals.}
+
+\item{type}{A \code{string} containing either \code{"mo"} (default) for Maximal Overlap or \code{"to"} for Tau Overlap}
 }
 \value{
 avlr   A \code{list} that contains:
@@ -36,7 +36,7 @@ avlr   A \code{list} that contains:
 }
 }
 \description{
-Compute the latent processes parameters estimator based on the Allan Variance
+Estimate the parameters of time series models based on the Allan Variance Linear Regression (AVLR) approach
 }
 \examples{
 # Load simts package
@@ -54,14 +54,14 @@ av = avar(x)
 plot(av)
 
 # Parameter estimation
-fit = avlr(av, wn = 1:8, rw = 10:15)
+fit = avlr(x, wn = 1:8, rw = 10:15)
 plot(fit, decomp = TRUE)
 
 # Point estimates
 fit
 
 # Compute confidence intervals (this can take some time)
-fit = avlr(av, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
+fit = avlr(x, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
 
 # Estimated confidence intervals and standard deviations
 fit$ci
