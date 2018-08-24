@@ -33,12 +33,49 @@ library(av)
 
 This package provides the tools necessary to compute the empirical Allan Variance (AV) and use it to estimate the parameters of (latent) time series models. The estimation of the Allan Variance is based on the estimator proposed by @allan1966statistics and, based on this quantity, the Allan Variance Linear Regression approach is often used by engineers to retrieve the parameters of time series models which are assumed to underlie the observed signals [see for example @guerrier2016theoretical]. These estimators are implemented in this package along with the relevant plotting and summary functions.
 
+To see what `simts` is capable of, please refer to the "Vignettes" tabs above.
+
+## Install Instructions
+
+To install the `simts` package, there is currently one option: [GitHub](https://github.com/SMAC-Group/av/).
+
+### Installing the package through GitHub
+
+For users who are interested in having the latest developments, this option is ideal. Though, more dependancies are required to run a stable version of the package. Most importantly, users **must** have a compiler installed on their machine that is compatible with R (e.g. Clang).
+
+*The setup to obtain the development version of `simts` is platform dependent.*
+
+### Requirements and Dependencies
+
+**OS X**
+
+Some users report the need to use X11 to suppress shared library errors. To install X11, visit [xquartz.org](http://www.xquartz.org/).
+
+**Linux**
+
+Both curl and libxml are required.
+
+For **Debian** systems, enter the following in terminal:
+
+```{r, eval = F, engine='bash'}
+sudo apt-get install curl libcurl3 libcurl3-dev libxml2 libxml2-dev
+```
+
+For **RHEL** systems, enter the following in terminal:
+
+```{r, eval = F, engine='bash'}
+sudo yum install curl curl-devel libxml2 libxml2-dev
+```
+
+
 ```{r, eval = F}
 # Install dependencies
 install.packages(c("devtools"))
 
 # Install/Update the package from GitHub
 devtools::install_github("SMAC-Group/av")
+
+# Install the package with Vignettes/User Guides 
+devtools::install_github("SMAC-Group/av", build_vignettes = TRUE)
 ```
 
-# References
