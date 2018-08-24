@@ -12,7 +12,7 @@ Authors@R: c(
     person("Hoatian", "Xu", role = "aut"),
     person("Yuming", "Zhang", role = "aut")
     )
-Maintainer: Maintainer: Stephane Guerrier <stef.guerrier@gmail.com>
+Maintainer: Maintainer: Stephane Guerrier <gaetan.bakalli@gmail.com>
 Description: This package implement the Allan Variance and 
     Allan Variance Linear Regression Estimator for Latent time series models.
 License: CC BY-NC-SA 4.0
