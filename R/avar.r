@@ -405,7 +405,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #' N = 100000
 #' x = gen_gts(N, WN(sigma2 = 1)  + RW(gamma2 = 1e-5))
 #'
-#' # Compute av
+#' # Compute Allan variance
 #' av = avar(x)
 #' plot(av)
 #'
@@ -526,6 +526,7 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
                                 wn = wn, rw = rw, dr = dr,
                                 alpha = alpha)
     param = 2*param - out_boot$mu
+    out_boot$ci = cbind(param - dnorm(1-alpha/2)*out_boot$sd, param + dnorm(1-alpha/2)*out_boot$sd)
     print("Parameter estimates corrected for bias via bootstrap")
   }else{
     out_boot = NULL
@@ -568,11 +569,12 @@ boostrap_ci_avlr = function(model, B, n, qn, wn, rw, dr, alpha){
                                    dr = dr, ci = FALSE)$estimates)
   }
 
+  mean_parameters = rep(NA, model$plength)
   ci_parameters = matrix(NA, model$plength, 2)
   sd_parameters = rep(NA, model$plength)
 
   for (i in 1:model$plength){
-    mean_parameters[i, ] = mean(results[,i])
+    mean_parameters[i] = mean(results[,i])
     ci_parameters[i, ] = as.numeric(quantile(results[,i], probs = c(alpha/2, 1 - alpha/2)))
     sd_parameters[i] = sd(results[,i])
   }
