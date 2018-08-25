@@ -2,17 +2,17 @@
 % Please edit documentation in R/avar.r
 \name{plot.avlr}
 \alias{plot.avlr}
-\title{Plot Allan Variance Linear Regression Fit}
+\title{Plot the AVLR with the Allan Deviation}
 \usage{
 \method{plot}{avlr}(x, decomp = FALSE, units = NULL, xlab = NULL,
-  ylab = NULL, main = NULL, col_wv = NULL, col_ci = NULL,
+  ylab = NULL, main = NULL, col_ad = NULL, col_ci = NULL,
   nb_ticks_x = NULL, nb_ticks_y = NULL, legend_position = NULL,
-  ci_wv = NULL, point_cex = NULL, point_pch = NULL, ...)
+  ci_ad = NULL, point_cex = NULL, point_pch = NULL, ...)
 }
 \arguments{
-\item{x}{A \code{avlr} object.}
+\item{x}{An \code{avlr} object.}
 
-\item{decomp}{A \code{boolean} that determines whether the latent proceses individual contributions are plotted.}
+\item{decomp}{A \code{boolean} that determines whether the contributions of each individual model are plotted.}
 
 \item{units}{A \code{string} that specifies the units of time plotted on the x axis.}
 
@@ -22,9 +22,9 @@
 
 \item{main}{A \code{string} that gives an overall title for the plot.}
 
-\item{col_wv}{A \code{string} that specifies the color of the wavelet variance line.}
+\item{col_ad}{A \code{string} that specifies the color of the line allan deviation line.}
 
-\item{col_ci}{A \code{string} that specifies the color of the confidence interval polygon.}
+\item{col_ci}{A \code{string} that specifies the color of the shaded area covered by the confidence intervals.}
 
 \item{nb_ticks_x}{An \code{integer} that specifies the maximum number of ticks for the x-axis.}
 
@@ -32,7 +32,7 @@
 
 \item{legend_position}{A \code{string} that specifies the position of the legend (use \code{legend_position = NA} to remove legend).}
 
-\item{ci_wv}{A \code{boolean} that determines whether a confidence interval polygon will be drawn.}
+\item{ci_ad}{A \code{boolean} that determines whether to plot the confidence interval shaded area.}
 
 \item{point_cex}{A \code{double} that specifies the size of each symbol to be plotted.}
 
@@ -41,10 +41,10 @@
 \item{...}{Additional arguments affecting the plot.}
 }
 \value{
-Plot of allan deviation and confidence interval for each scale.
+Plot of Allan deviation and relative confidence intervals for each scale.
 }
 \description{
-Displays a plot of allan deviation accounting for CI values with the AD implied by the estimated parameters
+Displays a plot of the Allan deviation (AD) with the CI values and the AD implied by the estimated parameters.
 }
 \examples{
 # Load simts package
@@ -63,7 +63,7 @@ x = avlr(ts, wn = 1:12, rw = 12:15)
 plot.avlr(x)
 plot.avlr(x, decomp = TRUE, main = "Simulated white noise", xlab = "Scales")
 plot.avlr(x, units = "sec", legend_position = "topright")
-plot.avlr(x, col_wv = "darkred", col_ci = "pink")
+plot.avlr(x, col_ad = "darkred", col_ci = "pink")
 }
 \author{
 Stephane Guerrier and Justin Lee

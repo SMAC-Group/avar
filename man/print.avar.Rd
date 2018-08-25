@@ -15,7 +15,7 @@
 console output
 }
 \description{
-Displays the allan variance information
+Displays the information on the output of the `avar()` function
 }
 \examples{
 # Load simts package

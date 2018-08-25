@@ -2,15 +2,15 @@
 % Please edit documentation in R/avar.r
 \name{plot.avar}
 \alias{plot.avar}
-\title{Plot Allan Variance}
+\title{Plot Allan Deviation}
 \usage{
 \method{plot}{avar}(x, units = NULL, xlab = NULL, ylab = NULL,
-  main = NULL, col_wv = NULL, col_ci = NULL, nb_ticks_x = NULL,
-  nb_ticks_y = NULL, legend_position = NULL, ci_wv = NULL,
+  main = NULL, col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL,
+  nb_ticks_y = NULL, legend_position = NULL, ci_ad = NULL,
   point_cex = NULL, point_pch = NULL, ...)
 }
 \arguments{
-\item{x}{A \code{avar} object.}
+\item{x}{An \code{avar} object.}
 
 \item{units}{A \code{string} that specifies the units of time plotted on the x axis.}
 
@@ -20,9 +20,9 @@
 
 \item{main}{A \code{string} that gives an overall title for the plot.}
 
-\item{col_wv}{A \code{string} that specifies the color of the wavelet variance line.}
+\item{col_ad}{A \code{string} that specifies the color of the line allan deviation line.}
 
-\item{col_ci}{A \code{string} that specifies the color of the confidence interval polygon.}
+\item{col_ci}{A \code{string} that specifies the color of the shaded area covered by the confidence intervals.}
 
 \item{nb_ticks_x}{An \code{integer} that specifies the maximum number of ticks for the x-axis.}
 
@@ -30,7 +30,7 @@
 
 \item{legend_position}{A \code{string} that specifies the position of the legend (use \code{legend_position = NA} to remove legend).}
 
-\item{ci_wv}{A \code{boolean} that determines whether a confidence interval polygon will be drawn.}
+\item{ci_ad}{A \code{boolean} that determines whether to plot the confidence interval shaded area.}
 
 \item{point_cex}{A \code{double} that specifies the size of each symbol to be plotted.}
 
@@ -39,10 +39,10 @@
 \item{...}{Additional arguments affecting the plot.}
 }
 \value{
-A plot of Allan variance and confidence interval for each scale.
+A plot of the Allan deviation and relative confidence interval for each scale.
 }
 \description{
-Displays a plot of Allan variance accounting for confidence interval values.
+Displays a plot of Allan deviation with its corresponding pointwise confidence intervals.
 }
 \examples{
 # Load simts package
@@ -61,8 +61,8 @@ av = avar(x)
 plot(av)
 plot(av, main = "Simulated white noise", xlab = "Scales")
 plot(av, units = "sec", legend_position = "topright")
-plot(av, col_wv = "darkred", col_ci = "pink")
+plot(av, col_ad = "darkred", col_ci = "pink")
 }
 \author{
-Stephane Guerrier, Nathanael Claussen, and Justin Lee
+Stephane Guerrier, Nathanael Claussen and Justin Lee
 }

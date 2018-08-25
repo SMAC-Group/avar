@@ -4,11 +4,11 @@
 \alias{avlr}
 \title{Computes the Allan Variance Linear Regression estimator}
 \usage{
-avlr(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = "mo",
-  ci = FALSE, B = 100, alpha = 0.05)
+avlr(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, ci = FALSE,
+  B = 100, alpha = 0.05)
 }
 \arguments{
-\item{x}{A \code{vec} of time series observations, an \code{imu} object or an \code{avar} object.}
+\item{x}{A \code{vec} of time series observations or an \code{imu} object.}
 
 \item{qn}{A \code{vec} specifying on which scales the parameters of a Quantization Noise (QN) should be computed.}
 
@@ -18,21 +18,19 @@ avlr(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL, type = "mo",
 
 \item{dr}{A \code{vec} specifying on which scales the parameters of a Drift (DR) should be computed.}
 
-\item{type}{A \code{string} containing either \code{"mo"} (default) for Maximal Overlap or \code{"to"} for Tau Overlap}
+\item{ci}{A \code{boolean} to compute parameter confidence intervals.}
 
-\item{ci}{A \code{bolean} to compute confidence intervals for the parameter.}
+\item{B}{A \code{double} for the number of bootstrap replicates to compute the parameter confidence intervals.}
 
-\item{B}{A \code{double} for the number of bootsrap replicates to compute the confidence intervals.}
-
-\item{alpha}{A \code{double} for the level of confidence \code{alpha} to compute the confidence intervals.}
+\item{alpha}{A \code{double} defining the level of the confidence interval (1 - `alpha`).}
 }
 \value{
 avlr   A \code{list} that contains:
 \itemize{
- \item{"estimates"}
- \item{"implied_ad"}{The Allan Deviation implied by the estimated parameter.}
- \item{"implied_ad_decomp"}{The Allan Deviation implied by the estimated parameter for the sub-processes.}
- \item{"av"}{The \code{avar} object provided or corresponding to the data provided.}
+ \item{"estimates"}{The estimated value of the parameters.}
+ \item{"implied_ad"}{The Allan deviation implied by the estimated parameters.}
+ \item{"implied_ad_decomp"}{The Allan deviation implied by the estimated parameters for each individual model (if more than one is specified).}
+ \item{"av"}{The \code{avar} object computed from the provided data.}
 }
 }
 \description{
@@ -50,7 +48,7 @@ set.seed(99)
 N = 100000
 x = gen_gts(N, WN(sigma2 = 1)  + RW(gamma2 = 1e-5))
 
-# Compute av
+# Compute Allan variance
 av = avar(x)
 plot(av)
 
@@ -61,8 +59,8 @@ plot(fit, decomp = TRUE)
 # Point estimates
 fit
 
-# Compute confidence intervals (this can take some time)
-fit = avlr(av, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
+# Compute confidence intervals (this step is time-demanding)
+fit = avlr(x, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
 
 # Estimated confidence intervals and standard deviations
 fit$ci

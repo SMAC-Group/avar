@@ -16,7 +16,7 @@ avar(x, type = "mo", freq = 1)
 \value{
 A \code{list} that contains:
 \itemize{
- \item{"levels": }{The length of the filter at each level.}
+ \item{"levels": }{The averaging time at each level.}
  \item{"allan": }{The estimated Allan variance.}
  \item{"type": }{Type of estimator (\code{mo} or \code{to}).}
 }

@@ -2,16 +2,16 @@
 % Please edit documentation in R/avar.r
 \name{boostrap_ci_avlr}
 \alias{boostrap_ci_avlr}
-\title{Compute bootstrap confidence intervals for avlr estimator}
+\title{Compute bootstrap confidence intervals for the AVLR estimator}
 \usage{
-boostrap_ci_avlr(model, B, n, qn, wn, rw, dr, type, alpha)
+boostrap_ci_avlr(model, B, n, qn, wn, rw, dr, alpha)
 }
 \arguments{
 \item{model}{A \code{ts.model} object that was estimated with the avlr function.}
 
 \item{B}{A \code{double} for the number of bootsrap replicates to compute the confidence intervals.}
 
-\item{n}{A \code{double} with the sample size}
+\item{n}{A \code{double} with the sample size.}
 
 \item{qn}{A \code{vec} specifying on which scales the parameters of a Quantization Noise (QN) was computed.}
 
@@ -21,18 +21,16 @@ boostrap_ci_avlr(model, B, n, qn, wn, rw, dr, type, alpha)
 
 \item{dr}{A \code{vec} specifying on which scales the parameters of a Drift (DR) was computed.}
 
-\item{type}{A \code{string} containing either \code{"mo"} (default) for Maximal Overlap or \code{"to"} for Tau Overlap}
-
-\item{alpha}{A \code{double} for the level of confidence \code{alpha} to compute the confidence intervals.}
+\item{alpha}{A \code{double} defining the level of the confidence interval (1 - `alpha`).}
 }
 \value{
 A \code{list} that contains:
 \itemize{
- \item{"ci"}{The \code{alpha}-level confidence intervals.}
- \item{"sd"}{The the standard deviation of the estimated parameter.}
+ \item{"ci"}{The 1-\code{alpha} confidence intervals.}
+ \item{"sd"}{The standard deviation of the estimated parameters.}
 }
 }
 \description{
-Displays information about avlr object
+Compute bootstrap confidence intervals for the AVLR estimator
 }
 \keyword{internal}

@@ -15,7 +15,7 @@
 Text output via print
 }
 \description{
-Displays information about avlr object
+Displays information about the avlr object
 }
 \examples{
 \dontrun{
