@@ -11,15 +11,14 @@ avar(x, type = "mo", freq = 1)
 
 \item{type}{A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap.}
 
-\item{freq}{An \code{integer} with the frequency of the error signal.}
+\item{freq}{An \code{integer} with the frequency at which the error signal is measured.}
 }
 \value{
 A \code{list} that contains:
 \itemize{
- \item{"levels": }{The length of the Allan filter at each level.}
+ \item{"levels": }{The length of the filter at each level.}
  \item{"allan": }{The estimated Allan variance.}
  \item{"type": }{Type of estimator (\code{mo} or \code{to}).}
- \item{"n": }{Length of the observed time series.}
 }
 }
 \description{

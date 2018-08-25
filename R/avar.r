@@ -1,6 +1,6 @@
 # Copyright (C) 2017 - 2018 Stéphane Guerrier and Roberto Molinari
 #
-# This file is part of av R Methods Package
+# This file is part of the `av` R Methods Package
 #
 # The `av` R package is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -11,14 +11,13 @@
 #' This function estimates the Allan variance.
 #' @param x     A \code{vec} of time series observations or an \code{imu} object.
 #' @param type  A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap.
-#' @param freq  An \code{integer} with the frequency of the error signal.
+#' @param freq  An \code{integer} with the frequency at which the error signal is measured.
 
 #' @return  A \code{list} that contains:
 #' \itemize{
-#'  \item{"levels": }{The length of the Allan filter at each level.}
+#'  \item{"levels": }{The averaging time at each level.}
 #'  \item{"allan": }{The estimated Allan variance.}
 #'  \item{"type": }{Type of estimator (\code{mo} or \code{to}).}
-#'  \item{"n": }{Length of the observed time series.}
 #' }
 #' @details
 #' The decomposition and the amount of time it takes to perform this function depends on whether you are using
@@ -90,7 +89,7 @@ avar = function(x, type = "mo", freq = 1) {
 
 #' Prints Allan Variance
 #'
-#' Displays the allan variance information
+#' Displays the information on the output of the `avar()` function
 #' @method print avar
 #' @export
 #' @param x   A \code{avar} object.
@@ -112,20 +111,29 @@ avar = function(x, type = "mo", freq = 1) {
 #' # Print results
 #' print( out )
 print.avar = function(x, ...) {
-  cat("\n Clusters: \n")
+  cat("\n Levels: \n")
   print(x$levels, digits=5)
   cat("\n Allan Variances: \n")
   print(x$allan, digits=5)
+  cat("\n Type: \n")
+  print(x$type, digits=5)
 }
 
 #' Summary Allan Variance
 #'
-#' Displays the summary table of allan variance
+#' Displays the summary table of the output of the `avar()` function
 #' @method summary avar
 #' @export
 #' @param object A \code{avar} object.
 #' @param ...    Additional arguments affecting the summary produced.
-#' @return Summary table
+#' A \code{table} that contains:
+#' \itemize{
+#'  \item{"Time": }{The averaging time at each level.}
+#'  \item{"AVar": }{The estimated Allan variance.}
+#'  \item{"ADev": }{The estimated Allan deviation.}
+#'  \item{"Lower CI": }{The lower bound of the confidence interval for the Allan deviation (ADev).}
+#'  \item{"Upper CI": }{The upper bound of the confidence interval for the Allan deviation (ADev).}
+#' }
 #' @examples
 #' # Load simts package
 #' library(simts)
@@ -143,10 +151,10 @@ print.avar = function(x, ...) {
 #' summary( out )
 summary.avar = function(object, ...) {
   out_matrix = matrix(0, nrow = length(object$levels), ncol = 5)
-  colnames(out_matrix) = c("Time", "AVAR", "ADEV", "Lower CI", "Upper CI")
+  colnames(out_matrix) = c("Time", "AVar", "ADev", "Lower CI", "Upper CI")
   out_matrix[,"Time"] = object$levels
-  out_matrix[,"AVAR"] = object$allan
-  out_matrix[,"ADEV"] = object$adev
+  out_matrix[,"AVar"] = object$allan
+  out_matrix[,"ADev"] = object$adev
   out_matrix[,"Lower CI"] = object$lci
   out_matrix[,"Upper CI"] = object$uci
 
@@ -154,27 +162,27 @@ summary.avar = function(object, ...) {
   out_matrix
 }
 
-#' @title Plot Allan Variance
+#' @title Plot Allan Deviation
 #'
 #' @description
-#' Displays a plot of Allan variance accounting for confidence interval values.
+#' Displays a plot of Allan deviation with its corresponding pointwise confidence intervals.
 #' @method plot avar
-#' @param x                A \code{avar} object.
+#' @param x                An \code{avar} object.
 #' @param units            A \code{string} that specifies the units of time plotted on the x axis.
 #' @param xlab             A \code{string} that gives a title for the x axis.
 #' @param ylab             A \code{string} that gives a title for the y axis.
 #' @param main             A \code{string} that gives an overall title for the plot.
-#' @param col_wv           A \code{string} that specifies the color of the wavelet variance line.
-#' @param col_ci           A \code{string} that specifies the color of the confidence interval polygon.
-#' @param ci_wv            A \code{boolean} that determines whether a confidence interval polygon will be drawn.
+#' @param col_ad           A \code{string} that specifies the color of the line allan deviation line.
+#' @param col_ci           A \code{string} that specifies the color of the shaded area covered by the confidence intervals.
+#' @param ci_ad            A \code{boolean} that determines whether to plot the confidence interval shaded area.
 #' @param nb_ticks_x       An \code{integer} that specifies the maximum number of ticks for the x-axis.
 #' @param nb_ticks_y       An \code{integer} that specifies the maximum number of ticks for the y-axis.
 #' @param legend_position  A \code{string} that specifies the position of the legend (use \code{legend_position = NA} to remove legend).
 #' @param point_pch        A \code{double} that specifies the symbol type to be plotted.
 #' @param point_cex        A \code{double} that specifies the size of each symbol to be plotted.
 #' @param ...              Additional arguments affecting the plot.
-#' @return A plot of Allan variance and confidence interval for each scale.
-#' @author Stephane Guerrier, Nathanael Claussen, and Justin Lee
+#' @return A plot of the Allan deviation and relative confidence interval for each scale.
+#' @author Stephane Guerrier, Nathanael Claussen and Justin Lee
 #' @export
 #' @examples
 #' # Load simts package
@@ -193,10 +201,10 @@ summary.avar = function(object, ...) {
 #' plot(av)
 #' plot(av, main = "Simulated white noise", xlab = "Scales")
 #' plot(av, units = "sec", legend_position = "topright")
-#' plot(av, col_wv = "darkred", col_ci = "pink")
+#' plot(av, col_ad = "darkred", col_ci = "pink")
 plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
-                     col_wv = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
-                     legend_position = NULL, ci_wv = NULL, point_cex = NULL,
+                     col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
+                     legend_position = NULL, ci_ad = NULL, point_cex = NULL,
                      point_pch = NULL, ...){
 
   # Labels
@@ -204,7 +212,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
     if (is.null(units)){
       xlab = expression(paste("Scale ", tau, sep =""))
     }else{
-      xlab = bquote(paste("Clustering time ", tau, " [", .(units), "]", sep = " "))
+      xlab = bquote(paste("Averaging time ", tau, " [", .(units), "]", sep = " "))
     }
   }
 
@@ -220,8 +228,8 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   }
 
   # Line and CI colors
-  if (is.null(col_wv)){
-    col_wv = "darkblue"
+  if (is.null(col_ad)){
+    col_ad = "darkblue"
   }
 
   if (is.null(col_ci)){
@@ -316,8 +324,8 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   }
   axis(2, at = 10^y_ticks, labels = y_labels, padj = -0.2)
 
-  # CI for WV
-  if (ci_wv == TRUE || is.null(ci_wv)){
+  # CI for AD
+  if (ci_ad == TRUE || is.null(ci_ad)){
     polygon(c(x$levels, rev(x$levels)), c(x$adev - x$errors*x$adev, rev(x$adev + x$errors*x$adev)),
             border = NA, col = col_ci)
   }
@@ -325,35 +333,35 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   # Add legend
   CI_conf = .95
 
-  wv_title_part1 = "Empirical AD "
+  ad_title_part1 = "Empirical AD "
 
 
   if (!is.na(legend_position)){
     if (legend_position == "topleft"){
       legend_position = 10^c(1.1*win_dim[1], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
       legend(x = legend_position[1], y = legend_position[2],
-             legend = c(as.expression(bquote(paste(.(wv_title_part1), hat(phi)))),
+             legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
                         as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")")))),
-             pch = c(16, 15), lty = c(1, NA), col = c(col_wv, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
+             pch = c(16, 15), lty = c(1, NA), col = c(col_ad, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
     }else{
       if (legend_position == "topright"){
         legend_position = 10^c(0.7*win_dim[2], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
         legend(x = legend_position[1], y = legend_position[2],
-               legend = c(as.expression(bquote(paste(.(wv_title_part1), hat(phi)))),
+               legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
                           as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")")))),
-               pch = c(16, 15), lty = c(1, NA), col = c(col_wv, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
+               pch = c(16, 15), lty = c(1, NA), col = c(col_ad, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
       }else{
         legend(legend_position,
-               legend = c(as.expression(bquote(paste(.(wv_title_part1), hat(phi)))),
+               legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
                           as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")")))),
-               pch = c(16, 15), lty = c(1, NA), col = c(col_wv, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
+               pch = c(16, 15), lty = c(1, NA), col = c(col_ad, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
       }
     }
   }
 
 
   # Add AD
-  lines(x$levels, x$adev, type = "l", col = col_wv, pch = 16)
+  lines(x$levels, x$adev, type = "l", col = col_ad, pch = 16)
 
   if (is.null(point_pch)){
     point_pch = 16
@@ -362,28 +370,27 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   if (is.null(point_cex)){
     point_cex = 1.25
   }
-  lines(x$levels, x$adev, type = "p", col = col_wv, pch = point_pch, cex = point_cex)
+  lines(x$levels, x$adev, type = "p", col = col_ad, pch = point_pch, cex = point_cex)
 }
 
 #' @title Computes the Allan Variance Linear Regression estimator
 #'
 #' @description
 #' Estimate the parameters of time series models based on the Allan Variance Linear Regression (AVLR) approach
-#' @param x     A \code{vec} of time series observations, an \code{imu} object or an \code{avar} object.
+#' @param x     A \code{vec} of time series observations or an \code{imu} object.
 #' @param qn    A \code{vec} specifying on which scales the parameters of a Quantization Noise (QN) should be computed.
 #' @param wn    A \code{vec} specifying on which scales the parameters of a White Noise (WN) should be computed.
 #' @param rw    A \code{vec} specifying on which scales the parameters of a Random Wakk (RW) should be computed.
 #' @param dr    A \code{vec} specifying on which scales the parameters of a Drift (DR) should be computed.
-#' @param type  A \code{string} containing either \code{"mo"} (default) for Maximal Overlap or \code{"to"} for Tau Overlap
-#' @param ci    A \code{bolean} to compute confidence intervals for the parameter.
-#' @param B     A \code{double} for the number of bootsrap replicates to compute the confidence intervals.
-#' @param alpha A \code{double} for the level of confidence \code{alpha} to compute the confidence intervals.
+#' @param ci    A \code{boolean} to compute parameter confidence intervals.
+#' @param B     A \code{double} for the number of bootstrap replicates to compute the parameter confidence intervals.
+#' @param alpha A \code{double} defining the level of the confidence interval (1 - `alpha`).
 #' @return avlr   A \code{list} that contains:
 #' \itemize{
-#'  \item{"estimates"}
-#'  \item{"implied_ad"}{The Allan Deviation implied by the estimated parameter.}
-#'  \item{"implied_ad_decomp"}{The Allan Deviation implied by the estimated parameter for the sub-processes.}
-#'  \item{"av"}{The \code{avar} object provided or corresponding to the data provided.}
+#'  \item{"estimates"}{The estimated value of the parameters.}
+#'  \item{"implied_ad"}{The Allan deviation implied by the estimated parameters.}
+#'  \item{"implied_ad_decomp"}{The Allan deviation implied by the estimated parameters for each individual model (if more than one is specified).}
+#'  \item{"av"}{The \code{avar} object computed from the provided data.}
 #' }
 
 #' @examples
@@ -409,31 +416,27 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #' # Point estimates
 #' fit
 #'
-#' # Compute confidence intervals (this can take some time)
-#' fit = avlr(av, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
+#' # Compute confidence intervals (this step is time-demanding)
+#' fit = avlr(x, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
 #'
 #' # Estimated confidence intervals and standard deviations
 #' fit$ci
 avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
-                type = "mo", ci = FALSE, B = 100, alpha = 0.05){
+                ci = FALSE, B = 100, alpha = 0.05){
 
   if(is.null(x) | length(x) <=1){
-    stop("Please provide a time series vector, an 'imu' object or a 'avar' objet")
+    stop("Please provide a time series vector or an 'imu' object")
   }else if(class(x)[1] != "avar"){
     if(dim(as.matrix(x))[2] >1){
-      stop("Please provide a time series vector, an 'imu' object or a 'avar' objet")
-    }
-    if(is.null(type)){
-      x = avar(x, type = "mo")
-    }else{
+      stop("Please provide a time series vector or an 'imu' object")
+    } else {
       x = avar(x)
     }
   }
 
 
-
   if(sum(sapply(list(qn,wn,rw,dr), is.null)) == 4){
-    stop("Please specify a least one process")
+    stop("Please specify a least one process.")
   }
 
   n_processes = 4 - sum(sapply(list(qn,wn,rw,dr), is.null))
@@ -521,7 +524,9 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
     out_boot = boostrap_ci_avlr(model = model_estimated,
                                 B = B, n = x$n, qn = qn,
                                 wn = wn, rw = rw, dr = dr,
-                                type = type, alpha = alpha)
+                                alpha = alpha)
+    param = 2*param - out_boot$mu
+    print("Parameter estimates corrected for bias via bootstrap")
   }else{
     out_boot = NULL
   }
@@ -536,49 +541,48 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
   invisible(x)
 }
 
-#' Compute bootstrap confidence intervals for avlr estimator
+#' Compute bootstrap confidence intervals for the AVLR estimator
 #'
-#' Displays information about avlr object
 #' @keywords internal
 #' @importFrom stats quantile sd
 #' @param model A \code{ts.model} object that was estimated with the avlr function.
 #' @param B     A \code{double} for the number of bootsrap replicates to compute the confidence intervals.
-#' @param n     A \code{double} with the sample size
+#' @param n     A \code{double} with the sample size.
 #' @param qn    A \code{vec} specifying on which scales the parameters of a Quantization Noise (QN) was computed.
 #' @param wn    A \code{vec} specifying on which scales the parameters of a White Noise (WN) was computed.
 #' @param rw    A \code{vec} specifying on which scales the parameters of a Random Wakk (RW) was computed.
 #' @param dr    A \code{vec} specifying on which scales the parameters of a Drift (DR) was computed.
-#' @param type  A \code{string} containing either \code{"mo"} (default) for Maximal Overlap or \code{"to"} for Tau Overlap
-#' @param alpha A \code{double} for the level of confidence \code{alpha} to compute the confidence intervals.
+#' @param alpha A \code{double} defining the level of the confidence interval (1 - `alpha`).
 #' @return   A \code{list} that contains:
 #' \itemize{
-#'  \item{"ci"}{The \code{alpha}-level confidence intervals.}
-#'  \item{"sd"}{The the standard deviation of the estimated parameter.}
+#'  \item{"ci"}{The 1-\code{alpha} confidence intervals.}
+#'  \item{"sd"}{The standard deviation of the estimated parameters.}
 #' }
-boostrap_ci_avlr = function(model, B, n, qn, wn, rw, dr, type, alpha){
+boostrap_ci_avlr = function(model, B, n, qn, wn, rw, dr, alpha){
   results = matrix(NA, B, model$plength)
   print("Starting bootstrap:")
 
   for (i in 1:B){
     x_star = gen_gts(n = n, model = model)
     results[i, ] = as.numeric(avlr(x_star, qn = qn, wn = wn, rw = rw,
-                                   dr = dr, type = type, ci = FALSE)$estimates)
+                                   dr = dr, ci = FALSE)$estimates)
   }
 
   ci_parameters = matrix(NA, model$plength, 2)
   sd_parameters = rep(NA, model$plength)
 
   for (i in 1:model$plength){
+    mean_parameters[i, ] = mean(results[,i])
     ci_parameters[i, ] = as.numeric(quantile(results[,i], probs = c(alpha/2, 1 - alpha/2)))
     sd_parameters[i] = sd(results[,i])
   }
-  list(ci = ci_parameters, sd = sd_parameters)
+  list(mu = mean_parameters, ci = ci_parameters, sd = sd_parameters)
 }
 
 
 #' Print avlr object
 #'
-#' Displays information about avlr object
+#' Displays information about the avlr object
 #' @method print avlr
 #' @export
 #' @keywords internal
@@ -618,27 +622,27 @@ print.avlr = function(x, ...) {
   }
 }
 
-#' @title Plot Allan Variance Linear Regression Fit
+#' @title Plot the AVLR with the Allan Deviation
 #'
 #' @description
-#' Displays a plot of allan deviation accounting for CI values with the AD implied by the estimated parameters
+#' Displays a plot of the Allan deviation (AD) with the CI values and the AD implied by the estimated parameters.
 #' @method plot avlr
-#' @param x                A \code{avlr} object.
-#' @param decomp           A \code{boolean} that determines whether the latent proceses individual contributions are plotted.
+#' @param x                An \code{avlr} object.
+#' @param decomp           A \code{boolean} that determines whether the contributions of each individual model are plotted.
 #' @param units            A \code{string} that specifies the units of time plotted on the x axis.
 #' @param xlab             A \code{string} that gives a title for the x axis.
 #' @param ylab             A \code{string} that gives a title for the y axis.
 #' @param main             A \code{string} that gives an overall title for the plot.
-#' @param col_wv           A \code{string} that specifies the color of the wavelet variance line.
-#' @param col_ci           A \code{string} that specifies the color of the confidence interval polygon.
-#' @param ci_wv            A \code{boolean} that determines whether a confidence interval polygon will be drawn.
+#' @param col_ad           A \code{string} that specifies the color of the line allan deviation line.
+#' @param col_ci           A \code{string} that specifies the color of the shaded area covered by the confidence intervals.
+#' @param ci_ad            A \code{boolean} that determines whether to plot the confidence interval shaded area.
 #' @param nb_ticks_x       An \code{integer} that specifies the maximum number of ticks for the x-axis.
 #' @param nb_ticks_y       An \code{integer} that specifies the maximum number of ticks for the y-axis.
 #' @param legend_position  A \code{string} that specifies the position of the legend (use \code{legend_position = NA} to remove legend).
 #' @param point_pch        A \code{double} that specifies the symbol type to be plotted.
 #' @param point_cex        A \code{double} that specifies the size of each symbol to be plotted.
 #' @param ...              Additional arguments affecting the plot.
-#' @return Plot of allan deviation and confidence interval for each scale.
+#' @return Plot of Allan deviation and relative confidence intervals for each scale.
 #' @author Stephane Guerrier and Justin Lee
 #' @export
 #' @examples
@@ -658,11 +662,11 @@ print.avlr = function(x, ...) {
 #' plot.avlr(x)
 #' plot.avlr(x, decomp = TRUE, main = "Simulated white noise", xlab = "Scales")
 #' plot.avlr(x, units = "sec", legend_position = "topright")
-#' plot.avlr(x, col_wv = "darkred", col_ci = "pink")
+#' plot.avlr(x, col_ad = "darkred", col_ci = "pink")
 plot.avlr = function(x, decomp = FALSE,
                      units = NULL, xlab = NULL, ylab = NULL, main = NULL,
-                     col_wv = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
-                     legend_position = NULL, ci_wv = NULL, point_cex = NULL,
+                     col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
+                     legend_position = NULL, ci_ad = NULL, point_cex = NULL,
                      point_pch = NULL, ...){
 
 
@@ -671,7 +675,7 @@ plot.avlr = function(x, decomp = FALSE,
     if (is.null(units)){
       xlab = expression(paste("Scale ", tau, sep =""))
     }else{
-      xlab = bquote(paste("Clustering time ", tau, " [", .(units), "]", sep = " "))
+      xlab = bquote(paste("Averaging time ", tau, " [", .(units), "]", sep = " "))
     }
   }
 
@@ -687,8 +691,8 @@ plot.avlr = function(x, decomp = FALSE,
   }
 
   # Line and CI colors
-  if (is.null(col_wv)){
-    col_wv = "darkblue"
+  if (is.null(col_ad)){
+    col_ad = "darkblue"
   }
 
   if (is.null(col_ci)){
@@ -783,8 +787,8 @@ plot.avlr = function(x, decomp = FALSE,
   }
   axis(2, at = 10^y_ticks, labels = y_labels, padj = -0.2)
 
-  # CI for WV
-  if (ci_wv == TRUE || is.null(ci_wv)){
+  # CI for AD
+  if (ci_ad == TRUE || is.null(ci_ad)){
     polygon(c(x$av$levels, rev(x$av$levels)), c(x$av$adev - x$av$errors*x$av$adev, rev(x$av$adev + x$av$errors*x$av$adev)),
             border = NA, col = col_ci)
   }
@@ -811,8 +815,8 @@ plot.avlr = function(x, decomp = FALSE,
   lines(t(x$av$levels),x$implied_ad, type = "l", lwd = 3, col = "#F47F24", pch = 1, cex = 1.5)
   lines(t(x$av$levels),x$implied_ad, type = "p", lwd = 2, col = "#F47F24", pch = 1, cex = 1.5)
 
-  # Add WV
-  lines(x$av$levels, x$av$adev, type = "l", col = col_wv, pch = 16)
+  # Add AD
+  lines(x$av$levels, x$av$adev, type = "l", col = col_ad, pch = 16)
 
   if (is.null(point_pch)){
     point_pch = 16
@@ -821,24 +825,24 @@ plot.avlr = function(x, decomp = FALSE,
   if (is.null(point_cex)){
     point_cex = 1.25
   }
-  lines(x$av$levels, x$av$adev, type = "p", col = col_wv, pch = point_pch, cex = point_cex)
+  lines(x$av$levels, x$av$adev, type = "p", col = col_ad, pch = point_pch, cex = point_cex)
 
   # Add legend
   CI_conf = .95
-  wv_title_part1 = "Empirical AV "
+  ad_title_part1 = "Empirical AD "
 
   if(decomp == TRUE){
-    legend_names = c(as.expression(bquote(paste(.(wv_title_part1), hat(phi)))),
-                     as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AV",
+    legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
+                     as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AD",
                      x$process_desc)
-    col_legend = c(col_wv, col_ci,"#F47F24",col_decomp)
+    col_legend = c(col_ad, col_ci,"#F47F24",col_decomp)
     p_cex_legend = c(1.25, 3, 1.5,rep(NA,U))
     lty_legend = c(1, NA, rep(1,U))
     pch_legend = c(16,15,1,rep(NA,U))
   }else{
-    legend_names = c(as.expression(bquote(paste(.(wv_title_part1), hat(phi)))),
+    legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
                      as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AV")
-    col_legend = c(col_wv, col_ci,"#F47F24")
+    col_legend = c(col_ad, col_ci,"#F47F24")
     p_cex_legend = c(1.25, 3, 1.5)
     lty_legend = c(1, NA)
     pch_legend = c(16,15,1)
