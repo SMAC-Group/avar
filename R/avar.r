@@ -392,7 +392,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #'  \item{"implied_ad_decomp"}{The Allan deviation implied by the estimated parameters for each individual model (if more than one is specified).}
 #'  \item{"av"}{The \code{avar} object computed from the provided data.}
 #' }
-
+#' @importFrom stats dnorm
 #' @examples
 #' # Load simts package
 #' library(simts)
