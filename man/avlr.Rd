@@ -37,31 +37,27 @@ avlr   A \code{list} that contains:
 Estimate the parameters of time series models based on the Allan Variance Linear Regression (AVLR) approach
 }
 \examples{
-# Load simts package
-library(simts)
-
 # Set seed for reproducibility
-set.seed(99)
+set.seed(999)
 
-# Simulate time series
-
+# Simulate a Gaussian WN and RW
 N = 100000
-x = gen_gts(N, WN(sigma2 = 1)  + RW(gamma2 = 1e-5))
+Xt = rnorm(N) + cumsum(rnorm(N, 0, 3e-3))
 
 # Compute Allan variance
-av = avar(x)
+av = avar(Xt)
 plot(av)
 
 # Parameter estimation
-fit = avlr(x, wn = 1:8, rw = 11:15)
+fit = avlr(Xt, wn = 1:8, rw = 11:15)
 plot(fit, decomp = TRUE)
 
 # Point estimates
 fit
 
 # Compute confidence intervals (this step is time-demanding)
-fit = avlr(x, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
+# fit = avlr(x, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
 
 # Estimated confidence intervals and standard deviations
-fit$ci
+# fit$ci
 }

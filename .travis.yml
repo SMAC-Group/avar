@@ -8,11 +8,9 @@ warnings_are_errors: false
 
 Imports:
   - simts
-  - imudata
 
 Remotes:
   - SMAC-Group/simts
-  - SMAC-Group/imudata
 
 cache:
   packages: true

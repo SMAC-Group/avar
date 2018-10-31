@@ -33,7 +33,7 @@
 #' av_mat = avar_to_cpp(combined.ts)
 #' @keywords internal
 avar_to_cpp <- function(x) {
-    .Call('_av_avar_to_cpp', PACKAGE = 'av', x)
+    .Call('_avar_avar_to_cpp', PACKAGE = 'avar', x)
 }
 
 #' @title Compute Maximal-Overlap Allan Variance using Means
@@ -68,6 +68,6 @@ avar_to_cpp <- function(x) {
 #' av_mat = avar_mo_cpp(combined.ts)
 #' @keywords internal
 avar_mo_cpp <- function(x) {
-    .Call('_av_avar_mo_cpp', PACKAGE = 'av', x)
+    .Call('_avar_avar_mo_cpp', PACKAGE = 'avar', x)
 }
 

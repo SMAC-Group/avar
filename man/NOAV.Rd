@@ -22,10 +22,9 @@ This calculation of Non-overlapping Allan variance is based on the definition on
 Here n is an integer larger than 1 and smaller than \eqn{floor\left(log_2 \left(dim\left(covmat\right)[1]\right)\right)-1}{floor(log2(dim(T)[1]))-1}.
 }
 \examples{
-library(simts)
 set.seed(999)
-x = gen_gts(AR1(phi = 0.3, sigma2 = 1), n = 1000, freq = 1)
-avar(x, type = "to")
+Xt = arima.sim(n = 100, list(ar = 0.3))
+avar(Xt, type = "to")
 
 a = matrix(rep(0, 1000^2), nrow = 1000)
 for (i in 1:1000){

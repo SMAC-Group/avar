@@ -1,10 +1,10 @@
-#' av
+#' avar
 #' @keywords internal
 #' @importFrom Rcpp evalCpp
 #' @importFrom grDevices hcl
-#' @useDynLib av
+#' @useDynLib avar
 #' @import graphics simts
-#' @name av
+#' @name avar
 #' @docType package
 #' @exportPattern ^[[:alpha:]]+
 NULL

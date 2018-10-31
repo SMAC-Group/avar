@@ -18,18 +18,16 @@ console output
 Displays the information on the output of the `avar()` function
 }
 \examples{
-# Load simts package
-library(simts)
-
 # Set seed for reproducibility
 set.seed(999)
 
-# Generate time series
-x = gen_gts(100, WN(sigma2 = 1))
+# Simulate a Gaussian white noise
+Xt = rnorm(10000)
 
 # Compute Allan
-out = avar(x)
+out = avar(Xt)
 
 # Print results
-print( out )
+print(out)
+
 }

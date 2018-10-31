@@ -19,19 +19,16 @@ Displays information about the avlr object
 }
 \examples{
 \dontrun{
-# Load simts package
-library(simts)
-
 # Set seed for reproducibility
 set.seed(999)
 
 # Simulate time series
 N = 100000
-x = gen_gts(N, WN(sigma2 = 1) + RW(gamma2 = 1e-7))
+Xt = rnorm(N) + cumsum(rnorm(N, 0, 3e-3))
 
 # Maximal overlap
-fit1 = avlr(x, wn = 1:12, rw = 12:15)
-print(fit1)
+fit = avlr(Xt, wn = 1:7, rw = 12:15)
+print(fit)
 }
 }
 \keyword{internal}

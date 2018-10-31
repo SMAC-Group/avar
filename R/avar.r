@@ -1,6 +1,6 @@
 # Copyright (C) 2017 - 2018 Stéphane Guerrier and Roberto Molinari
 #
-# This file is part of the `av` R Methods Package
+# This file is part of the `avar` R Methods Package
 #
 # The `av` R package is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -12,7 +12,6 @@
 #' @param x     A \code{vec} of time series observations or an \code{imu} object.
 #' @param type  A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap.
 #' @param freq  An \code{integer} with the frequency at which the error signal is measured.
-
 #' @return  A \code{list} that contains:
 #' \itemize{
 #'  \item{"levels": }{The averaging time at each level.}
@@ -44,21 +43,18 @@
 #'
 #' @references Long-Memory Processes, the Allan Variance and Wavelets, D. B. Percival and P. Guttorp
 #' @examples
-#' # Load simts package
-#' library(simts)
-#'
 #' # Set seed for reproducibility
 #' set.seed(999)
 #'
-#' # Simulate time series
-#' N = 100000
-#' ts = gen_gts(N, WN(sigma2 = 2) + RW(gamma2 = 1))
+#' # Simulate a Gaussian white noise
+#' Xt = rnorm(10000)
 #'
 #' # Maximal overlap
-#' av_mat_mo = avar(ts, type = "mo", freq = 100)
+#' av_mat_mo = avar(Xt, type = "mo", freq = 100)
 #'
 #' # Tau overlap
-#' av_mat_tau = avar(ts, type = "to")
+#' av_mat_tau = avar(Xt, type = "to")
+#'
 avar = function(x, type = "mo", freq = 1) {
 
   if(is.null(x) | length(x) <=1 | dim(as.matrix(x))[2] >1){
@@ -96,20 +92,18 @@ avar = function(x, type = "mo", freq = 1) {
 #' @param ... Arguments to be passed to methods
 #' @return console output
 #' @examples
-#' # Load simts package
-#' library(simts)
-#'
 #' # Set seed for reproducibility
 #' set.seed(999)
 #'
-#' # Generate time series
-#' x = gen_gts(100, WN(sigma2 = 1))
+#' # Simulate a Gaussian white noise
+#' Xt = rnorm(10000)
 #'
 #' # Compute Allan
-#' out = avar(x)
+#' out = avar(Xt)
 #'
 #' # Print results
-#' print( out )
+#' print(out)
+#'
 print.avar = function(x, ...) {
   cat("\n Levels: \n")
   print(x$levels, digits=5)
@@ -135,20 +129,18 @@ print.avar = function(x, ...) {
 #'  \item{"Upper CI": }{The upper bound of the confidence interval for the Allan deviation (ADev).}
 #' }
 #' @examples
-#' # Load simts package
-#' library(simts)
-#'
 #' # Set seed for reproducibility
 #' set.seed(999)
 #'
-#' # Generate time series
-#' x = gen_gts(100, WN(sigma2 = 1))
+#' # Simulate a Gaussian white noise
+#' Xt = rnorm(10000)
 #'
 #' # Compute Allan
-#' out = avar(x)
+#' out = avar(Xt)
 #'
 #' # Summary
-#' summary( out )
+#' summary(out)
+#'
 summary.avar = function(object, ...) {
   out_matrix = matrix(0, nrow = length(object$levels), ncol = 5)
   colnames(out_matrix) = c("Time", "AVar", "ADev", "Lower CI", "Upper CI")
@@ -185,23 +177,21 @@ summary.avar = function(object, ...) {
 #' @author Stephane Guerrier, Nathanael Claussen and Justin Lee
 #' @export
 #' @examples
-#' # Load simts package
-#' library(simts)
-#'
 #' # Set seed for reproducibility
 #' set.seed(999)
 #'
-#' # Generate time series
-#' x = gen_gts(100, WN(sigma2 = 1))
+#' # Simulate a Gaussian white noise
+#' Xt = rnorm(10000)
 #'
 #' # Compute Allan
-#' av = avar(x)
+#' av = avar(Xt)
 #'
 #' # Plot example
 #' plot(av)
 #' plot(av, main = "Simulated white noise", xlab = "Scales")
 #' plot(av, units = "sec", legend_position = "topright")
 #' plot(av, col_ad = "darkred", col_ci = "pink")
+#'
 plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
                      col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
                      legend_position = NULL, ci_ad = NULL, point_cex = NULL,
@@ -335,7 +325,6 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 
   ad_title_part1 = "Empirical AD "
 
-
   if (!is.na(legend_position)){
     if (legend_position == "topleft"){
       legend_position = 10^c(1.1*win_dim[1], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
@@ -358,7 +347,6 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
       }
     }
   }
-
 
   # Add AD
   lines(x$levels, x$adev, type = "l", col = col_ad, pch = 16)
@@ -394,35 +382,35 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #' }
 #' @importFrom stats dnorm
 #' @examples
-#' # Load simts package
-#' library(simts)
-#'
 #' # Set seed for reproducibility
-#' set.seed(99)
+#' set.seed(999)
 #'
-#' # Simulate time series
-#'
+#' # Simulate a Gaussian WN and RW
 #' N = 100000
-#' x = gen_gts(N, WN(sigma2 = 1)  + RW(gamma2 = 1e-5))
+#' Xt = rnorm(N) + cumsum(rnorm(N, 0, 3e-3))
 #'
 #' # Compute Allan variance
-#' av = avar(x)
+#' av = avar(Xt)
 #' plot(av)
 #'
 #' # Parameter estimation
-#' fit = avlr(x, wn = 1:8, rw = 11:15)
+#' fit = avlr(Xt, wn = 1:8, rw = 11:15)
 #' plot(fit, decomp = TRUE)
 #'
 #' # Point estimates
 #' fit
 #'
 #' # Compute confidence intervals (this step is time-demanding)
-#' fit = avlr(x, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
+#' # fit = avlr(x, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
 #'
 #' # Estimated confidence intervals and standard deviations
-#' fit$ci
+#' # fit$ci
 avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
                 ci = FALSE, B = 100, alpha = 0.05){
+
+  if (ci == TRUE){
+    stop("Method of confidence is not currently supported as it depends on an external package.")
+  }
 
   if(is.null(x) | length(x) <=1){
     stop("Please provide a time series vector or an 'imu' object")
@@ -461,7 +449,6 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
     }else{
       model_estimated = model_estimated + WN(sigma2 = (param[counter])^2)
     }
-
   }
 
   if(!is.null(qn)){
@@ -478,7 +465,6 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
     }else{
       model_estimated = model_estimated + QN(q2 = (param[counter])^2)
     }
-
   }
 
   if(!is.null(rw)){
@@ -542,46 +528,6 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
   invisible(x)
 }
 
-#' Compute bootstrap confidence intervals for the AVLR estimator
-#'
-#' @keywords internal
-#' @importFrom stats quantile sd
-#' @param model A \code{ts.model} object that was estimated with the avlr function.
-#' @param B     A \code{double} for the number of bootsrap replicates to compute the confidence intervals.
-#' @param n     A \code{double} with the sample size.
-#' @param qn    A \code{vec} specifying on which scales the parameters of a Quantization Noise (QN) was computed.
-#' @param wn    A \code{vec} specifying on which scales the parameters of a White Noise (WN) was computed.
-#' @param rw    A \code{vec} specifying on which scales the parameters of a Random Wakk (RW) was computed.
-#' @param dr    A \code{vec} specifying on which scales the parameters of a Drift (DR) was computed.
-#' @param alpha A \code{double} defining the level of the confidence interval (1 - `alpha`).
-#' @return   A \code{list} that contains:
-#' \itemize{
-#'  \item{"ci"}{The 1-\code{alpha} confidence intervals.}
-#'  \item{"sd"}{The standard deviation of the estimated parameters.}
-#' }
-boostrap_ci_avlr = function(model, B, n, qn, wn, rw, dr, alpha){
-  results = matrix(NA, B, model$plength)
-  print("Starting bootstrap:")
-
-  for (i in 1:B){
-    x_star = gen_gts(n = n, model = model)
-    results[i, ] = as.numeric(avlr(x_star, qn = qn, wn = wn, rw = rw,
-                                   dr = dr, ci = FALSE)$estimates)
-  }
-
-  mean_parameters = rep(NA, model$plength)
-  ci_parameters = matrix(NA, model$plength, 2)
-  sd_parameters = rep(NA, model$plength)
-
-  for (i in 1:model$plength){
-    mean_parameters[i] = mean(results[,i])
-    ci_parameters[i, ] = as.numeric(quantile(results[,i], probs = c(alpha/2, 1 - alpha/2)))
-    sd_parameters[i] = sd(results[,i])
-  }
-  list(mu = mean_parameters, ci = ci_parameters, sd = sd_parameters)
-}
-
-
 #' Print avlr object
 #'
 #' Displays information about the avlr object
@@ -593,19 +539,16 @@ boostrap_ci_avlr = function(model, B, n, qn, wn, rw, dr, alpha){
 #' @return Text output via print
 #' @examples
 #' \dontrun{
-#' # Load simts package
-#' library(simts)
-#'
 #' # Set seed for reproducibility
 #' set.seed(999)
 #'
 #' # Simulate time series
 #' N = 100000
-#' x = gen_gts(N, WN(sigma2 = 1) + RW(gamma2 = 1e-7))
+#' Xt = rnorm(N) + cumsum(rnorm(N, 0, 3e-3))
 #'
 #' # Maximal overlap
-#' fit1 = avlr(x, wn = 1:12, rw = 12:15)
-#' print(fit1)
+#' fit = avlr(Xt, wn = 1:7, rw = 12:15)
+#' print(fit)
 #' }
 print.avlr = function(x, ...) {
   if(is.null(x$ci)){
@@ -648,23 +591,19 @@ print.avlr = function(x, ...) {
 #' @author Stephane Guerrier and Justin Lee
 #' @export
 #' @examples
-#' # Load simts package
-#' library(simts)
-#'
 #' # Set seed for reproducibility
 #' set.seed(999)
 #'
 #' # Simulate time series
 #' N = 100000
-#' ts = gen_gts(N, WN(sigma2 = 1) + RW(gamma2 = 1e-7))
-#'
-#' x = avlr(ts, wn = 1:12, rw = 12:15)
+#' Xt = rnorm(N) + cumsum(rnorm(N, 0, 3e-3))
+#' av = avlr(Xt, wn = 1:7, rw = 12:15)
 #'
 #' # Plot example
-#' plot.avlr(x)
-#' plot.avlr(x, decomp = TRUE, main = "Simulated white noise", xlab = "Scales")
-#' plot.avlr(x, units = "sec", legend_position = "topright")
-#' plot.avlr(x, col_ad = "darkred", col_ci = "pink")
+#' plot.avlr(av)
+#' plot.avlr(av, decomp = TRUE, main = "Simulated white noise", xlab = "Scales")
+#' plot.avlr(av, units = "sec", legend_position = "topright")
+#' plot.avlr(av, col_ad = "darkred", col_ci = "pink")
 plot.avlr = function(x, decomp = FALSE,
                      units = NULL, xlab = NULL, ylab = NULL, main = NULL,
                      col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
@@ -868,5 +807,45 @@ plot.avlr = function(x, decomp = FALSE,
       }
     }
   }
+}
+
+
+#' Compute bootstrap confidence intervals for the AVLR estimator
+#'
+#' @keywords internal
+#' @importFrom stats quantile sd
+#' @param model A \code{ts.model} object that was estimated with the avlr function.
+#' @param B     A \code{double} for the number of bootsrap replicates to compute the confidence intervals.
+#' @param n     A \code{double} with the sample size.
+#' @param qn    A \code{vec} specifying on which scales the parameters of a Quantization Noise (QN) was computed.
+#' @param wn    A \code{vec} specifying on which scales the parameters of a White Noise (WN) was computed.
+#' @param rw    A \code{vec} specifying on which scales the parameters of a Random Wakk (RW) was computed.
+#' @param dr    A \code{vec} specifying on which scales the parameters of a Drift (DR) was computed.
+#' @param alpha A \code{double} defining the level of the confidence interval (1 - `alpha`).
+#' @return   A \code{list} that contains:
+#' \itemize{
+#'  \item{"ci"}{The 1-\code{alpha} confidence intervals.}
+#'  \item{"sd"}{The standard deviation of the estimated parameters.}
+#' }
+boostrap_ci_avlr = function(model, B, n, qn, wn, rw, dr, alpha){
+  results = matrix(NA, B, model$plength)
+  print("Starting bootstrap:")
+
+  for (i in 1:B){
+    x_star = gen_gts(n = n, model = model)
+    results[i, ] = as.numeric(avlr(x_star, qn = qn, wn = wn, rw = rw,
+                                   dr = dr, ci = FALSE)$estimates)
+  }
+
+  mean_parameters = rep(NA, model$plength)
+  ci_parameters = matrix(NA, model$plength, 2)
+  sd_parameters = rep(NA, model$plength)
+
+  for (i in 1:model$plength){
+    mean_parameters[i] = mean(results[,i])
+    ci_parameters[i, ] = as.numeric(quantile(results[,i], probs = c(alpha/2, 1 - alpha/2)))
+    sd_parameters[i] = sd(results[,i])
+  }
+  list(mu = mean_parameters, ci = ci_parameters, sd = sd_parameters)
 }
 

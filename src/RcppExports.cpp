@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // avar_to_cpp
 arma::mat avar_to_cpp(arma::vec x);
-RcppExport SEXP _av_avar_to_cpp(SEXP xSEXP) {
+RcppExport SEXP _avar_avar_to_cpp(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -19,7 +19,7 @@ END_RCPP
 }
 // avar_mo_cpp
 arma::mat avar_mo_cpp(arma::vec x);
-RcppExport SEXP _av_avar_mo_cpp(SEXP xSEXP) {
+RcppExport SEXP _avar_avar_mo_cpp(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -30,12 +30,12 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_av_avar_to_cpp", (DL_FUNC) &_av_avar_to_cpp, 1},
-    {"_av_avar_mo_cpp", (DL_FUNC) &_av_avar_mo_cpp, 1},
+    {"_avar_avar_to_cpp", (DL_FUNC) &_avar_avar_to_cpp, 1},
+    {"_avar_avar_mo_cpp", (DL_FUNC) &_avar_avar_mo_cpp, 1},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_av(DllInfo *dll) {
+RcppExport void R_init_avar(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }
