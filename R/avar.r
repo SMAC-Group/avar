@@ -2,7 +2,7 @@
 #
 # This file is part of the `avar` R Methods Package
 #
-# The `av` R package is distributed in the hope that it will be useful, but
+# The `avar` R package is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 

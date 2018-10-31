@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate Theoretical Covariance Matrix of Bias-Instability Process — covmat_bi • avar</title>
+<title>Compute bootstrap confidence intervals for the AVLR estimator — boostrap_ci_avlr • avar</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,9 @@
 
 
 
-<meta property="og:title" content="Calculate Theoretical Covariance Matrix of Bias-Instability Process — covmat_bi" />
+<meta property="og:title" content="Compute bootstrap confidence intervals for the AVLR estimator — boostrap_ci_avlr" />
 
-<meta property="og:description" content="This function allows us to calculate the theoretical covariance matrix of a bias-instability
-process." />
+<meta property="og:description" content="Compute bootstrap confidence intervals for the AVLR estimator" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -97,54 +96,65 @@ process." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate Theoretical Covariance Matrix of Bias-Instability Process</h1>
+    <h1>Compute bootstrap confidence intervals for the AVLR estimator</h1>
     
-    <div class="hidden name"><code>covmat_bi.Rd</code></div>
+    <div class="hidden name"><code>boostrap_ci_avlr.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function allows us to calculate the theoretical covariance matrix of a bias-instability
-process.</p>
+    <p>Compute bootstrap confidence intervals for the AVLR estimator</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>covmat_bi</span>(<span class='no'>sigma2</span>, <span class='no'>n_total</span>, <span class='no'>n_block</span>)</pre>
+    <pre class="usage"><span class='fu'>boostrap_ci_avlr</span>(<span class='no'>model</span>, <span class='no'>B</span>, <span class='no'>n</span>, <span class='no'>qn</span>, <span class='no'>wn</span>, <span class='no'>rw</span>, <span class='no'>dr</span>, <span class='no'>alpha</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>sigma2</th>
-      <td><p>A <code>double</code> value for the variance parameter \(\sigma ^2\).</p></td>
+      <th>model</th>
+      <td><p>A <code>ts.model</code> object that was estimated with the avlr function.</p></td>
     </tr>
     <tr>
-      <th>n_total</th>
-      <td><p>An <code>integer</code> indicating the length of the whole bias-instability process.</p></td>
+      <th>B</th>
+      <td><p>A <code>double</code> for the number of bootsrap replicates to compute the confidence intervals.</p></td>
     </tr>
     <tr>
-      <th>n_block</th>
-      <td><p>An <code>integer</code> indicating the length of each block of the bias-instability
-process.</p></td>
+      <th>n</th>
+      <td><p>A <code>double</code> with the sample size.</p></td>
+    </tr>
+    <tr>
+      <th>qn</th>
+      <td><p>A <code>vec</code> specifying on which scales the parameters of a Quantization Noise (QN) was computed.</p></td>
+    </tr>
+    <tr>
+      <th>wn</th>
+      <td><p>A <code>vec</code> specifying on which scales the parameters of a White Noise (WN) was computed.</p></td>
+    </tr>
+    <tr>
+      <th>rw</th>
+      <td><p>A <code>vec</code> specifying on which scales the parameters of a Random Wakk (RW) was computed.</p></td>
+    </tr>
+    <tr>
+      <th>dr</th>
+      <td><p>A <code>vec</code> specifying on which scales the parameters of a Drift (DR) was computed.</p></td>
+    </tr>
+    <tr>
+      <th>alpha</th>
+      <td><p>A <code>double</code> defining the level of the confidence interval (1 - `alpha`).</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The theoretical covariance <code>matrix</code> of the bias-instability process.</p>
-    
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+    <p>A <code>list</code> that contains:</p><ul>
+<li><p>"ci"The 1-<code>alpha</code> confidence intervals.</p></li>
+<li><p>"sd"The standard deviation of the estimated parameters.</p></li>
+</ul>
 
-    <p>This function helps calculate the theoretical covariance matrix of a non-stationary
-process, bias-instability. It is helpful to calculate the theoretical allan variance of
-non-stationary processes, which can be used to compare with the theoretical allan variance
-of stationary processes as shown in "A Study of the Allan Variance for Constant-Mean Non-Stationary
-Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>covmat1</span> <span class='kw'>=</span> <span class='fu'>covmat_bi</span>(<span class='kw'>sigma2</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>n_total</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>n_block</span> <span class='kw'>=</span> <span class='fl'>10</span>)
-<span class='no'>covmat2</span> <span class='kw'>=</span> <span class='fu'>covmat_bi</span>(<span class='kw'>sigma2</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>n_total</span> <span class='kw'>=</span> <span class='fl'>800</span>, <span class='kw'>n_block</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -152,15 +162,7 @@ Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–126
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#note">Note</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    
-Yuming Zhang
+          </ul>
 
   </div>
 </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate Theoretical Allan Variance for Stationary White Noise Process <U+2014> av_wn <e2><80><a2> av</title>
+<title>Calculate Theoretical Allan Variance for Stationary White Noise Process — av_wn • avar</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,11 +18,27 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="Calculate Theoretical Allan Variance for Stationary White Noise Process — av_wn" />
+
+<meta property="og:description" content="This function allows us to calculate the theoretical allan variance for stationary
+white noise process." />
+
+<meta property="og:image" content="/logo.png" />
+<meta name="twitter:card" content="summary" />
+
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,8 +62,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">av</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">avar</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -66,6 +86,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -73,20 +94,24 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate Theoretical Allan Variance for Stationary White Noise Process</h1>
+    
+    <div class="hidden name"><code>av_wn.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>This function allows us to calculate the theoretical allan variance for stationary
 white noise process.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>av_wn</span>(<span class='no'>sigma2</span>, <span class='no'>n</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -109,9 +134,9 @@ process.</p>
     <p>This function is based on the calculation of the theoretical allan variance
 for stationary white noise process raised in "Allan Variance of Time Series Models for
 Measurement Data" by Nien Fan Zhang. (For more details:
-<a href = 'http://iopscience.iop.org/article/10.1088/0026-1394/45/5/009/meta'>http://iopscience.iop.org/article/10.1088/0026-1394/45/5/009/meta</a>.) This calculation
+<a href='http://iopscience.iop.org/article/10.1088/0026-1394/45/5/009/meta'>http://iopscience.iop.org/article/10.1088/0026-1394/45/5/009/meta</a>.) This calculation
 is fundamental and necessary for the study in "A Study of the Allan Variance for Constant-Mean
-Non-Stationary Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257<U+2013>1260.</p>
+Non-Stationary Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -135,15 +160,18 @@ Non-Stationary Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24
 
       <footer>
       <div class="copyright">
-  <p>Developed by Stephane Guerrier, James Balamuta, Gaetan Bakalli, Roberto Molinari, Justin Lee, Ahmed Radi, Hoatian Xu, Yuming Zhang.</p>
+  <p>Developed by Stéphane Guerrier, James Balamuta, Gaetan Bakalli, Roberto Molinari, Justin Lee, Ahmed Radi, Hoatian Xu, Yuming Zhang.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

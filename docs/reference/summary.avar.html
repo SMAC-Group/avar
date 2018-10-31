@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summary Allan Variance <U+2014> summary.avar <e2><80><a2> av</title>
+<title>Summary Allan Variance — summary.avar • avar</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,11 +18,26 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
+<meta property="og:title" content="Summary Allan Variance — summary.avar" />
+
+<meta property="og:description" content="Displays the summary table of the output of the `avar()` function" />
+
+<meta property="og:image" content="/logo.png" />
+<meta name="twitter:card" content="summary" />
+
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -46,8 +61,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">av</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">avar</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -66,6 +85,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -73,20 +93,24 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summary Allan Variance</h1>
+    
+    <div class="hidden name"><code>summary.avar.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
-    <p>Displays the summary table of allan variance</p>
+    <p>Displays the summary table of the output of the `avar()` function</p>
     
+    </div>
 
     <pre class="usage"><span class='co'># S3 method for avar</span>
 <span class='fu'>summary</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -95,45 +119,51 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments affecting the summary produced.</p></td>
+      <td><p>Additional arguments affecting the summary produced.
+A <code>table</code> that contains:</p><ul>
+<li><p>"Time": The averaging time at each level.</p></li>
+<li><p>"AVar": The estimated Allan variance.</p></li>
+<li><p>"ADev": The estimated Allan deviation.</p></li>
+<li><p>"Lower CI": The lower bound of the confidence interval for the Allan deviation (ADev).</p></li>
+<li><p>"Upper CI": The upper bound of the confidence interval for the Allan deviation (ADev).</p></li>
+</ul></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Summary table</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load simts package</span>
-<span class='fu'>library</span>(<span class='no'>simts</span>)
-
-<span class='co'># Set seed for reproducibility</span>
+    <pre class="examples"><div class='input'><span class='co'># Set seed for reproducibility</span>
 <span class='fu'>set.seed</span>(<span class='fl'>999</span>)
 
-<span class='co'># Generate time series</span>
-<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>gen_gts</span>(<span class='fl'>100</span>, <span class='fu'>WN</span>(<span class='kw'>sigma2</span> <span class='kw'>=</span> <span class='fl'>1</span>))
+<span class='co'># Simulate a Gaussian white noise</span>
+<span class='no'>Xt</span> <span class='kw'>=</span> <span class='fu'>rnorm</span>(<span class='fl'>10000</span>)
 
 <span class='co'># Compute Allan</span>
-<span class='no'>out</span> <span class='kw'>=</span> <span class='fu'><a href='avar.html'>avar</a></span>(<span class='no'>x</span>)
+<span class='no'>out</span> <span class='kw'>=</span> <span class='fu'>avar</span>(<span class='no'>Xt</span>)
 
 <span class='co'># Summary</span>
-<span class='fu'>summary</span>( <span class='no'>out</span> )</div><div class='output co'>#&gt;      Time       AVAR      ADEV    Lower CI  Upper CI     Error
-#&gt; [1,]    2 0.45974858 0.6780476 0.541061316 0.8150339 0.1010153
-#&gt; [2,]    4 0.27378693 0.5232465 0.372198269 0.6742948 0.1443376
-#&gt; [3,]    8 0.10218767 0.3196681 0.186357263 0.4529789 0.2085144
-#&gt; [4,]   16 0.02332676 0.1527310 0.058463388 0.2469987 0.3086067
-#&gt; [5,]   32 0.01590866 0.1261295 0.003765913 0.2484932 0.4850713
+<span class='fu'>summary</span>(<span class='no'>out</span>)</div><div class='output co'>#&gt;       Time         AVar        ADev     Lower CI   Upper CI
+#&gt;  [1,]    2 4.952007e-01 0.703705007  0.689629499 0.71778051
+#&gt;  [2,]    4 2.502655e-01 0.500265470  0.486112995 0.51441794
+#&gt;  [3,]    8 1.271406e-01 0.356567871  0.342299448 0.37083629
+#&gt;  [4,]   16 6.336803e-02 0.251730079  0.237478669 0.26598149
+#&gt;  [5,]   32 2.946504e-02 0.171653845  0.157899513 0.18540818
+#&gt;  [6,]   64 1.434979e-02 0.119790597  0.106194260 0.13338693
+#&gt;  [7,]  128 6.268502e-03 0.079173874  0.066424194 0.09192356
+#&gt;  [8,]  256 3.270200e-03 0.057185663  0.044077148 0.07029418
+#&gt;  [9,]  512 1.645913e-03 0.040569859  0.027241824 0.05389789
+#&gt; [10,] 1024 7.058425e-04 0.026567697  0.013877234 0.03925816
+#&gt; [11,] 2048 4.983802e-04 0.022324430  0.006302229 0.03834663
+#&gt; [12,] 4096 9.023161e-05 0.009499032 -0.001690222 0.02068829
 #&gt; attr(,"class")
-#&gt; [1] "summary.avar" "matrix"      </div></pre>
+#&gt; [1] "summary.avar" "matrix"      </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
+            
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -142,15 +172,18 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Stephane Guerrier, James Balamuta, Gaetan Bakalli, Roberto Molinari, Justin Lee, Ahmed Radi, Hoatian Xu, Yuming Zhang.</p>
+  <p>Developed by Stéphane Guerrier, James Balamuta, Gaetan Bakalli, Roberto Molinari, Justin Lee, Ahmed Radi, Hoatian Xu, Yuming Zhang.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate Theoretical Covariance Matrix of Bias-Instability Process — covmat_bi • avar</title>
+<title>Articles • avar</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,7 @@
 
 
 
-<meta property="og:title" content="Calculate Theoretical Covariance Matrix of Bias-Instability Process — covmat_bi" />
-
-<meta property="og:description" content="This function allows us to calculate the theoretical covariance matrix of a bias-instability
-process." />
+<meta property="og:title" content="Articles" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -52,7 +49,7 @@ process." />
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-article-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -97,71 +94,17 @@ process." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate Theoretical Covariance Matrix of Bias-Instability Process</h1>
-    
-    <div class="hidden name"><code>covmat_bi.Rd</code></div>
+      <h1>Articles</h1>
     </div>
 
-    <div class="ref-description">
-    
-    <p>This function allows us to calculate the theoretical covariance matrix of a bias-instability
-process.</p>
-    
+    <div class="section ">
+      <h3>All vignettes</h3>
+      <p class="section-desc"></p>
+
+      <ul>
+        <li><a href="avar-example.html">Allan Variance Linear Regression Estimator Example</a></li>
+      </ul>
     </div>
-
-    <pre class="usage"><span class='fu'>covmat_bi</span>(<span class='no'>sigma2</span>, <span class='no'>n_total</span>, <span class='no'>n_block</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>sigma2</th>
-      <td><p>A <code>double</code> value for the variance parameter \(\sigma ^2\).</p></td>
-    </tr>
-    <tr>
-      <th>n_total</th>
-      <td><p>An <code>integer</code> indicating the length of the whole bias-instability process.</p></td>
-    </tr>
-    <tr>
-      <th>n_block</th>
-      <td><p>An <code>integer</code> indicating the length of each block of the bias-instability
-process.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>The theoretical covariance <code>matrix</code> of the bias-instability process.</p>
-    
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
-
-    <p>This function helps calculate the theoretical covariance matrix of a non-stationary
-process, bias-instability. It is helpful to calculate the theoretical allan variance of
-non-stationary processes, which can be used to compare with the theoretical allan variance
-of stationary processes as shown in "A Study of the Allan Variance for Constant-Mean Non-Stationary
-Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.</p>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>covmat1</span> <span class='kw'>=</span> <span class='fu'>covmat_bi</span>(<span class='kw'>sigma2</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>n_total</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>n_block</span> <span class='kw'>=</span> <span class='fl'>10</span>)
-<span class='no'>covmat2</span> <span class='kw'>=</span> <span class='fu'>covmat_bi</span>(<span class='kw'>sigma2</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>n_total</span> <span class='kw'>=</span> <span class='fl'>800</span>, <span class='kw'>n_block</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div></pre>
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#note">Note</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    
-Yuming Zhang
-
   </div>
 </div>
 

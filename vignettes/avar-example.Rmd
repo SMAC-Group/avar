@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 Beforehand, we need to load the following packages:
 
 ```{r, include=T}
-library(av)
+library(avar)
 ```
 ## Data Analysis
 
