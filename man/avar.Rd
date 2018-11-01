@@ -4,7 +4,6 @@
 \name{avar}
 \alias{avar}
 \alias{avar-package}
-\alias{avar}
 \title{avar}
 \usage{
 avar(x, type = "mo", freq = 1)
@@ -25,8 +24,6 @@ A \code{list} that contains:
 }
 }
 \description{
-avar
-
 This function estimates the Allan variance.
 }
 \details{

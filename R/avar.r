@@ -254,7 +254,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
     x_ticks = x_low + ceiling((x_high - x_low)/(nb_ticks_x + 1))*(0:nb_ticks_x)
   }
 
-  if(length(x$clusters) >= 10){
+  if(length(x$levels) >= 10){
     x_labels = sapply(x_ticks, function(i) as.expression(bquote(10^ .(i))))
   }else{
     x_labels = sapply(x_ticks, function(i) as.expression(bquote(2^ .(i))))
@@ -286,7 +286,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   win_dim = par("usr")
 
   # Add Grid
-  if(length(x$clusters) >=10){
+  if(length(x$levels) >=10){
     abline(v = 10^x_ticks, lty = 1, col = "grey95")
   }else{
     abline(v = 2^x_ticks, lty = 1, col = "grey95")
