@@ -1,19 +1,4 @@
-language: r
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-sudo: false
-
-dist: trusty
-
-warnings_are_errors: false
-
-Imports:
-  - simts
-
-Remotes:
-  - SMAC-Group/simts
-
-cache:
-  packages: true
-
-notifications:
-  slack: smac-group:bin2LnQ2kjb7yh6kP5iRrHUB
+language: R
+cache: packages

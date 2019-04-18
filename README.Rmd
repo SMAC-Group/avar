@@ -17,6 +17,7 @@ library(avar)
 ```
 
 [![Travis-CI Build Status](https://travis-ci.org/SMAC-Group/av.svg?branch=master)](https://travis-ci.org/SMAC-Group/avar)
+[![AppVeyor build Status](https://ci.appveyor.com/api/projects/status/github/SMAC-Group/avar?branch=master&svg=true)](https://ci.appveyor.com/project/SMAC-Group/avar)
 [![Project Status: Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Licence](https://img.shields.io/badge/licence-AGPL--3.0-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
 [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
