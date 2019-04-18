@@ -5,17 +5,17 @@ Version: 0.1.0
 Date: 2018-10-31
 LazyData: true
 Authors@R: c(
-    person("Stéphane", "Guerrier", email = "stef.guerrier@gmail.com", role = c("aut","cre","cph")),
+    person("Stéphane", "Guerrier", email = "stef.guerrier@gmail.com", role = c("aut","cre")),
     person("James", "Balamuta", role = "aut"),
     person("Gaetan", "Bakalli", role = "aut"),
-    person("Roberto", "Molinari", role = c("aut","cph")),
+    person("Roberto", "Molinari", role = c("aut")),
     person("Justin", "Lee", role = "aut"),
     person("Ahmed", "Radi", role = "aut"),
     person("Hoatian", "Xu", role = "aut"),
     person("Yuming", "Zhang", role = "aut"),
     person("Nate", "Claussen", role = "aut")
     )
-Maintainer: Maintainer: Stéphane Guerrier <stef.guerrier@gmail.com>
+Maintainer: Stéphane Guerrier <stef.guerrier@gmail.com>
 Description: This system implements the Allan Variance and Allan Variance Linear Regression Estimator for Latent time series models.
 License: AGPL-3 | file LICENSE
 Imports: 
@@ -27,8 +27,8 @@ Suggests:
     rmarkdown
 LinkingTo: Rcpp, RcppArmadillo
 Encoding: UTF-8
+Remotes: SMAC-Group/simts
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
-LinkingTo: Rcpp, RcppArmadillo
-URL: https://github.com/SMAC-Group/wv
-BugReports: https://github.com/SMAC-Group/wv/issues
+URL: https://github.com/SMAC-Group/avar
+BugReports: https://github.com/SMAC-Group/avar/issues

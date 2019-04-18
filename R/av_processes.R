@@ -1,11 +1,3 @@
-# Copyright (C) 2017 - 2018 Stéphane Guerrier and Roberto Molinari
-#
-# This file is part of av R Methods Package
-#
-# The `avar` R package is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
 #' @title Calculate Theoretical Allan Variance for Stationary First-Order Autoregressive
 #' (AR1) Process
 #' @description
