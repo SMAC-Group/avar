@@ -12,7 +12,8 @@ Authors@R: c(
     person("Justin", "Lee", role = "aut"),
     person("Ahmed", "Radi", role = "aut"),
     person("Hoatian", "Xu", role = "aut"),
-    person("Yuming", "Zhang", role = "aut")
+    person("Yuming", "Zhang", role = "aut"),
+    person("Nate", "Claussen", role = "aut")
     )
 Maintainer: Maintainer: Stéphane Guerrier <stef.guerrier@gmail.com>
 Description: This system implements the Allan Variance and Allan Variance Linear Regression Estimator for Latent time series models.
@@ -28,5 +29,5 @@ Suggests:
     rmarkdown
 LinkingTo: Rcpp, RcppArmadillo
 Encoding: UTF-8
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 VignetteBuilder: knitr
