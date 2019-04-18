@@ -2,3 +2,11 @@
 
 language: R
 cache: packages
+
+warnings_are_errors: true
+
+cache:
+  packages: true
+
+notifications:
+  slack: smac-group:bin2LnQ2kjb7yh6kP5iRrHUB
