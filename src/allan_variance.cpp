@@ -50,14 +50,14 @@ arma::mat avar_to_cpp(arma::vec x) {
    // Length of vector
    unsigned int T = x.n_elem;
    // Create the number of halves possible and use it to find the number of clusters
-   unsigned int J = floor(log10(T)/log10(2))-1;
+   unsigned int J = floor(log10(double(T))/log10(2.0))-1;
 
    // Allan Variance Matrix
    arma::mat av = arma::zeros<arma::mat>(J,3);
 
    for (unsigned int i = 1; i <= J; i++){
      // Tau
-     unsigned int tau = pow(2,i);
+     unsigned int tau = pow(2.0,double(i));
 
      // Y.Bar
      unsigned int N = floor(T/tau);
@@ -70,7 +70,7 @@ arma::mat avar_to_cpp(arma::vec x) {
      unsigned int M = floor(T/(2*tau) );
      double summed = 0;
   	 for(unsigned int k = 0; k < M; k++){
-			 summed +=  pow(yBar(2*k+1) - yBar(2*k),2);
+			 summed +=  pow(yBar(2*k+1) - yBar(2*k),2.0);
 		 }
 
      // Cluster size
@@ -78,7 +78,7 @@ arma::mat avar_to_cpp(arma::vec x) {
      // Compute the Allan Variance estimate
      av(i-1,1) = summed/(2*M);
      // Compute Error
-     av(i-1,2) = 1/sqrt(2*( (double(T)/tau) - 1) );
+     av(i-1,2) = 1/sqrt(2.0*( (double(T)/tau) - 1.0) );
   }
 
   // Return as list
@@ -123,14 +123,14 @@ arma::mat avar_mo_cpp(arma::vec x) {
    unsigned int T = x.n_elem;
 
    // Create the number of halves possible and use it to find the number of clusters
-   unsigned int J = floor(log10(T)/log10(2))-1;
+   unsigned int J = floor(log10(double(T))/log10(2.0))-1;
 
    // Allan Variance Matrix
    arma::mat av = arma::zeros<arma::mat>(J,3);
 
    for (unsigned int i = 1; i <= J; i++){
      // Tau
-     unsigned int tau = pow(2,i);
+     unsigned int tau = pow(2.0,double(i));
 
      // Y.Bar
      arma::vec yBar = arma::zeros<arma::vec>(T);
@@ -142,7 +142,7 @@ arma::mat avar_mo_cpp(arma::vec x) {
      unsigned int M = T-2*tau;
 		 double summed = 0;
 		 for(unsigned int k = 0; k < M; k++){
-			 summed +=  pow(yBar(k) - yBar(k+tau),2);
+			 summed +=  pow(yBar(k) - yBar(k+tau),2.0);
 		 }
 
      // Cluster size
@@ -150,7 +150,7 @@ arma::mat avar_mo_cpp(arma::vec x) {
      // Compute the Allan Variance estimate
      av(i-1,1) = summed/(2*(T - 2*tau + 1));
      // Compute Error
-     av(i-1,2) = 1/sqrt(2*( (double(T)/tau) - 1) );
+     av(i-1,2) = 1/sqrt(2.0*( (double(T)/tau) - 1.0) );
   }
 
   return av;

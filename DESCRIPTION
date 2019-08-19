@@ -2,13 +2,13 @@ Package: avar
 Type: Package
 Title: Allan Variance 
 Version: 0.1.0
-Date: 2018-10-31
+Date: 2019-08-18
 LazyData: true
 Authors@R: c(
     person("Stéphane", "Guerrier", email = "stef.guerrier@gmail.com", role = c("aut","cre")),
     person("James", "Balamuta", role = "aut"),
     person("Gaetan", "Bakalli", role = "aut"),
-    person("Roberto", "Molinari", role = c("aut")),
+    person("Roberto", "Molinari", role = "aut"),
     person("Justin", "Lee", role = "aut"),
     person("Ahmed", "Radi", role = "aut"),
     person("Hoatian", "Xu", role = "aut"),
@@ -27,7 +27,6 @@ Suggests:
     rmarkdown
 LinkingTo: Rcpp, RcppArmadillo
 Encoding: UTF-8
-Remotes: SMAC-Group/simts
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 URL: https://github.com/SMAC-Group/avar

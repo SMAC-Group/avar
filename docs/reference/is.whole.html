@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Print avlr object — print.avlr • avar</title>
+<title>Integer Check — is.whole • avar</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Print avlr object — print.avlr" />
+<meta property="og:title" content="Integer Check — is.whole" />
 
-<meta property="og:description" content="Displays information about the avlr object" />
+<meta property="og:description" content="Checks whether the submitted value is an integer" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -98,51 +98,35 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Print avlr object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/SMAC-Group/avar/blob/master/R/avar.r'><code>R/avar.r</code></a></small>
-    <div class="hidden name"><code>print.avlr.Rd</code></div>
+    <h1>Integer Check</h1>
+    <small class="dont-index">Source: <a href='https://github.com/SMAC-Group/avar/blob/master/R/iswhole.R'><code>R/iswhole.R</code></a></small>
+    <div class="hidden name"><code>is.whole.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Displays information about the avlr object</p>
+    <p>Checks whether the submitted value is an integer</p>
     
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for avlr</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>is.whole</span>(<span class='no'>x</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A <code>avlr</code> object</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Other arguments passed to specific methods</p></td>
+      <td><p>A <code>numeric</code> value.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Text output via print</p>
+    <p>A <code>boolean</code> value indicating whether the value is an integer or not.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># Set seed for reproducibility</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>999</span>)
-
-<span class='co'># Simulate time series</span>
-<span class='no'>N</span> <span class='kw'>=</span> <span class='fl'>100000</span>
-<span class='no'>Xt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='no'>N</span>) + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cumsum'>cumsum</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='no'>N</span>, <span class='fl'>0</span>, <span class='fl'>3e-3</span>))
-
-<span class='co'># Maximal overlap</span>
-<span class='no'>fit</span> <span class='kw'>=</span> <span class='fu'><a href='avlr.html'>avlr</a></span>(<span class='no'>Xt</span>, <span class='kw'>wn</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>7</span>, <span class='kw'>rw</span> <span class='kw'>=</span> <span class='fl'>12</span>:<span class='fl'>15</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>fit</span>)
-<span class='co'># }</span></pre>
+    <pre class="examples"><div class='input'><span class='fu'>is.whole</span>(<span class='fl'>2.3</span>)</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>is.whole</span>(<span class='fl'>4</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>is.whole</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>is.whole</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>.4</span>,<span class='fl'>.5</span>,<span class='fl'>.6</span>))</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>is.whole</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>7</span>,<span class='fl'>.8</span>,<span class='fl'>9</span>))</div><div class='output co'>#&gt; [1] FALSE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -154,6 +138,8 @@
       <li><a href="#examples">Examples</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p>James Balamuta</p>
   </div>
 </div>
 
