@@ -1,29 +1,18 @@
 ## Test environments
-* local OS X install, R 3.4.4
-* ubuntu 18.04 (on travis-ci), R 3.4.4
-* win-builder (devel and release)
+
+* local OS X install, R 3.6.1
+* local Windows install, R 3.6.1
+* ubuntu 14.04 (on travis-ci), R 3.6.1
+* rhub (linux, windows, solaris)
 
 ## R CMD check results
-There were no ERRORs or WARNINGs. 
 
 There was 1 NOTE:
 
-* Packages suggested but not available for checking:    ‘covr’ ‘testthat’.
-
-  covr modifies the package code it is possible there
-  are unknown edge cases where that modification
-  affects the output. In addition when tracking
-  coverage for compiled code covr compiles the package
-  without optimization, which can modify behavior
-  (usually due to package bugs which are masked with
-  higher optimization levels).
+* checking installed package size ... NOTE
+  
+It appears that within the Windows and Linux architectures, the CHECK procedure returns only one NOTE regarding the fact that the libs subdirectory is beyond the 1MB threshold. However, this NOTE doesn't occur to the OS X. Our understanding is that this size inflation of the libs subdirectory is due to the use of the Rcpp package. Indeed, some functions of the simts package have been written in C++ using Rcpp without which various functions would lose a considerable amount of computational efficiency leading to major parts of the package becoming impractical to use.
 
 ## Downstream dependencies
-I have also run R CMD check on downstream dependencies of httr 
-(https://github.com/wch/checkresults/blob/master/httr/r-release). 
-All packages that I could install passed except:
 
-* Ecoengine: this appears to be a failure related to config on 
-  that machine. I couldn't reproduce it locally, and it doesn't 
-  seem to be related to changes in httr (the same problem exists 
-  with httr 0.4).
+There are currently no downstream dependencies for this package.
