@@ -60,14 +60,14 @@ arma::mat avar_to_cpp(arma::vec x) {
      unsigned int tau = pow(2.0,double(i));
 
      // Y.Bar
-     unsigned int N = floor(T/tau);
+     unsigned int N = floor(double(T/tau));
      arma::vec yBar = arma::zeros<arma::vec>(N);
      for(unsigned int j = 0; j < N;j++){
        yBar(j) = sum( x.rows(tau*j, tau*j+tau - 1) )/tau;
      }
 
      // Clusters
-     unsigned int M = floor(T/(2*tau) );
+     unsigned int M = floor(double(T/(2.0*tau)) );
      double summed = 0;
   	 for(unsigned int k = 0; k < M; k++){
 			 summed +=  pow(yBar(2*k+1) - yBar(2*k),2.0);
