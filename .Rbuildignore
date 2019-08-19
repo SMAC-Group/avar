@@ -8,3 +8,4 @@ README.Rmd
 biblio.bib
 docs
 ^\.travis\.yml$
+^CRAN-RELEASE$
