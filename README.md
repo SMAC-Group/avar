@@ -10,8 +10,8 @@ Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostat
 [![Licence](https://img.shields.io/badge/licence-AGPL--3.0-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
 [![minimal R
 version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
-[![packageversion](https://img.shields.io/badge/Package%20version-0.1.0-orange.svg?style=flat-square)](commits/develop)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2019--08--19-yellowgreen.svg)](/commits/master)
+[![packageversion](https://img.shields.io/badge/Package%20version-0.1.0-orange.svg?style=flat-square)](https://github.com/SMAC-Group/avar/blob/master/DESCRIPTION)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2019--08--21-yellowgreen.svg)](https://github.com/SMAC-Group/avar)
 
 # Welcome to `avar` package <a href="https://smac-group.com/"><img src="man/figures/logo.png" align="right" style="width: 16%; height: 16%"/></a>
 
