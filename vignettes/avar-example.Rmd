@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-Beforehand, we need to load the following package:
+The first step is to load the package:
 
 ```{r, include=T}
 library(avar)
@@ -24,13 +24,13 @@ library(avar)
 
 ## Data Analysis
 
-To understand the capabilities of the `avar` package, we are going to use simulated data of sample size $n = 10^5$. The corresponding Allan Variance representation is given in the following figure: 
+To understand the features of the `avar` package, we are going to make use of simulated data of sample size $n = 10^5$ coming from a White Noise (WN) plus Random Walk (RW) model. The corresponding (maximum-overlap) Allan Variance representation is given in the following figure: 
 
 ```{r, fig.height = 7, fig.width = 7, fig.align = 'center', fig.cap = "Allan Variance Representation."}
 set.seed(2710)
 
 # Simulate data
-n = 100000
+n = 1e5
 data = rnorm(n, 0, 0.01) +  cumsum(rnorm(n, 0, 3.162278e-05))
 
 # Compute the Maximum-Overlap Allan Variance
@@ -40,7 +40,7 @@ allan_variance = avar(data, type = "mo")
 plot(allan_variance)
 ```
 
-Based on this graph, we can see that our model should include a White Noise (WN) process for the first 7 scales and we will consider a Random Walk (RW) process for the last 3 scales.
+Based on this graph, it is possible to detect the models underlying the simulated data. Indeed, we can see that our model should include a WN process when considering the first 7 scales and a RW process when considering the last 3 scales. Therefore, using these scales we can make use of the traditional "Allan Variance slope method" to estimate the parameters of these two processes.
 
 ```{r, warning = F}
 # Specify the scale at which we want to fit the WN and RW processes
@@ -52,14 +52,14 @@ fit = avlr(allan_variance, wn = wn, rw = rw)
 fit
 ```
 
-Now that we have computed the parameters of interest, we can see graphically if the chosen latent model fits the data at hand well:
+Now that we have computed the parameters of interest, we can visually check if the chosen latent model fits the data at hand well. To do so we can simply use the `plot` function and, if we would like to observe how the individual processes contribute to the overall fit, we can set the parameter `decomp = TRUE`.
 
 ```{r, fig.height = 7, fig.width = 7, fig.align = 'center', fig.cap = "Empirical AV with AV implied by the latent model WN + RW"}
 plot(fit)
-plot(fit, decomp = T)
+plot(fit, decomp = TRUE)
 ```
 
-As we can see, the model fits the data well. Therefore, we are going to compute the confidence intervals for those parameters through the option `ci = TRUE`.
+As we can see, the model fits the data well. Therefore, we are going to compute the confidence intervals for these parameters by specifiying the option `ci = TRUE`. These confidence intervals are computed via parametric bootstrap for which the number of replications can be defined through the parameter `B`.
 
 ```{r, warning = F, eval = F}
 # AVLR estimator with 95% confidence intervals
