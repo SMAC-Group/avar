@@ -400,9 +400,9 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
                 ci = FALSE, B = 100, alpha = 0.05){
 
-  if (ci == TRUE){
-    stop("Method of confidence is not currently supported as it depends on an external package.")
-  }
+  # if (ci == TRUE){
+  #   stop("Method of confidence is not currently supported as it depends on an external package.")
+  # }
 
   if(is.null(x) | length(x) <=1){
     stop("Please provide a time series vector or an 'imu' object")

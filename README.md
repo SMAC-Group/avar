@@ -11,7 +11,7 @@ Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostat
 [![minimal R
 version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
 [![packageversion](https://img.shields.io/badge/Package%20version-0.1.0-orange.svg?style=flat-square)](https://github.com/SMAC-Group/avar/blob/master/DESCRIPTION)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2019--08--21-yellowgreen.svg)](https://github.com/SMAC-Group/avar)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2019--08--27-yellowgreen.svg)](https://github.com/SMAC-Group/avar)
 
 # Welcome to `avar` package <a href="https://smac-group.com/"><img src="man/figures/logo.png" align="right" style="width: 16%; height: 16%"/></a>
 
@@ -25,25 +25,46 @@ assumed to underlie the observed signals (see for example Guerrier,
 Molinari, and Stebler 2016). These estimators are implemented in this
 package along with the relevant plotting and summary functions.
 
-To see what `simts` is capable of, please refer to the “Vignettes” tabs
-above.
+## Installation Instructions
 
-## Install Instructions
+The `avar` package is dependent on the `simts` package. To install the
+`simts` package, there are currently two options:
+[CRAN](https://cran.r-project.org/web/packages/simts/index.html) or
+[GitHub](https://github.com/SMAC-Group/simts).
 
-To install the `simts` package, there is currently one option:
-[GitHub](https://github.com/SMAC-Group/av/).
+### Installing the `simts` package through CRAN
 
-### Installing the package through GitHub
+The installation process with CRAN is the simplest:
 
-For users who are interested in having the latest developments, this
-option is ideal. Though, more dependancies are required to run a stable
-version of the package. Most importantly, users **must** have a compiler
-installed on their machine that is compatible with R (e.g. Clang).
+``` r
+install.packages("simts")
+```
+
+Installing the package this way gives you access to stable features.
+Furthermore, the installation itself does not require a compiler or
+preinstalling any dependencies. However, we are limited to updating the
+package on CRAN to once every month. Thus, there may be some lag between
+when features are developed and when they are available on this version.
+
+### Installing the `simts` package through GitHub
+
+We can also install the development version of `simts` package through
+GitHub. To do so, we can simply type:
+
+``` r
+devtools::install_github("SMAC-Group/simts")
+```
+
+For users who are interested in having the latest developments of `avar`
+package, this installation option is ideal. Though, more dependancies
+are required to run a stable version of the package. Most importantly,
+users **must** have a compiler installed on their machine that is
+compatible with R (e.g. Clang).
 
 *The setup to obtain the development version of `simts` is platform
 dependent.*
 
-### Requirements and Dependencies
+### Requirements and dependencies for development version of the `simts` package
 
 **OS X**
 
@@ -65,6 +86,8 @@ For **RHEL** systems, enter the following in terminal:
 ``` bash
 sudo yum install curl curl-devel libxml2 libxml2-dev
 ```
+
+### Installing the `avar` package through GitHub
 
 ``` r
 # Install dependencies

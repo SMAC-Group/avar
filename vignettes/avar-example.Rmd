@@ -16,19 +16,20 @@ knitr::opts_chunk$set(
 )
 ```
 
-Beforehand, we need to load the following packages:
+Beforehand, we need to load the following package:
 
 ```{r, include=T}
 library(avar)
 ```
+
 ## Data Analysis
 
-To understand the capabilities of the `avar` packages, we are going to analyze data coming from the `imudata` package, specificaly from a Adis 16405 IMU Gyroscope Y-axis, for which the Allan-deviation representation is given in the following figure:
+To understand the capabilities of the `avar` package, we are going to use simulated data of sample size $n = 10^5$. The corresponding Allan Variance representation is given in the following figure: 
 
-```{r, fig.height = 7, fig.width = 7, fig.align = 'center', fig.cap = "Allan Variance Representation Adis 16405 IMU Gyroscope Y-axis."}
+```{r, fig.height = 7, fig.width = 7, fig.align = 'center', fig.cap = "Allan Variance Representation."}
 set.seed(2710)
 
-# Select the axis
+# Simulate data
 n = 100000
 data = rnorm(n, 0, 0.01) +  cumsum(rnorm(n, 0, 3.162278e-05))
 
@@ -39,10 +40,10 @@ allan_variance = avar(data, type = "mo")
 plot(allan_variance)
 ```
 
-Based on this graph, we can see that our model should include a White Noise (WN) process for the 12 first scale wether we will consider a Random Walk (RW) for the remaining ones. 
+Based on this graph, we can see that our model should include a White Noise (WN) process for the first 7 scales and we will consider a Random Walk (RW) process for the last 3 scales.
 
 ```{r, warning = F}
-# Specify the scale at which we want to fit the WN and RW process
+# Specify the scale at which we want to fit the WN and RW processes
 wn = 1:7
 rw = 13:15
 
@@ -51,16 +52,23 @@ fit = avlr(allan_variance, wn = wn, rw = rw)
 fit
 ```
 
-Now that we have computed the parameters of interest, we can see graphically if the choosen latent model fits well the data at hand:
+Now that we have computed the parameters of interest, we can see graphically if the chosen latent model fits the data at hand well:
 
 ```{r, fig.height = 7, fig.width = 7, fig.align = 'center', fig.cap = "Empirical AV with AV implied by the latent model WN + RW"}
 plot(fit)
 plot(fit, decomp = T)
 ```
 
-As we can see, the model fits the data well, therefore, we are going to compute the confidence intervals for those parameter through the option `ci = TRUE`.
+As we can see, the model fits the data well. Therefore, we are going to compute the confidence intervals for those parameters through the option `ci = TRUE`.
 
 ```{r, warning = F, eval = F}
 # AVLR estimator with 95% confidence intervals
 fit_ci = avlr(allan_variance, wn = 1:7, rw = 13:15, ci = TRUE, B = 100)
+fit_ci$ci
+```
+
+
+```{r, warning = F, echo = F, eval = T}
+load("fit_ci.rda")
+fit_ci$ci
 ```

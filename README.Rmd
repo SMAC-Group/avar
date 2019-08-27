@@ -29,19 +29,36 @@ library(avar)
 
 This package provides the tools necessary to compute the empirical Allan Variance (AV) and use it to estimate the parameters of (latent) time series models. The estimation of the Allan Variance is performed through the estimator proposed by @allan1966statistics and, based on this quantity, the Allan Variance Linear Regression (AVLR) approach is often used by engineers to retrieve the parameters of time series models which are assumed to underlie the observed signals [see for example @guerrier2016theoretical]. These estimators are implemented in this package along with the relevant plotting and summary functions.
 
-To see what `simts` is capable of, please refer to the "Vignettes" tabs above.
 
-## Install Instructions
+## Installation Instructions 
 
-To install the `simts` package, there is currently one option: [GitHub](https://github.com/SMAC-Group/av/).
+The `avar` package is dependent on the `simts` package. To install the `simts` package, there are currently two options: [CRAN](https://cran.r-project.org/web/packages/simts/index.html) or [GitHub](https://github.com/SMAC-Group/simts).
 
-### Installing the package through GitHub
+### Installing the `simts` package through CRAN
 
-For users who are interested in having the latest developments, this option is ideal. Though, more dependancies are required to run a stable version of the package. Most importantly, users **must** have a compiler installed on their machine that is compatible with R (e.g. Clang).
+The installation process with CRAN is the simplest:
+
+```{r, eval = FALSE}
+install.packages("simts")
+```
+
+Installing the package this way gives you access to stable features. Furthermore, the installation itself does not require a compiler or preinstalling any dependencies. However, we are limited to updating the package on CRAN to once every month. Thus, there may be some lag between when features are developed and when they are available on this version.
+
+
+### Installing the `simts` package through GitHub
+
+We can also install the development version of `simts` package through GitHub. To do so, we can simply type:
+
+```{r, eval=F}
+devtools::install_github("SMAC-Group/simts")
+```
+
+For users who are interested in having the latest developments of `avar` package, this installation option is ideal. Though, more dependancies are required to run a stable version of the package. Most importantly, users **must** have a compiler installed on their machine that is compatible with R (e.g. Clang).
 
 *The setup to obtain the development version of `simts` is platform dependent.*
 
-### Requirements and Dependencies
+
+### Requirements and dependencies for development version of the `simts` package 
 
 **OS X**
 
@@ -63,6 +80,7 @@ For **RHEL** systems, enter the following in terminal:
 sudo yum install curl curl-devel libxml2 libxml2-dev
 ```
 
+### Installing the `avar` package through GitHub
 
 ```{r, eval = F}
 # Install dependencies
