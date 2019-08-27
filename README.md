@@ -25,69 +25,23 @@ assumed to underlie the observed signals (see for example Guerrier,
 Molinari, and Stebler 2016). These estimators are implemented in this
 package along with the relevant plotting and summary functions.
 
-## Installation Instructions
+## Install Instructions
 
-The `avar` package is dependent on the `simts` package. To install the
-`simts` package, there are currently two options:
-[CRAN](https://cran.r-project.org/web/packages/simts/index.html) or
-[GitHub](https://github.com/SMAC-Group/simts).
+To install the `avar` package, there is currently one option:
+[GitHub](https://github.com/SMAC-Group/avar). For users who are
+interested in having the latest developments, this option is ideal
+although more dependencies are required to run a stable version of the
+package. Most importantly, users **must** have a (C++) compiler
+installed on their machine that is compatible with R (e.g. Clang).
 
-### Installing the `simts` package through CRAN
+*The setup to obtain the development version of `avar` is
+platform-dependent.*
 
-The installation process with CRAN is the simplest:
+**All Systems**
 
-``` r
-install.packages("simts")
-```
-
-Installing the package this way gives you access to stable features.
-Furthermore, the installation itself does not require a compiler or
-preinstalling any dependencies. However, we are limited to updating the
-package on CRAN to once every month. Thus, there may be some lag between
-when features are developed and when they are available on this version.
-
-### Installing the `simts` package through GitHub
-
-We can also install the development version of `simts` package through
-GitHub. To do so, we can simply type:
-
-``` r
-devtools::install_github("SMAC-Group/simts")
-```
-
-For users who are interested in having the latest developments of `avar`
-package, this installation option is ideal. Though, more dependancies
-are required to run a stable version of the package. Most importantly,
-users **must** have a compiler installed on their machine that is
-compatible with R (e.g. Clang).
-
-*The setup to obtain the development version of `simts` is platform
-dependent.*
-
-### Requirements and dependencies for development version of the `simts` package
-
-**OS X**
-
-Some users report the need to use X11 to suppress shared library errors.
-To install X11, visit [xquartz.org](http://www.xquartz.org/).
-
-**Linux**
-
-Both curl and libxml are required.
-
-For **Debian** systems, enter the following in terminal:
-
-``` bash
-sudo apt-get install curl libcurl3 libcurl3-dev libxml2 libxml2-dev
-```
-
-For **RHEL** systems, enter the following in terminal:
-
-``` bash
-sudo yum install curl curl-devel libxml2 libxml2-dev
-```
-
-### Installing the `avar` package through GitHub
+Once you’ve made sure that you have a compatible C++ compiler installed
+on your computer, run the following code in an R session and you will be
+ready to use the devlopment version of `avar`.
 
 ``` r
 # Install dependencies
