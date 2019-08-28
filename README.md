@@ -11,37 +11,41 @@ Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostat
 [![minimal R
 version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
 [![packageversion](https://img.shields.io/badge/Package%20version-0.1.0-orange.svg?style=flat-square)](https://github.com/SMAC-Group/avar/blob/master/DESCRIPTION)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2019--08--27-yellowgreen.svg)](https://github.com/SMAC-Group/avar)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2019--08--29-yellowgreen.svg)](https://github.com/SMAC-Group/avar)
 
-# Welcome to `avar` package <a href="https://smac-group.com/"><img src="man/figures/logo.png" align="right" style="width: 16%; height: 16%"/></a>
+# Welcome to the `avar` package <a href="https://smac-group.com/"><img src="man/figures/logo.png" align="right" style="width: 16%; height: 16%"/></a>
 
 This package provides the tools necessary to compute the empirical Allan
 Variance (AV) and use it to estimate the parameters of (latent) time
 series models. The estimation of the Allan Variance is performed through
 the estimator proposed by Allan (1966) and, based on this quantity, the
-Allan Variance Linear Regression (AVLR) approach is often used by
-engineers to retrieve the parameters of time series models which are
-assumed to underlie the observed signals (see for example Guerrier,
-Molinari, and Stebler 2016). These estimators are implemented in this
-package along with the relevant plotting and summary functions.
+Allan Variance Linear Regression (AVLR) approach (or Allan Variance
+Slope Method) is often used by engineers to retrieve the parameters of
+time series models which are assumed to underlie the observed signals
+(see for example Guerrier, Molinari, and Stebler 2016). These estimators
+are implemented in this package along with the relevant plotting and
+summary functions.
 
 ## Install Instructions
 
-To install the `avar` package, there is currently one option:
-[GitHub](https://github.com/SMAC-Group/avar). For users who are
-interested in having the latest developments, this option is ideal
-although more dependencies are required to run a stable version of the
-package. Most importantly, users **must** have a (C++) compiler
-installed on their machine that is compatible with R (e.g. Clang).
+The `avar` package is available on both CRAN and GitHub. The CRAN
+version is considered stable while the GitHub version is subject to
+modifications/updates which may lead to installation problems or broken
+functions. You can install the stable version of the `avar` package
+with:
 
-*The setup to obtain the development version of `avar` is
-platform-dependent.*
+``` r
+install.packages("avar")
+```
 
-**All Systems**
-
-Once you’ve made sure that you have a compatible C++ compiler installed
-on your computer, run the following code in an R session and you will be
-ready to use the devlopment version of `avar`.
+For users who are interested in having the latest developments, the
+[GitHub](https://github.com/SMAC-Group/avar) version is ideal although
+more dependencies are required to run a stable version of the package.
+Most importantly, users **must** have a (C++) compiler installed on
+their machine that is compatible with R (e.g. Clang). Once you’ve made
+sure that you have a compatible C++ compiler installed on your computer,
+run the following code in an R session and you will be ready to use the
+devlopment version of `avar`.
 
 ``` r
 # Install dependencies
@@ -53,6 +57,9 @@ devtools::install_github("SMAC-Group/avar")
 # Install the package with Vignettes/User Guides 
 devtools::install_github("SMAC-Group/avar", build_vignettes = TRUE)
 ```
+
+*The setup to obtain the development version of `avar` is
+platform-dependent.*
 
 <div id="refs" class="references">
 
