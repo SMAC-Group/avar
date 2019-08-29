@@ -18,16 +18,9 @@ console output
 Displays the information on the output of the `avar()` function
 }
 \examples{
-# Set seed for reproducibility
 set.seed(999)
-
-# Simulate a Gaussian white noise
 Xt = rnorm(10000)
-
-# Compute Allan
 out = avar(Xt)
-
-# Print results
 print(out)
 
 }

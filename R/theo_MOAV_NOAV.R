@@ -10,6 +10,7 @@
 #' Here n is an integer larger than 1 and smaller than \eqn{floor\left(log_2 \left(dim\left(covmat\right)[1]\right)\right)-1}{floor(log2(dim(T)[1]))-1}.
 #' @author Haotian Xu
 #' @examples
+#' \donttest{
 #' set.seed(999)
 #' Xt = arima.sim(n = 100, list(ar = 0.3))
 #' avar(Xt, type = "to")
@@ -23,6 +24,8 @@
 #' a = a + t(a) + diag(a.diag)
 #' covmat = 0.3^a
 #' sapply(1:8, function(y){MOAV(2^y, covmat)})
+#' }
+
 MOAV = function(n, covmat){
   # k: starting position of filter
   # n: length of each block
@@ -56,6 +59,7 @@ MOAV = function(n, covmat){
 #' Here n is an integer larger than 1 and smaller than \eqn{floor\left(log_2 \left(dim\left(covmat\right)[1]\right)\right)-1}{floor(log2(dim(T)[1]))-1}.
 #' @author Haotian Xu
 #' @examples
+#' \donttest{
 #' set.seed(999)
 #' Xt = arima.sim(n = 100, list(ar = 0.3))
 #' avar(Xt, type = "to")
@@ -69,6 +73,9 @@ MOAV = function(n, covmat){
 #' a = a + t(a) + diag(a.diag)
 #' covmat = 0.3^a
 #' sapply(1:8, function(y){NOAV(2^y, covmat)})
+#' }
+#'
+
 NOAV = function(n, covmat){
   # k: index of blocks
   # n: length of each block

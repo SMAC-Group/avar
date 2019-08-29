@@ -37,27 +37,17 @@ avlr   A \code{list} that contains:
 Estimate the parameters of time series models based on the Allan Variance Linear Regression (AVLR) approach
 }
 \examples{
-# Set seed for reproducibility
+\donttest{
 set.seed(999)
 
-# Simulate a Gaussian WN and RW
 N = 100000
 Xt = rnorm(N) + cumsum(rnorm(N, 0, 3e-3))
 
-# Compute Allan variance
 av = avar(Xt)
 plot(av)
 
-# Parameter estimation
 fit = avlr(Xt, wn = 1:8, rw = 11:15)
-plot(fit, decomp = TRUE)
-
-# Point estimates
 fit
-
-# Compute confidence intervals (this step is time-demanding)
-# fit = avlr(x, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
-
-# Estimated confidence intervals and standard deviations
-# fit$ci
+plot(fit, decomp = TRUE)
+}
 }

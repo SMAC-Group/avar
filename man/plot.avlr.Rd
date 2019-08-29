@@ -47,19 +47,18 @@ Plot of Allan deviation and relative confidence intervals for each scale.
 Displays a plot of the Allan deviation (AD) with the CI values and the AD implied by the estimated parameters.
 }
 \examples{
-# Set seed for reproducibility
+\donttest{
 set.seed(999)
 
-# Simulate time series
 N = 100000
 Xt = rnorm(N) + cumsum(rnorm(N, 0, 3e-3))
 av = avlr(Xt, wn = 1:7, rw = 12:15)
 
-# Plot example
 plot.avlr(av)
 plot.avlr(av, decomp = TRUE, main = "Simulated white noise", xlab = "Scales")
 plot.avlr(av, units = "sec", legend_position = "topright")
 plot.avlr(av, col_ad = "darkred", col_ci = "pink")
+}
 }
 \author{
 Stephane Guerrier and Justin Lee

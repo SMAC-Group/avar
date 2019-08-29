@@ -34,15 +34,14 @@
 //' @author JJB
 //' @references Long-Memory Processes, the Allan Variance and Wavelets, D. B. Percival and P. Guttorp
 //' @examples
+//' \donttest{
 //' set.seed(999)
-//' # Simulate white noise (P 1) with sigma^2 = 4
 //' N = 100000
 //' white.noise = rnorm(N, 0, 2)
-//' #plot(white.noise,ylab="Simulated white noise process",xlab="Time",type="o")
-//' #Simulate random walk (P 4)
 //' random.walk = cumsum(0.1*rnorm(N, 0, 2))
 //' combined.ts = white.noise+random.walk
 //' av_mat = avar_to_cpp(combined.ts)
+//' }
 //' @keywords internal
 // [[Rcpp::export]]
 arma::mat avar_to_cpp(arma::vec x) {
@@ -106,15 +105,14 @@ arma::mat avar_to_cpp(arma::vec x) {
 //' @author JJB
 //' @references Long-Memory Processes, the Allan Variance and Wavelets, D. B. Percival and P. Guttorp
 //' @examples
+//' \donttest{
 //' set.seed(999)
-//' # Simulate white noise (P 1) with sigma^2 = 4
 //' N = 100000
 //' white.noise = rnorm(N, 0, 2)
-//' #plot(white.noise,ylab="Simulated white noise process",xlab="Time",type="o")
-//' #Simulate random walk (P 4)
 //' random.walk = cumsum(0.1*rnorm(N, 0, 2))
 //' combined.ts = white.noise+random.walk
 //' av_mat = avar_mo_cpp(combined.ts)
+//' }
 //' @keywords internal
 // [[Rcpp::export]]
 arma::mat avar_mo_cpp(arma::vec x) {

@@ -2,7 +2,7 @@ Package: avar
 Type: Package
 Title: Allan Variance 
 Version: 0.1.0
-Date: 2019-08-28
+Date: 2019-08-29
 LazyData: true
 Authors@R: c(
     person("Stéphane", "Guerrier", email = "stef.guerrier@gmail.com", role = c("aut","cre")),
@@ -16,10 +16,10 @@ Authors@R: c(
     person("Nathanael", "Claussen", role = "aut")
     )
 Maintainer: Stéphane Guerrier <stef.guerrier@gmail.com>
-Description: This system implements the Allan Variance and Allan Variance Linear Regression Estimator for Latent time series models. More details about the method can be found, for example, in Guerrier, S., Molinari, R., & Stebler, Y. (2016) <doi:10.1109/LSP.2016.2541867>. 
+Description: Implements the allan variance and allan variance linear regression estimator for latent time series models. More details about the method can be found, for example, in Guerrier, S., Molinari, R., & Stebler, Y. (2016) <doi:10.1109/LSP.2016.2541867>. 
 Depends:
     R (>= 3.5.0)
-License: AGPL-3 | file LICENSE
+License: AGPL-3
 Imports: 
     Rcpp,
     stats,

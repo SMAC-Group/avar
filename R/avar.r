@@ -35,16 +35,9 @@
 #'
 #' @references Long-Memory Processes, the Allan Variance and Wavelets, D. B. Percival and P. Guttorp
 #' @examples
-#' # Set seed for reproducibility
 #' set.seed(999)
-#'
-#' # Simulate a Gaussian white noise
 #' Xt = rnorm(10000)
-#'
-#' # Maximal overlap
 #' av_mat_mo = avar(Xt, type = "mo", freq = 100)
-#'
-#' # Tau overlap
 #' av_mat_tau = avar(Xt, type = "to")
 #'
 avar = function(x, type = "mo", freq = 1) {
@@ -84,16 +77,9 @@ avar = function(x, type = "mo", freq = 1) {
 #' @param ... Arguments to be passed to methods
 #' @return console output
 #' @examples
-#' # Set seed for reproducibility
 #' set.seed(999)
-#'
-#' # Simulate a Gaussian white noise
 #' Xt = rnorm(10000)
-#'
-#' # Compute Allan
 #' out = avar(Xt)
-#'
-#' # Print results
 #' print(out)
 #'
 print.avar = function(x, ...) {
@@ -121,16 +107,9 @@ print.avar = function(x, ...) {
 #'  \item{"Upper CI": }{The upper bound of the confidence interval for the Allan deviation (ADev).}
 #' }
 #' @examples
-#' # Set seed for reproducibility
 #' set.seed(999)
-#'
-#' # Simulate a Gaussian white noise
 #' Xt = rnorm(10000)
-#'
-#' # Compute Allan
 #' out = avar(Xt)
-#'
-#' # Summary
 #' summary(out)
 #'
 summary.avar = function(object, ...) {
@@ -169,21 +148,16 @@ summary.avar = function(object, ...) {
 #' @author Stephane Guerrier, Nathanael Claussen and Justin Lee
 #' @export
 #' @examples
-#' # Set seed for reproducibility
+#' \donttest{
 #' set.seed(999)
-#'
-#' # Simulate a Gaussian white noise
 #' Xt = rnorm(10000)
-#'
-#' # Compute Allan
 #' av = avar(Xt)
 #'
-#' # Plot example
 #' plot(av)
 #' plot(av, main = "Simulated white noise", xlab = "Scales")
 #' plot(av, units = "sec", legend_position = "topright")
 #' plot(av, col_ad = "darkred", col_ci = "pink")
-#'
+#'}
 plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
                      col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
                      legend_position = NULL, ci_ad = NULL, point_cex = NULL,
@@ -374,29 +348,19 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #' }
 #' @importFrom stats dnorm
 #' @examples
-#' # Set seed for reproducibility
+#' \donttest{
 #' set.seed(999)
 #'
-#' # Simulate a Gaussian WN and RW
 #' N = 100000
 #' Xt = rnorm(N) + cumsum(rnorm(N, 0, 3e-3))
 #'
-#' # Compute Allan variance
 #' av = avar(Xt)
 #' plot(av)
 #'
-#' # Parameter estimation
 #' fit = avlr(Xt, wn = 1:8, rw = 11:15)
-#' plot(fit, decomp = TRUE)
-#'
-#' # Point estimates
 #' fit
-#'
-#' # Compute confidence intervals (this step is time-demanding)
-#' # fit = avlr(x, wn = 1:8, rw = 10:15, ci = TRUE, B = 30)
-#'
-#' # Estimated confidence intervals and standard deviations
-#' # fit$ci
+#' plot(fit, decomp = TRUE)
+#' }
 avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
                 ci = FALSE, B = 100, alpha = 0.05){
 
@@ -530,15 +494,12 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
 #' @param ... Other arguments passed to specific methods
 #' @return Text output via print
 #' @examples
-#' \dontrun{
-#' # Set seed for reproducibility
+#' \donttest{
 #' set.seed(999)
 #'
-#' # Simulate time series
 #' N = 100000
 #' Xt = rnorm(N) + cumsum(rnorm(N, 0, 3e-3))
 #'
-#' # Maximal overlap
 #' fit = avlr(Xt, wn = 1:7, rw = 12:15)
 #' print(fit)
 #' }
@@ -583,19 +544,18 @@ print.avlr = function(x, ...) {
 #' @author Stephane Guerrier and Justin Lee
 #' @export
 #' @examples
-#' # Set seed for reproducibility
+#' \donttest{
 #' set.seed(999)
 #'
-#' # Simulate time series
 #' N = 100000
 #' Xt = rnorm(N) + cumsum(rnorm(N, 0, 3e-3))
 #' av = avlr(Xt, wn = 1:7, rw = 12:15)
 #'
-#' # Plot example
 #' plot.avlr(av)
 #' plot.avlr(av, decomp = TRUE, main = "Simulated white noise", xlab = "Scales")
 #' plot.avlr(av, units = "sec", legend_position = "topright")
 #' plot.avlr(av, col_ad = "darkred", col_ci = "pink")
+#' }
 plot.avlr = function(x, decomp = FALSE,
                      units = NULL, xlab = NULL, ylab = NULL, main = NULL,
                      col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,

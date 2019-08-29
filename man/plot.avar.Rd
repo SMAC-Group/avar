@@ -45,21 +45,16 @@ A plot of the Allan deviation and relative confidence interval for each scale.
 Displays a plot of Allan deviation with its corresponding pointwise confidence intervals.
 }
 \examples{
-# Set seed for reproducibility
+\donttest{
 set.seed(999)
-
-# Simulate a Gaussian white noise
 Xt = rnorm(10000)
-
-# Compute Allan
 av = avar(Xt)
 
-# Plot example
 plot(av)
 plot(av, main = "Simulated white noise", xlab = "Scales")
 plot(av, units = "sec", legend_position = "topright")
 plot(av, col_ad = "darkred", col_ci = "pink")
-
+}
 }
 \author{
 Stephane Guerrier, Nathanael Claussen and Justin Lee

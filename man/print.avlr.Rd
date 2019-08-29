@@ -18,15 +18,12 @@ Text output via print
 Displays information about the avlr object
 }
 \examples{
-\dontrun{
-# Set seed for reproducibility
+\donttest{
 set.seed(999)
 
-# Simulate time series
 N = 100000
 Xt = rnorm(N) + cumsum(rnorm(N, 0, 3e-3))
 
-# Maximal overlap
 fit = avlr(Xt, wn = 1:7, rw = 12:15)
 print(fit)
 }

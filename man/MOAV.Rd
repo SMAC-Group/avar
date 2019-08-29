@@ -22,6 +22,7 @@ This calculation of Maximal-overlapping Allan variance is based on the definitio
 Here n is an integer larger than 1 and smaller than \eqn{floor\left(log_2 \left(dim\left(covmat\right)[1]\right)\right)-1}{floor(log2(dim(T)[1]))-1}.
 }
 \examples{
+\donttest{
 set.seed(999)
 Xt = arima.sim(n = 100, list(ar = 0.3))
 avar(Xt, type = "to")
@@ -35,6 +36,7 @@ a[upper.tri(a,diag=TRUE)] = 0
 a = a + t(a) + diag(a.diag)
 covmat = 0.3^a
 sapply(1:8, function(y){MOAV(2^y, covmat)})
+}
 }
 \author{
 Haotian Xu

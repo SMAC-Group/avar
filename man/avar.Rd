@@ -54,16 +54,9 @@ where \eqn{ {{\bar y}_t}\left( \tau  \right) = \frac{1}{\tau }\sum\limits_{i = 0
 }
 
 \examples{
-# Set seed for reproducibility
 set.seed(999)
-
-# Simulate a Gaussian white noise
 Xt = rnorm(10000)
-
-# Maximal overlap
 av_mat_mo = avar(Xt, type = "mo", freq = 100)
-
-# Tau overlap
 av_mat_tau = avar(Xt, type = "to")
 
 }
