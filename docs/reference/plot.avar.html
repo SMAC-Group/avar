@@ -182,18 +182,11 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Set seed for reproducibility</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>999</span>)
-
-<span class='co'># Simulate a Gaussian white noise</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>999</span>)
 <span class='no'>Xt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='fl'>10000</span>)
-
-<span class='co'># Compute Allan</span>
 <span class='no'>av</span> <span class='kw'>=</span> <span class='fu'><a href='avar.html'>avar</a></span>(<span class='no'>Xt</span>)
 
-<span class='co'># Plot example</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>av</span>)</div><div class='img'><img src='plot.avar-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>av</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Simulated white noise"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Scales"</span>)</div><div class='img'><img src='plot.avar-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>av</span>, <span class='kw'>units</span> <span class='kw'>=</span> <span class='st'>"sec"</span>, <span class='kw'>legend_position</span> <span class='kw'>=</span> <span class='st'>"topright"</span>)</div><div class='img'><img src='plot.avar-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>av</span>, <span class='kw'>col_ad</span> <span class='kw'>=</span> <span class='st'>"darkred"</span>, <span class='kw'>col_ci</span> <span class='kw'>=</span> <span class='st'>"pink"</span>)</div><div class='img'><img src='plot.avar-4.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>av</span>)</div><div class='img'><img src='plot.avar-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>av</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Simulated white noise"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Scales"</span>)</div><div class='img'><img src='plot.avar-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>av</span>, <span class='kw'>units</span> <span class='kw'>=</span> <span class='st'>"sec"</span>, <span class='kw'>legend_position</span> <span class='kw'>=</span> <span class='st'>"topright"</span>)</div><div class='img'><img src='plot.avar-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>av</span>, <span class='kw'>col_ad</span> <span class='kw'>=</span> <span class='st'>"darkred"</span>, <span class='kw'>col_ci</span> <span class='kw'>=</span> <span class='st'>"pink"</span>)</div><div class='img'><img src='plot.avar-4.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -212,7 +205,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Stéphane Guerrier, James Balamuta, Gaetan Bakalli, Roberto Molinari, Justin Lee, Ahmed Radi, Hoatian Xu, Yuming Zhang, Nate Claussen.</p>
+  <p>Developed by Stéphane Guerrier, James Balamuta, Gaetan Bakalli, Roberto Molinari, Justin Lee, Ahmed Radi, Haotian Xu, Yuming Zhang, Nathanael Claussen.</p>
 </div>
 
 <div class="pkgdown">

@@ -146,11 +146,8 @@ The Maximal-overlap estimator is given by:
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>999</span>)
-<span class='co'># Simulate white noise (P 1) with sigma^2 = 4</span>
 <span class='no'>N</span> <span class='kw'>=</span> <span class='fl'>100000</span>
 <span class='no'>white.noise</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='no'>N</span>, <span class='fl'>0</span>, <span class='fl'>2</span>)
-<span class='co'>#plot(white.noise,ylab="Simulated white noise process",xlab="Time",type="o")</span>
-<span class='co'>#Simulate random walk (P 4)</span>
 <span class='no'>random.walk</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cumsum'>cumsum</a></span>(<span class='fl'>0.1</span>*<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='no'>N</span>, <span class='fl'>0</span>, <span class='fl'>2</span>))
 <span class='no'>combined.ts</span> <span class='kw'>=</span> <span class='no'>white.noise</span>+<span class='no'>random.walk</span>
 <span class='no'>av_mat</span> <span class='kw'>=</span> <span class='fu'>avar_mo_cpp</span>(<span class='no'>combined.ts</span>)</div></pre>
@@ -176,7 +173,7 @@ The Maximal-overlap estimator is given by:
 
       <footer>
       <div class="copyright">
-  <p>Developed by Stéphane Guerrier, James Balamuta, Gaetan Bakalli, Roberto Molinari, Justin Lee, Ahmed Radi, Hoatian Xu, Yuming Zhang, Nate Claussen.</p>
+  <p>Developed by Stéphane Guerrier, James Balamuta, Gaetan Bakalli, Roberto Molinari, Justin Lee, Ahmed Radi, Haotian Xu, Yuming Zhang, Nathanael Claussen.</p>
 </div>
 
 <div class="pkgdown">

@@ -3,15 +3,16 @@
 
 [![Travis-CI Build
 Status](https://travis-ci.org/SMAC-Group/avar.svg?branch=master)](https://travis-ci.org/SMAC-Group/avar)
-[![AppVeyor build
-Status](https://ci.appveyor.com/api/projects/status/github/SMAC-Group/avar?branch=master&svg=true)](https://ci.appveyor.com/project/SMAC-Group/avar)
 [![Project Status:
 Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Licence](https://img.shields.io/badge/licence-AGPL--3.0-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
 [![minimal R
 version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
-[![packageversion](https://img.shields.io/badge/Package%20version-0.1.0-orange.svg?style=flat-square)](https://github.com/SMAC-Group/avar/blob/master/DESCRIPTION)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2019--08--29-yellowgreen.svg)](https://github.com/SMAC-Group/avar)
+[![CRAN RStudio mirror
+downloads](http://cranlogs.r-pkg.org/badges/avar)](http://www.r-pkg.org/pkg/avar)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/avar)](http://www.r-pkg.org/pkg/avar)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2019--09--01-yellowgreen.svg)](https://github.com/SMAC-Group/avar)
 
 # Welcome to the `avar` package <a href="https://smac-group.com/"><img src="man/figures/logo.png" align="right" style="width: 16%; height: 16%"/></a>
 
@@ -58,8 +59,7 @@ devtools::install_github("SMAC-Group/avar")
 devtools::install_github("SMAC-Group/avar", build_vignettes = TRUE)
 ```
 
-*The setup to obtain the development version of `avar` is
-platform-dependent.*
+## References
 
 <div id="refs" class="references">
 
