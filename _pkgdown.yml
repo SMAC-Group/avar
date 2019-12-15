@@ -19,7 +19,7 @@ reference:
 navbar:
   left:
   - text: Examples
-    href: articles/example.html
+    href: articles/avar-example.html
   - text: Reference
     href: reference/index.html
   right:
