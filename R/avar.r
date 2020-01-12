@@ -34,13 +34,20 @@
 #' where \eqn{ {{\bar y}_t}\left( \tau  \right) = \frac{1}{\tau }\sum\limits_{i = 0}^{\tau  - 1} {{{\bar y}_{t - i}}} }{See PDF Manual}.
 #'
 #' @references Long-Memory Processes, the Allan Variance and Wavelets, D. B. Percival and P. Guttorp
+#' @rdname avar
 #' @examples
 #' set.seed(999)
 #' Xt = rnorm(10000)
 #' av_mat_mo = avar(Xt, type = "mo", freq = 100)
 #' av_mat_tau = avar(Xt, type = "to")
 #'
-avar = function(x, type = "mo", freq = 1) {
+avar = function(x, ...){
+  UseMethod("avar")
+}
+
+#' @rdname avar
+#' @export
+avar.default = function(x, type = "mo", freq = 1) {
 
   if(is.null(x) | length(x) <=1 | dim(as.matrix(x))[2] >1){
     stop("Provide a vector or an 'imu' object")
@@ -67,6 +74,70 @@ avar = function(x, type = "mo", freq = 1) {
   class(av) = c("avar", "list")
   av
 }
+
+#' @rdname avar
+#' @export
+avar.imu = function(x, type = "mo"){
+  # Retrive sensor name
+  if (!is.null(attr(x, "stype"))){
+    sensor_name = attr(x, "stype")
+  }else{
+    warning("Unknown sensor name. IMU object is missing some information.")
+    sensor_name = NULL
+  }
+
+  # Retrive freq
+  if (!is.null(attr(x, "freq"))){
+    freq = attr(x, "freq")
+  }else{
+    warning("Unknown frequency. IMU object is missing some information. Freq is set to 1 by default.")
+    freq = 1
+  }
+
+  # Retrive sample size
+  if (!is.null(attr(x, "dim"))){
+    n = attr(x, "dim")[1]
+  }else{
+    warning("Unknown sample size. IMU object is missing some information.")
+    n = NULL
+  }
+
+  # Retrive col names
+  if (!is.null(attr(x, "dimnames")[[2]])){
+    col_names = attr(x, "dimnames")[[2]]
+  }else{
+    stop("Unknown colunms names. IMU object is missing some information.")
+    col_names = NULL
+  }
+
+  # Retrive sensor
+  if (!is.null(attr(x, "sensor"))){
+    sensor = attr(x, "sensor")
+  }else{
+    warning("Unknown sensor. IMU object is missing some information.")
+    sensor = NULL
+  }
+
+  # Retrive axis
+  if (!is.null(attr(x, "axis"))){
+    ax = attr(x, "axis")
+  }else{
+    warning("Unknown axes. IMU object is missing some information.")
+    ax = NULL
+  }
+
+  # Compute avar
+  m = length(col_names)
+  av = list()
+  for (i in 1:m){
+    av[[i]] = avar.default(x[,i], type = type, freq = freq)
+  }
+  names(av) = col_names
+  out = list(sensor = sensor_name, freq = freq, n = n, type = sensor, axis = ax, avar = av)
+  class(out) = "imu_avar"
+  invisible(out)
+}
+
 
 
 #' Prints Allan Variance
