@@ -4,9 +4,15 @@
 \name{avar}
 \alias{avar}
 \alias{avar-package}
+\alias{avar.default}
+\alias{avar.imu}
 \title{avar}
 \usage{
-avar(x, type = "mo", freq = 1)
+avar(x, ...)
+
+\method{avar}{default}(x, type = "mo", freq = 1)
+
+\method{avar}{imu}(x, type = "mo")
 }
 \arguments{
 \item{x}{A \code{vec} of time series observations or an \code{imu} object.}
