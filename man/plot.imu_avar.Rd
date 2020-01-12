@@ -41,6 +41,7 @@ A plot of the Allan deviation and relative confidence interval for each scale.
 Displays a plot of Allan deviation with its corresponding pointwise confidence intervals.
 }
 \examples{
+data("navchip_av")
 plot(navchip_av)
 }
 \author{

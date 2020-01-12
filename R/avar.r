@@ -420,6 +420,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #' @author Stephane Guerrier and Yuming Zhang
 #' @export
 #' @examples
+#' data("navchip_av")
 #' plot(navchip_av)
 plot.imu_avar = function(x, xlab = NULL, ylab = NULL, main = NULL,
                          col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
