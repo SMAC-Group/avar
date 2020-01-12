@@ -399,6 +399,216 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   lines(x$levels, x$adev, type = "p", col = col_ad, pch = point_pch, cex = point_cex)
 }
 
+#' @title Plot Allan Deviation
+#'
+#' @description
+#' Displays a plot of Allan deviation with its corresponding pointwise confidence intervals.
+#' @method plot avar
+#' @param x                An \code{avar} object.
+#' @param xlab             A \code{string} that gives a title for the x axis.
+#' @param ylab             A \code{string} that gives a title for the y axis.
+#' @param main             A \code{string} that gives an overall title for the plot.
+#' @param col_ad           A \code{string} that specifies the color of the line allan deviation line.
+#' @param col_ci           A \code{string} that specifies the color of the shaded area covered by the confidence intervals.
+#' @param ci_ad            A \code{boolean} that determines whether to plot the confidence interval shaded area.
+#' @param nb_ticks_x       An \code{integer} that specifies the maximum number of ticks for the x-axis.
+#' @param nb_ticks_y       An \code{integer} that specifies the maximum number of ticks for the y-axis.
+#' @param point_pch        A \code{double} that specifies the symbol type to be plotted.
+#' @param point_cex        A \code{double} that specifies the size of each symbol to be plotted.
+#' @param ...              Additional arguments affecting the plot.
+#' @return A plot of the Allan deviation and relative confidence interval for each scale.
+#' @author Stephane Guerrier and Yuming Zhang
+#' @export
+#' @examples
+#' plot(navchip_av)
+plot.imu_avar = function(x, xlab = NULL, ylab = NULL, main = NULL,
+                         col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
+                         ci_ad = NULL, point_pch = NULL, point_cex = NULL, ...){
+  type = unique(x$type)
+
+  if ("Gyroscope" %in% type){
+    gyro_index = which(x$type == "Gyroscope")
+  }else{
+    gyro_index = NULL
+  }
+
+  if ("Accelerometer" %in% type){
+    accel_index = which(x$type == "Accelerometer")
+  }else{
+    accel_index = NULL
+  }
+
+  ncol = length(unique(x$axis))
+  nrow = length(type)
+  scales = x$avar[[1]]$levels
+
+  m = length(x$avar)
+  J = length(x$avar[[1]]$allan)
+  ci_up = ci_lw = av = matrix(NA, J, m)
+
+  for (i in 1:m){
+    ci_up[,i] = x$avar[[i]]$uci
+    ci_lw[,i] = x$avar[[i]]$lci
+    av[,i] = x$avar[[i]]$allan
+  }
+
+  # Axes
+  if (is.null(nb_ticks_x)){
+    nb_ticks_x = 6
+  }
+
+  if (is.null(nb_ticks_y)){
+    nb_ticks_y = 5
+  }
+
+  # Range
+  x_range = range(scales)
+  x_low = floor(log10(x_range[1]))
+  x_high = ceiling(log10(x_range[2]))
+
+  x_ticks = seq(x_low, x_high, by = 1)
+  if (length(x_ticks) > nb_ticks_x){
+    x_ticks = x_low + ceiling((x_high - x_low)/(nb_ticks_x + 1))*(0:nb_ticks_x)
+  }
+  x_labels = sapply(x_ticks, function(i) as.expression(bquote(10^ .(i))))
+
+
+  # Line and CI colors
+  if (is.null(col_ad)){
+    col_ad = "darkblue"
+  }
+
+  if (is.null(col_ci)){
+    col_ci = hcl(h = 210, l = 65, c = 100, alpha = 0.2)
+  }
+
+  if (is.null(point_pch)){
+    point_pch = 16
+  }
+
+  if (is.null(point_cex)){
+    point_cex = 1.25
+  }
+
+  # Main Title
+  if (is.null(main)){
+    main = paste("Allan Variance Representation - ", x$sensor, " @ ", x$freq, " Hz", sep="")
+  }
+
+  # Labels
+  if (is.null(xlab)){
+    xlab = bquote(paste("Averaging time ", tau, " [sec]", sep = " "))
+  }
+
+  if (is.null(ylab)){
+    ylab = expression(paste("Allan Deviation ", phi, sep = ""))
+  }
+
+
+  # Main plot
+  par(omi=rep(1.0, 4), mar=c(0,0,0,0), mfrow=c(nrow,ncol))
+
+  # Gyro
+  if (!is.null(gyro_index)){
+    y_range = c(min(ci_lw[,gyro_index]), max(ci_up[,gyro_index]))
+    y_low = floor(log10(y_range[1]))
+    y_high = ceiling(log10(y_range[2]))
+
+    y_ticks <- seq(y_low, y_high, by = 1)
+    if (length(y_ticks) > nb_ticks_y){
+      y_ticks = y_low + ceiling((y_high - y_low)/(nb_ticks_y + 1))*(0:nb_ticks_y)
+    }
+    y_labels <- sapply(y_ticks, function(i) as.expression(bquote(10^ .(i))))
+
+
+    for (i in seq_along(gyro_index)){
+      plot(NA, xlim = range(scales), ylim = y_range, xaxt="n", yaxt="n", log = "xy", bty = "n")
+      box(col = "grey")
+
+      mtext(paste("Axis - ", x$axis[gyro_index][i], sep = ""), 3, line = 0.5)
+
+      if (i == 1){
+        axis(2, at = 10^y_ticks, labels = y_labels, padj = -0.2, cex = 1.25)
+      }
+
+      if (i == 1){
+        mtext("Gyroscope", 2, line = 4.5)
+        mtext(ylab, 2, line = 2.5)
+      }
+
+      abline(h = 10^y_ticks, col = "grey85")
+      abline(v = 10^x_ticks, col = "grey85")
+
+      # CI for AD
+      if(ci_ad == TRUE || is.null(ci_ad)){
+        polygon(c(scales, rev(scales)), c(ci_lw[,gyro_index[i]], rev(ci_up[,gyro_index[i]])),
+                border = NA, col = col_ci)
+      }
+
+      # Add AD
+      lines(scales, sqrt(av[,gyro_index[i]]), type = "l", col = col_ad, pch = 16)
+      lines(scales, sqrt(av[,gyro_index[i]]), type = "p", col = col_ad, pch = point_pch, cex = point_cex)
+
+      if (is.null(accel_index)){
+        axis(1, at = 10^x_ticks, labels = x_labels, padj = -0.2, cex = 1.25)
+      }
+    }
+  }
+
+  # Accel
+  if (!is.null(accel_index)){
+    y_range = c(min(ci_lw[,accel_index]), max(ci_up[,accel_index]))
+    y_low = floor(log10(y_range[1]))
+    y_high = ceiling(log10(y_range[2]))
+
+    y_ticks <- seq(y_low, y_high, by = 1)
+    if (length(y_ticks) > nb_ticks_y){
+      y_ticks = y_low + ceiling((y_high - y_low)/(nb_ticks_y + 1))*(0:nb_ticks_y)
+    }
+    y_labels <- sapply(y_ticks, function(i) as.expression(bquote(10^ .(i))))
+
+
+    for (i in seq_along(accel_index)){
+      plot(NA, xlim = range(scales), ylim = y_range, xaxt="n", yaxt="n", log = "xy", bty = "n")
+      box(col = "grey")
+      if (i == 1){
+        axis(2, at = 10^y_ticks, labels = y_labels, padj = -0.2, cex = 1.25)
+      }
+
+
+      if (i == 1){
+        mtext("Accelerometer", 2, line = 4.5)
+        mtext(ylab, 2, line = 2.5)
+      }
+
+      if (length(accel_index) == 3 && i == 2){
+        mtext(xlab, 1, line = 3.5)
+      }
+
+      if (is.null(gyro_index)){
+        mtext(paste("Axis - ", x$axis[gyro_index][i], sep = ""), 3, line = 0.5)
+      }
+
+      abline(h = 10^y_ticks, col = "grey85")
+      abline(v = 10^x_ticks, col = "grey85")
+
+      # CI for AD
+      if(ci_ad == TRUE || is.null(ci_ad)){
+        polygon(c(scales, rev(scales)), c(ci_lw[,accel_index[i]], rev(ci_up[,accel_index[i]])),
+                border = NA, col = col_ci)
+      }
+
+      # Add AD
+      lines(scales, sqrt(av[,accel_index[i]]), type = "l", col = col_ad, pch = 16)
+      lines(scales, sqrt(av[,accel_index[i]]), type = "p", col = col_ad, pch = point_pch, cex = point_cex)
+      axis(1, at = 10^x_ticks, labels = x_labels, padj = -0.2, cex = 1.25)
+    }
+  }
+
+  # Add main title
+  mtext(main, side = 3, line = 3, outer = TRUE)
+}
+
 #' @title Computes the Allan Variance Linear Regression estimator
 #'
 #' @description
