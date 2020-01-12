@@ -62,6 +62,7 @@ avar = function(x, type = "mo", freq = 1) {
   av$lci = av$adev - 2*av$errors*av$adev
   av$uci = av$adev + 2*av$errors*av$adev
   av$type = type
+  av$freq = freq
   av$n = length(x)
   class(av) = c("avar", "list")
   av
