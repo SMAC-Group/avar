@@ -7,7 +7,8 @@
 \method{plot}{avlr}(x, decomp = FALSE, units = NULL, xlab = NULL,
   ylab = NULL, main = NULL, col_ad = NULL, col_ci = NULL,
   nb_ticks_x = NULL, nb_ticks_y = NULL, legend_position = NULL,
-  ci_ad = NULL, point_cex = NULL, point_pch = NULL, ...)
+  ci_ad = NULL, point_cex = NULL, point_pch = NULL,
+  show_scales = FALSE, ...)
 }
 \arguments{
 \item{x}{An \code{avlr} object.}
@@ -38,6 +39,8 @@
 
 \item{point_pch}{A \code{double} that specifies the symbol type to be plotted.}
 
+\item{show_scales}{A \code{boolean} that specifies if the scales used for each process should be plotted.}
+
 \item{...}{Additional arguments affecting the plot.}
 }
 \value{
@@ -58,6 +61,7 @@ plot.avlr(av)
 plot.avlr(av, decomp = TRUE, main = "Simulated white noise", xlab = "Scales")
 plot.avlr(av, units = "sec", legend_position = "topright")
 plot.avlr(av, col_ad = "darkred", col_ci = "pink")
+plot(fit, decomp = TRUE, show_scales = TRUE)
 }
 }
 \author{
