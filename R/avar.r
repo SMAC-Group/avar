@@ -429,8 +429,15 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #' av = avar(Xt)
 #' plot(av)
 #'
+#' # Input time series
 #' fit = avlr(Xt, wn = 1:8, rw = 11:15)
 #' fit
+#'
+#' # Input directly Allan variance
+#' fit = avlr(av, wn = 1:8, rw = 11:15)
+#' fit
+#'
+#' # Plot functions
 #' plot(fit)
 #' plot(fit, decomp = TRUE)
 #' plot(fit, decomp = TRUE, show_scales = TRUE)
@@ -452,6 +459,166 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
     }
   }
 
+
+  if(sum(sapply(list(qn,wn,rw,dr), is.null)) == 4){
+    stop("Please specify a least one process.")
+  }
+
+  n_processes = 4 - sum(sapply(list(qn,wn,rw,dr), is.null))
+
+  process = rep(NA,n_processes)
+  param = rep(NA,n_processes)
+  implied = matrix(NA,length(x$levels),n_processes)
+
+  counter = 0
+
+  if(!is.null(wn)){
+    if(length(wn) < 1 || !is.whole(wn) || min(wn) < 1 || max(wn) > length(x$allan)){
+      stop("wn incorrectly formatted.")
+    }
+    counter = counter + 1
+    process[counter] = "WN"
+    param[counter] = exp(mean(log(x$adev[wn]) + log(x$levels[wn])/2))
+    implied[,counter] = param[counter]/sqrt(x$levels)
+
+    if (counter == 1){
+      model_estimated = WN(sigma2 = (param[counter])^2)
+    }else{
+      model_estimated = model_estimated + WN(sigma2 = (param[counter])^2)
+    }
+  }
+
+  if(!is.null(qn)){
+    if(length(qn) < 1 || !is.whole(qn) || min(qn) < 1 || max(qn) > length(x$allan)){
+      stop("qn incorrectely formatted.")
+    }
+    counter = counter + 1
+    process[counter] = "QN"
+    param[counter] = (1/sqrt(3))*exp(mean(log(x$adev[qn]) + log(x$levels[qn])))
+    implied[,counter] = sqrt(3)*param[counter]/(x$levels)
+
+    if (counter == 1){
+      model_estimated = QN(q2 = (param[counter])^2)
+    }else{
+      model_estimated = model_estimated + QN(q2 = (param[counter])^2)
+    }
+  }
+
+  if(!is.null(rw)){
+    if(length(rw) < 1 || !is.whole(rw) || min(rw) < 1 || max(rw) > length(x$allan)){
+      stop("rw incorrectely formatted.")
+    }
+    counter = counter + 1
+    process[counter] = "RW"
+    param[counter] = sqrt(3)*exp(mean(log(x$adev[rw]) - log(x$levels[rw])/2))
+    implied[,counter] = param[counter]*sqrt(x$levels/3)
+
+    if (counter == 1){
+      model_estimated = RW(gamma2 = (param[counter])^2)
+    }else{
+      model_estimated = model_estimated + RW(gamma2 = (param[counter])^2)
+    }
+  }
+
+  if(!is.null(dr)){
+    if(length(dr) < 1 || !is.whole(dr) || min(dr) < 1 || max(dr) > length(x$allan)){
+      stop("dr incorrectely formatted.")
+    }
+    counter = counter + 1
+    process[counter] = "DR"
+    param[counter] = sqrt(2)*exp(mean(log(x$adev[dr]) - log(x$levels[dr])))
+    implied[,counter] = param[counter]*x$levels/2
+
+    if (counter == 1){
+      model_estimated = DR(omega = param[counter])
+    }else{
+      model_estimated = model_estimated + DR(omega = param[counter])
+    }
+  }
+
+  implied_ad = apply(implied, 1, sum)
+
+  estimates = t(t(param))
+  rownames(estimates) = process
+  colnames(estimates) = "Value"
+
+  # Bootstrap parameters
+  if (ci == TRUE){
+    out_boot = boostrap_ci_avlr(model = model_estimated,
+                                B = B, n = x$n, qn = qn,
+                                wn = wn, rw = rw, dr = dr,
+                                alpha = alpha)
+    param = 2*param - out_boot$mu
+    out_boot$ci = cbind(param - dnorm(1-alpha/2)*out_boot$sd, param + dnorm(1-alpha/2)*out_boot$sd)
+    print("Parameter estimates corrected for bias via bootstrap")
+  }else{
+    out_boot = NULL
+  }
+
+  # Used scales
+  scales_used = matrix(NA, 4, 2)
+  if (!is.null(qn))
+    scales_used[1, ] = range(qn)
+
+  if (!is.null(wn))
+    scales_used[2, ] = range(wn)
+
+  if (!is.null(rw))
+    scales_used[3, ] = range(rw)
+
+  if (!is.null(dr))
+    scales_used[4, ] = range(dr)
+
+  x = structure(list(estimates = param,
+                     process_desc = process,
+                     implied_ad = implied_ad,
+                     implied_ad_decomp = implied,
+                     av = x,
+                     model = model_estimated,
+                     ci = out_boot, scales_used = scales_used), class = "avlr")
+  invisible(x)
+}
+
+
+#' @title Computes the Allan Variance Linear Regression estimator
+#'
+#' @description
+#' Estimate the parameters of time series models based on the Allan Variance Linear Regression (AVLR) approach
+#' @param x     A \code{vec} of time series observations or an \code{imu} object.
+#' @param qn    A \code{vec} specifying on which scales the parameters of a Quantization Noise (QN) should be computed.
+#' @param wn    A \code{vec} specifying on which scales the parameters of a White Noise (WN) should be computed.
+#' @param rw    A \code{vec} specifying on which scales the parameters of a Random Wakk (RW) should be computed.
+#' @param dr    A \code{vec} specifying on which scales the parameters of a Drift (DR) should be computed.
+#' @param ci    A \code{boolean} to compute parameter confidence intervals.
+#' @param B     A \code{double} for the number of bootstrap replicates to compute the parameter confidence intervals.
+#' @param alpha A \code{double} defining the level of the confidence interval (1 - `alpha`).
+#' @return avlr   A \code{list} that contains:
+#' \itemize{
+#'  \item{"estimates"}{The estimated value of the parameters.}
+#'  \item{"implied_ad"}{The Allan deviation implied by the estimated parameters.}
+#'  \item{"implied_ad_decomp"}{The Allan deviation implied by the estimated parameters for each individual model (if more than one is specified).}
+#'  \item{"av"}{The \code{avar} object computed from the provided data.}
+#' }
+#' @importFrom stats dnorm
+#' @examples
+#' \donttest{
+#' set.seed(999)
+#'
+#' N = 100000
+#' Xt = rnorm(N) + cumsum(rnorm(N, 0, 3e-3))
+#'
+#' av = avar(Xt)
+#' plot(av)
+#'
+#' fit = avlr(Xt, wn = 1:8, rw = 11:15)
+#' fit
+#' plot(fit)
+#' plot(fit, decomp = TRUE)
+#' plot(fit, decomp = TRUE, show_scales = TRUE)
+#' }
+avlr.imu_avar = function(x, qn_gyro = NULL, wn_gyro = NULL, rw_gyro = NULL, dr_gyro = NULL,
+                            qn_acel = NULL, wn_acel = NULL, rw_acel = NULL, dr_acel = NULL,
+                            ci = FALSE, B = 100, alpha = 0.05){
 
   if(sum(sapply(list(qn,wn,rw,dr), is.null)) == 4){
     stop("Please specify a least one process.")
