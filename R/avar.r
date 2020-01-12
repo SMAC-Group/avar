@@ -431,7 +431,9 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 #'
 #' fit = avlr(Xt, wn = 1:8, rw = 11:15)
 #' fit
+#' plot(fit)
 #' plot(fit, decomp = TRUE)
+#' plot(fit, decomp = TRUE, show_scales = TRUE)
 #' }
 avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
                 ci = FALSE, B = 100, alpha = 0.05){
@@ -546,13 +548,27 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
     out_boot = NULL
   }
 
+  # Used scales
+  scales_used = matrix(NA, 4, 2)
+  if (!is.null(qn))
+    scales_used[1, ] = range(qn)
+
+  if (!is.null(wn))
+    scales_used[2, ] = range(wn)
+
+  if (!is.null(rw))
+    scales_used[3, ] = range(rw)
+
+  if (!is.null(dr))
+    scales_used[4, ] = range(dr)
+
   x = structure(list(estimates = param,
                      process_desc = process,
                      implied_ad = implied_ad,
                      implied_ad_decomp = implied,
                      av = x,
                      model = model_estimated,
-                     ci = out_boot), class = "avlr")
+                     ci = out_boot, scales_used = scales_used), class = "avlr")
   invisible(x)
 }
 
@@ -611,6 +627,7 @@ print.avlr = function(x, ...) {
 #' @param legend_position  A \code{string} that specifies the position of the legend (use \code{legend_position = NA} to remove legend).
 #' @param point_pch        A \code{double} that specifies the symbol type to be plotted.
 #' @param point_cex        A \code{double} that specifies the size of each symbol to be plotted.
+#' @param show_scales      A \code{boolean} that specifies if the scales used for each process should be plotted.
 #' @param ...              Additional arguments affecting the plot.
 #' @return Plot of Allan deviation and relative confidence intervals for each scale.
 #' @author Stephane Guerrier and Justin Lee
@@ -627,12 +644,13 @@ print.avlr = function(x, ...) {
 #' plot.avlr(av, decomp = TRUE, main = "Simulated white noise", xlab = "Scales")
 #' plot.avlr(av, units = "sec", legend_position = "topright")
 #' plot.avlr(av, col_ad = "darkred", col_ci = "pink")
+#' plot(fit, decomp = TRUE, show_scales = TRUE)
 #' }
 plot.avlr = function(x, decomp = FALSE,
                      units = NULL, xlab = NULL, ylab = NULL, main = NULL,
                      col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
                      legend_position = NULL, ci_ad = NULL, point_cex = NULL,
-                     point_pch = NULL, ...){
+                     point_pch = NULL, show_scales = FALSE, ...){
 
 
   # Labels
@@ -792,25 +810,59 @@ plot.avlr = function(x, decomp = FALSE,
   }
   lines(x$av$levels, x$av$adev, type = "p", col = col_ad, pch = point_pch, cex = point_cex)
 
+  if (show_scales){
+      process_cols = col_decomp
+      counter = 0
+      for (i in 1:4){
+        if (!is.na(x$scales_used[i,1])){
+          counter = counter + 1
+          lines(x$av$levels[(x$scales_used[i,1]):(x$scales_used[i,2])],
+                x$av$adev[(x$scales_used[i,1]):(x$scales_used[i,2])], type = "p",
+                col = process_cols[counter], pch = point_pch, cex = point_cex)
+        }
+      }
+  }
+
   # Add legend
   CI_conf = .95
   ad_title_part1 = "Empirical AD "
 
   if(decomp == TRUE){
-    legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
-                     as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AD",
-                     x$process_desc)
-    col_legend = c(col_ad, col_ci,"#F47F24",col_decomp)
-    p_cex_legend = c(1.25, 3, 1.5,rep(NA,U))
-    lty_legend = c(1, NA, rep(1,U))
-    pch_legend = c(16,15,1,rep(NA,U))
+    if (show_scales){
+      legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
+                       as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AD",
+                       x$process_desc, paste("Scales used for", x$process_desc))
+      col_legend = c(col_ad, col_ci,"#F47F24",col_decomp, col_decomp)
+      p_cex_legend = c(1.25, 3, 1.5,rep(NA,U), rep(1.35,U))
+      lty_legend = c(1, NA, 1, rep(1,U), rep(NA,U))
+      pch_legend = c(16,15, 1, rep(NA,U), rep(16,U))
+    }else{
+      legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
+                       as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AD",
+                       x$process_desc)
+      col_legend = c(col_ad, col_ci,"#F47F24",col_decomp)
+      p_cex_legend = c(1.25, 3, 1.5,rep(NA,U))
+      lty_legend = c(1, NA, rep(1,U))
+      pch_legend = c(16,15,1,rep(NA,U))
+    }
+
   }else{
-    legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
-                     as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AV")
-    col_legend = c(col_ad, col_ci,"#F47F24")
-    p_cex_legend = c(1.25, 3, 1.5)
-    lty_legend = c(1, NA)
-    pch_legend = c(16,15,1)
+    if (show_scales){
+      legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
+                       as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AD",
+                       paste("Scales used for", x$process_desc))
+      col_legend = c(col_ad, col_ci,"#F47F24", col_decomp)
+      p_cex_legend = c(1.25, 3, 1.5, rep(1.35,U))
+      lty_legend = c(1, NA, 1, rep(NA,U))
+      pch_legend = c(16,15, 1, rep(16,U))
+    }else{
+      legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
+                       as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AV")
+      col_legend = c(col_ad, col_ci,"#F47F24")
+      p_cex_legend = c(1.25, 3, 1.5)
+      lty_legend = c(1, NA)
+      pch_legend = c(16,15,1)
+    }
   }
   if (!is.na(legend_position)){
     if (legend_position == "topleft"){
