@@ -5,13 +5,11 @@
 \title{Computes the Allan Variance Linear Regression estimator}
 \usage{
 avlr.imu_avar(x, qn_gyro = NULL, wn_gyro = NULL, rw_gyro = NULL,
-  dr_gyro = NULL, qn_acel = NULL, wn_acel = NULL, rw_acel = NULL,
-  dr_acel = NULL, ci = FALSE, B = 100, alpha = 0.05)
+  dr_gyro = NULL, qn_acc = NULL, wn_acc = NULL, rw_acc = NULL,
+  dr_acc = NULL, B = 100, alpha = 0.05)
 }
 \arguments{
 \item{x}{A \code{vec} of time series observations or an \code{imu} object.}
-
-\item{ci}{A \code{boolean} to compute parameter confidence intervals.}
 
 \item{B}{A \code{double} for the number of bootstrap replicates to compute the parameter confidence intervals.}
 
@@ -24,6 +22,8 @@ avlr.imu_avar(x, qn_gyro = NULL, wn_gyro = NULL, rw_gyro = NULL,
 \item{rw}{A \code{vec} specifying on which scales the parameters of a Random Wakk (RW) should be computed.}
 
 \item{dr}{A \code{vec} specifying on which scales the parameters of a Drift (DR) should be computed.}
+
+\item{ci}{A \code{boolean} to compute parameter confidence intervals.}
 }
 \value{
 avlr   A \code{list} that contains:

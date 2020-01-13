@@ -387,8 +387,6 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   }
 
   # Add AD
-  lines(x$levels, x$adev, type = "l", col = col_ad, pch = 16)
-
   if (is.null(point_pch)){
     point_pch = 16
   }
@@ -396,6 +394,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   if (is.null(point_cex)){
     point_cex = 1.25
   }
+  lines(x$levels, x$adev, type = "l", col = col_ad, pch = 16)
   lines(x$levels, x$adev, type = "p", col = col_ad, pch = point_pch, cex = point_cex)
 }
 
@@ -621,6 +620,7 @@ plot.imu_avar = function(x, xlab = NULL, ylab = NULL, main = NULL,
 
   # Add main title
   mtext(main, side = 3, line = 3, outer = TRUE)
+  par(mfrow = c(1,1))
 }
 
 #' @title Computes the Allan Variance Linear Regression estimator
@@ -669,10 +669,6 @@ plot.imu_avar = function(x, xlab = NULL, ylab = NULL, main = NULL,
 avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
                 ci = FALSE, B = 100, alpha = 0.05){
 
-  # if (ci == TRUE){
-  #   stop("Method of confidence is not currently supported as it depends on an external package.")
-  # }
-
   if(is.null(x) | length(x) <=1){
     stop("Please provide a time series vector or an 'imu' object")
   }else if(class(x)[1] != "avar"){
@@ -683,97 +679,26 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
     }
   }
 
-
   if(sum(sapply(list(qn,wn,rw,dr), is.null)) == 4){
     stop("Please specify a least one process.")
   }
 
-  n_processes = 4 - sum(sapply(list(qn,wn,rw,dr), is.null))
+  # Fit parameter
+  fit = fit_avlr(qn = qn, wn = wn, rw = rw, dr = dr, ad = sqrt(x$allan), scales = x$levels)
 
-  process = rep(NA,n_processes)
-  param = rep(NA,n_processes)
-  implied = matrix(NA,length(x$levels),n_processes)
-
-  counter = 0
-
-  if(!is.null(wn)){
-    if(length(wn) < 1 || !is.whole(wn) || min(wn) < 1 || max(wn) > length(x$allan)){
-      stop("wn incorrectly formatted.")
-    }
-    counter = counter + 1
-    process[counter] = "WN"
-    param[counter] = exp(mean(log(x$adev[wn]) + log(x$levels[wn])/2))
-    implied[,counter] = param[counter]/sqrt(x$levels)
-
-    if (counter == 1){
-      model_estimated = WN(sigma2 = (param[counter])^2)
-    }else{
-      model_estimated = model_estimated + WN(sigma2 = (param[counter])^2)
-    }
-  }
-
-  if(!is.null(qn)){
-    if(length(qn) < 1 || !is.whole(qn) || min(qn) < 1 || max(qn) > length(x$allan)){
-      stop("qn incorrectely formatted.")
-    }
-    counter = counter + 1
-    process[counter] = "QN"
-    param[counter] = (1/sqrt(3))*exp(mean(log(x$adev[qn]) + log(x$levels[qn])))
-    implied[,counter] = sqrt(3)*param[counter]/(x$levels)
-
-    if (counter == 1){
-      model_estimated = QN(q2 = (param[counter])^2)
-    }else{
-      model_estimated = model_estimated + QN(q2 = (param[counter])^2)
-    }
-  }
-
-  if(!is.null(rw)){
-    if(length(rw) < 1 || !is.whole(rw) || min(rw) < 1 || max(rw) > length(x$allan)){
-      stop("rw incorrectely formatted.")
-    }
-    counter = counter + 1
-    process[counter] = "RW"
-    param[counter] = sqrt(3)*exp(mean(log(x$adev[rw]) - log(x$levels[rw])/2))
-    implied[,counter] = param[counter]*sqrt(x$levels/3)
-
-    if (counter == 1){
-      model_estimated = RW(gamma2 = (param[counter])^2)
-    }else{
-      model_estimated = model_estimated + RW(gamma2 = (param[counter])^2)
-    }
-  }
-
-  if(!is.null(dr)){
-    if(length(dr) < 1 || !is.whole(dr) || min(dr) < 1 || max(dr) > length(x$allan)){
-      stop("dr incorrectely formatted.")
-    }
-    counter = counter + 1
-    process[counter] = "DR"
-    param[counter] = sqrt(2)*exp(mean(log(x$adev[dr]) - log(x$levels[dr])))
-    implied[,counter] = param[counter]*x$levels/2
-
-    if (counter == 1){
-      model_estimated = DR(omega = param[counter])
-    }else{
-      model_estimated = model_estimated + DR(omega = param[counter])
-    }
-  }
-
-  implied_ad = apply(implied, 1, sum)
-
-  estimates = t(t(param))
-  rownames(estimates) = process
+  implied_ad = apply(fit$implied, 1, sum)
+  estimates = t(t(fit$param))
+  rownames(estimates) = fit$process
   colnames(estimates) = "Value"
 
   # Bootstrap parameters
   if (ci == TRUE){
-    out_boot = boostrap_ci_avlr(model = model_estimated,
+    out_boot = boostrap_ci_avlr(model = fit$model_estimated,
                                 B = B, n = x$n, qn = qn,
                                 wn = wn, rw = rw, dr = dr,
                                 alpha = alpha)
-    param = 2*param - out_boot$mu
-    out_boot$ci = cbind(param - dnorm(1-alpha/2)*out_boot$sd, param + dnorm(1-alpha/2)*out_boot$sd)
+    fit$param = 2*fit$param - out_boot$mu
+    out_boot$ci = cbind(fit$param - dnorm(1-alpha/2)*out_boot$sd, fit$param + dnorm(1-alpha/2)*out_boot$sd)
     print("Parameter estimates corrected for bias via bootstrap")
   }else{
     out_boot = NULL
@@ -793,14 +718,107 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
   if (!is.null(dr))
     scales_used[4, ] = range(dr)
 
-  x = structure(list(estimates = param,
-                     process_desc = process,
+  x = structure(list(estimates = fit$param,
+                     process_desc = fit$process,
                      implied_ad = implied_ad,
-                     implied_ad_decomp = implied,
+                     implied_ad_decomp = fit$implied,
                      av = x,
-                     model = model_estimated,
+                     model = fit$model_estimated,
                      ci = out_boot, scales_used = scales_used), class = "avlr")
   invisible(x)
+}
+
+#' @title Internal function to the Allan Variance Linear Regression estimator
+#'
+#' @description
+#' Estimate the parameters of time series models based on the Allan Variance Linear Regression (AVLR) approach
+#' @param qn     A \code{vec} specifying on which scales the parameters of a Quantization Noise (QN) should be computed.
+#' @param wn     A \code{vec} specifying on which scales the parameters of a White Noise (WN) should be computed.
+#' @param rw     A \code{vec} specifying on which scales the parameters of a Random Wakk (RW) should be computed.
+#' @param dr     A \code{vec} specifying on which scales the parameters of a Drift (DR) should be computed.
+#' @param ad     A \code{vec} of the Allan variance.
+#' @param scales A \code{vec} of the scales.
+#' @return       A \code{list} with the estimated parameters.
+fit_avlr = function(qn, wn, rw, dr, ad, scales){
+  # Number of processes needed
+  n_processes = 4 - sum(sapply(list(qn,wn,rw,dr), is.null))
+
+  # Initialisation
+  process = rep(NA,n_processes)
+  param = rep(NA,n_processes)
+  implied = matrix(NA,length(scales),n_processes)
+  counter = 0
+
+  # Fit WN (if any)
+  if(!is.null(wn)){
+    if(length(wn) < 1 || !is.whole(wn) || min(wn) < 1 || max(wn) > length(ad)){
+      stop("wn incorrectly formatted.")
+    }
+    counter = counter + 1
+    process[counter] = "WN"
+    param[counter] = exp(mean(log(ad[wn]) + log(scales[wn])/2))
+    implied[,counter] = param[counter]/sqrt(scales)
+
+    if (counter == 1){
+      model_estimated = WN(sigma2 = (param[counter])^2)
+    }else{
+      model_estimated = model_estimated + WN(sigma2 = (param[counter])^2)
+    }
+  }
+
+  # Fit QN (if any)
+  if(!is.null(qn)){
+    if(length(qn) < 1 || !is.whole(qn) || min(qn) < 1 || max(qn) > length(ad)){
+      stop("qn incorrectely formatted.")
+    }
+    counter = counter + 1
+    process[counter] = "QN"
+    param[counter] = (1/sqrt(3))*exp(mean(log(ad[qn]) + log(scales[qn])))
+    implied[,counter] = sqrt(3)*param[counter]/(scales)
+
+    if (counter == 1){
+      model_estimated = QN(q2 = (param[counter])^2)
+    }else{
+      model_estimated = model_estimated + QN(q2 = (param[counter])^2)
+    }
+  }
+
+  # Fit RW (if any)
+  if(!is.null(rw)){
+    if(length(rw) < 1 || !is.whole(rw) || min(rw) < 1 || max(rw) > length(ad)){
+      stop("rw incorrectely formatted.")
+    }
+    counter = counter + 1
+    process[counter] = "RW"
+    param[counter] = sqrt(3)*exp(mean(log(ad[rw]) - log(scales[rw])/2))
+    implied[,counter] = param[counter]*sqrt(scales/3)
+
+    if (counter == 1){
+      model_estimated = RW(gamma2 = (param[counter])^2)
+    }else{
+      model_estimated = model_estimated + RW(gamma2 = (param[counter])^2)
+    }
+  }
+
+  # Fit drift (if any)
+  if(!is.null(dr)){
+    if(length(dr) < 1 || !is.whole(dr) || min(dr) < 1 || max(dr) > length(ad)){
+      stop("dr incorrectely formatted.")
+    }
+    counter = counter + 1
+    process[counter] = "DR"
+    param[counter] = sqrt(2)*exp(mean(log(ad[dr]) - log(scales[dr])))
+    implied[,counter] = param[counter]*scales/2
+
+    if (counter == 1){
+      model_estimated = DR(omega = param[counter])
+    }else{
+      model_estimated = model_estimated + DR(omega = param[counter])
+    }
+  }
+
+  return(list(implied = implied, model_estimated = model_estimated, param = param,
+              process = process))
 }
 
 
@@ -826,142 +844,145 @@ avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
 #' @importFrom stats dnorm
 #' @examples
 #' \donttest{
-#' set.seed(999)
-#'
-#' N = 100000
-#' Xt = rnorm(N) + cumsum(rnorm(N, 0, 3e-3))
-#'
-#' av = avar(Xt)
-#' plot(av)
-#'
-#' fit = avlr(Xt, wn = 1:8, rw = 11:15)
-#' fit
-#' plot(fit)
-#' plot(fit, decomp = TRUE)
-#' plot(fit, decomp = TRUE, show_scales = TRUE)
+#' TO DO
 #' }
-avlr.imu_avar = function(x, qn_gyro = NULL, wn_gyro = NULL, rw_gyro = NULL, dr_gyro = NULL,
-                            qn_acel = NULL, wn_acel = NULL, rw_acel = NULL, dr_acel = NULL,
-                            ci = FALSE, B = 100, alpha = 0.05){
+avlr_imu_avar = function(x, qn_gyro = NULL, wn_gyro = NULL, rw_gyro = NULL, dr_gyro = NULL,
+                            qn_acc = NULL, wn_acc = NULL, rw_acc = NULL, dr_acc = NULL,
+                            B = 100, alpha = 0.05){
 
-  if(sum(sapply(list(qn,wn,rw,dr), is.null)) == 4){
-    stop("Please specify a least one process.")
+  if(sum(sapply(list(qn_gyro,wn_gyro,rw_gyro,dr_gyro), is.null)) == 4 && "Gyroscope" %in% x$type){
+    stop("Please specify a least one process (Gyro).")
   }
 
-  n_processes = 4 - sum(sapply(list(qn,wn,rw,dr), is.null))
-
-  process = rep(NA,n_processes)
-  param = rep(NA,n_processes)
-  implied = matrix(NA,length(x$levels),n_processes)
-
-  counter = 0
-
-  if(!is.null(wn)){
-    if(length(wn) < 1 || !is.whole(wn) || min(wn) < 1 || max(wn) > length(x$allan)){
-      stop("wn incorrectly formatted.")
-    }
-    counter = counter + 1
-    process[counter] = "WN"
-    param[counter] = exp(mean(log(x$adev[wn]) + log(x$levels[wn])/2))
-    implied[,counter] = param[counter]/sqrt(x$levels)
-
-    if (counter == 1){
-      model_estimated = WN(sigma2 = (param[counter])^2)
-    }else{
-      model_estimated = model_estimated + WN(sigma2 = (param[counter])^2)
-    }
+  if(sum(sapply(list(qn_acc,wn_acc,rw_acc,dr_acc), is.null)) == 4 && "Accelerometer" %in% x$type){
+    stop("Please specify a least one process (Accel).")
   }
 
-  if(!is.null(qn)){
-    if(length(qn) < 1 || !is.whole(qn) || min(qn) < 1 || max(qn) > length(x$allan)){
-      stop("qn incorrectely formatted.")
+  # Retrive scales
+  scales = x$avar[[1]]$levels
+  J = length(scales)
+
+  # Fit parameter of Gyro
+  if ("Gyroscope" %in% x$type){
+    # Number of axes
+    m = sum(x$type %in% "Gyroscope")
+
+    # Adjust selected scales
+    if (!is.null(qn_gyro))
+      qn_gyro = rep(qn_gyro,  m) + J*rep(0:(m-1), each = length(qn_gyro))
+
+    if (!is.null(wn_gyro))
+      wn_gyro = rep(wn_gyro,  m) + J*rep(0:(m-1), each = length(wn_gyro))
+
+    if (!is.null(rw_gyro))
+      rw_gyro = rep(rw_gyro,  m) + J*rep(0:(m-1), each = length(rw_gyro))
+
+    if (!is.null(dr_gyro))
+      dr_gyro = rep(dr_gyro,  m) + J*rep(0:(m-1), each = length(dr_gyro))
+
+    ad_gyro = NULL
+    for (i in 1:m){
+      ad_gyro = c(ad_gyro, sqrt(x$avar[[i]]$allan))
     }
-    counter = counter + 1
-    process[counter] = "QN"
-    param[counter] = (1/sqrt(3))*exp(mean(log(x$adev[qn]) + log(x$levels[qn])))
-    implied[,counter] = sqrt(3)*param[counter]/(x$levels)
+    scales_gyro = rep(scales, m)
 
-    if (counter == 1){
-      model_estimated = QN(q2 = (param[counter])^2)
-    }else{
-      model_estimated = model_estimated + QN(q2 = (param[counter])^2)
-    }
-  }
+    # Fit parameter
+    fit_gyro = fit_avlr(qn = qn_gyro, wn = wn_gyro, rw = rw_gyro, dr = dr_gyro,
+                        ad = ad_gyro, scales = scales_gyro)
 
-  if(!is.null(rw)){
-    if(length(rw) < 1 || !is.whole(rw) || min(rw) < 1 || max(rw) > length(x$allan)){
-      stop("rw incorrectely formatted.")
-    }
-    counter = counter + 1
-    process[counter] = "RW"
-    param[counter] = sqrt(3)*exp(mean(log(x$adev[rw]) - log(x$levels[rw])/2))
-    implied[,counter] = param[counter]*sqrt(x$levels/3)
+    implied_ad_gyro = apply(fit_gyro$implied, 1, sum)
+    estimates_gyro = t(t(fit_gyro$param))
+    rownames(estimates_gyro) = fit_gyro$process
+    colnames(estimates_gyro) = "Value"
 
-    if (counter == 1){
-      model_estimated = RW(gamma2 = (param[counter])^2)
-    }else{
-      model_estimated = model_estimated + RW(gamma2 = (param[counter])^2)
-    }
-  }
+    # Used scales
+    scales_used_gyro = matrix(NA, 4, 2)
+    if (!is.null(qn_gyro))
+      scales_used_gyro[1, ] = c(qn_gyro[1], qn_gyro[length(qn_gyro)/m])
 
-  if(!is.null(dr)){
-    if(length(dr) < 1 || !is.whole(dr) || min(dr) < 1 || max(dr) > length(x$allan)){
-      stop("dr incorrectely formatted.")
-    }
-    counter = counter + 1
-    process[counter] = "DR"
-    param[counter] = sqrt(2)*exp(mean(log(x$adev[dr]) - log(x$levels[dr])))
-    implied[,counter] = param[counter]*x$levels/2
+    if (!is.null(wn_gyro))
+      scales_used_gyro[2, ] = c(wn_gyro[1], wn_gyro[length(wn_gyro)/m])
 
-    if (counter == 1){
-      model_estimated = DR(omega = param[counter])
-    }else{
-      model_estimated = model_estimated + DR(omega = param[counter])
-    }
-  }
+    if (!is.null(rw_gyro))
+      scales_used_gyro[3, ] = c(rw_gyro[1], rw_gyro[length(rw_gyro)/m])
 
-  implied_ad = apply(implied, 1, sum)
+    if (!is.null(dr_gyro))
+      scales_used_gyro[4, ] = c(dr_gyro[1], dr_gyro[length(dr_gyro)/m])
 
-  estimates = t(t(param))
-  rownames(estimates) = process
-  colnames(estimates) = "Value"
-
-  # Bootstrap parameters
-  if (ci == TRUE){
-    out_boot = boostrap_ci_avlr(model = model_estimated,
-                                B = B, n = x$n, qn = qn,
-                                wn = wn, rw = rw, dr = dr,
-                                alpha = alpha)
-    param = 2*param - out_boot$mu
-    out_boot$ci = cbind(param - dnorm(1-alpha/2)*out_boot$sd, param + dnorm(1-alpha/2)*out_boot$sd)
-    print("Parameter estimates corrected for bias via bootstrap")
+    gyro_out = list(estimates = fit_gyro$param,
+                    process_desc = fit_gyro$process,
+                    implied_ad = implied_ad_gyro,
+                    implied_ad_decomp = fit_gyro$implied,
+                    model = fit_gyro$model_estimated,
+                    scales_used = scales_used_gyro)
   }else{
-    out_boot = NULL
+    gyro_out = NULL
   }
 
-  # Used scales
-  scales_used = matrix(NA, 4, 2)
-  if (!is.null(qn))
-    scales_used[1, ] = range(qn)
 
-  if (!is.null(wn))
-    scales_used[2, ] = range(wn)
+  # Fit parameter of Acce
+  if ("Accelerometer" %in% x$type){
+    # Number of axes
+    m = sum(x$type %in% "Accelerometer")
 
-  if (!is.null(rw))
-    scales_used[3, ] = range(rw)
+    # Adjust selected scales
+    if (!is.null(qn_acc))
+      qn_acc = rep(qn_acc,  m) + J*rep(0:(m-1), each = length(qn_acc))
 
-  if (!is.null(dr))
-    scales_used[4, ] = range(dr)
+    if (!is.null(wn_acc))
+      wn_acc = rep(wn_acc,  m) + J*rep(0:(m-1), each = length(wn_acc))
 
-  x = structure(list(estimates = param,
-                     process_desc = process,
-                     implied_ad = implied_ad,
-                     implied_ad_decomp = implied,
-                     av = x,
-                     model = model_estimated,
-                     ci = out_boot, scales_used = scales_used), class = "avlr")
-  invisible(x)
+    if (!is.null(rw_acc))
+      rw_acc = rep(rw_acc,  m) + J*rep(0:(m-1), each = length(rw_acc))
+
+    if (!is.null(dr_acc))
+      dr_acc = rep(dr_acc,  m) + J*rep(0:(m-1), each = length(dr_acc))
+
+    ad_acc = NULL
+    for (i in 1:m){
+      ad_acc = c(ad_acc, sqrt(x$avar[[i]]$allan))
+    }
+    scales_acc = rep(scales, m)
+
+    # Fit parameter
+    fit_acc = fit_avlr(qn = qn_acc, wn = wn_acc, rw = rw_acc, dr = dr_acc,
+                        ad = ad_acc, scales = scales_acc)
+
+    implied_ad_acc = apply(fit_acc$implied, 1, sum)
+    estimates_acc = t(t(fit_acc$param))
+    rownames(estimates_acc) = fit_acc$process
+    colnames(estimates_acc) = "Value"
+
+    # Used scales
+    scales_used_acc = matrix(NA, 4, 2)
+    if (!is.null(qn_acc))
+      scales_used_acc[1, ] = c(qn_acc[1], qn_acc[length(qn_acc)/m])
+
+    if (!is.null(wn_acc))
+      scales_used_acc[2, ] = c(wn_acc[1], wn_acc[length(wn_acc)/m])
+
+    if (!is.null(rw_acc))
+      scales_used_acc[3, ] = c(rw_acc[1], rw_acc[length(rw_acc)/m])
+
+    if (!is.null(dr_acc))
+      scales_used_acc[4, ] = c(dr_acc[1], dr_acc[length(dr_acc)/m])
+
+    acc_out = list(estimates = fit_acc$param,
+                    process_desc = fit_acc$process,
+                    implied_ad = implied_ad_acc,
+                    implied_ad_decomp = fit_acc$implied,
+                    model = fit_acc$model_estimated,
+                    scales_used = scales_used_acc)
+  }else{
+    acc_out = NULL
+  }
+
+  list(gyro = gyro_out, acc = acc_out, imu_av = x)
 }
+
+
+
+
 
 #' Print avlr object
 #'
@@ -1186,8 +1207,8 @@ plot.avlr = function(x, decomp = FALSE,
     }
   }
   # Plot implied AD
-  lines(t(x$av$levels),x$implied_ad, type = "l", lwd = 3, col = "#F47F24", pch = 1, cex = 1.5)
-  lines(t(x$av$levels),x$implied_ad, type = "p", lwd = 2, col = "#F47F24", pch = 1, cex = 1.5)
+  lines(t(x$av$levels),x$implied_ad, type = "b", lwd = 2, col = "#F47F24", pch = 1, cex = 1.5)
+  #lines(t(x$av$levels),x$implied_ad, type = "p", lwd = 2, col = "#F47F24", pch = 1, cex = 1.5)
 
   # Add AD
   lines(x$av$levels, x$av$adev, type = "l", col = col_ad, pch = 16)
