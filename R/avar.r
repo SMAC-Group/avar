@@ -451,8 +451,12 @@ plot.imu_avar = function(x, xlab = NULL, ylab = NULL, main = NULL,
       index_to_remove = c(index_to_remove, which(x$avar[[i]]$lci<0))
     }
   }
-  index_to_remove = unique(index_to_remove)
-  index_to_keep = which(seq(1:J) != index_to_remove)
+  if (!is.null(index_to_remove)){
+    index_to_remove = unique(index_to_remove)
+    index_to_keep = which(seq(1:J) != index_to_remove)
+  }else{
+    index_to_keep = 1:J
+  }
 
   J = length(index_to_keep)
   scales = x$avar[[1]]$levels[index_to_keep]
