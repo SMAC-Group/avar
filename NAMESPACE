@@ -2,6 +2,8 @@
 
 S3method(avar,default)
 S3method(avar,imu)
+S3method(avlr,default)
+S3method(avlr,imu_avar)
 S3method(plot,avar)
 S3method(plot,avlr)
 S3method(print,avar)
