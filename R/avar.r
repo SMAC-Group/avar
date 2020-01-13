@@ -441,16 +441,29 @@ plot.imu_avar = function(x, xlab = NULL, ylab = NULL, main = NULL,
 
   ncol = length(unique(x$axis))
   nrow = length(type)
-  scales = x$avar[[1]]$levels
 
   m = length(x$avar)
   J = length(x$avar[[1]]$allan)
+
+  # remove negative CI values
+  index_to_remove = c()
+  for (i in 1:m) {
+    if(length(which(x$avar[[i]]$lci<0)) > 0){
+      index_to_remove = c(index_to_remove, which(x$avar[[i]]$lci<0))
+    }
+  }
+  index_to_remove = unique(index_to_remove)
+  index_to_keep = which(seq(1:J) != index_to_remove)
+
+  J = length(index_to_keep)
+  scales = x$avar[[1]]$levels[index_to_keep]
+
   ci_up = ci_lw = av = matrix(NA, J, m)
 
   for (i in 1:m){
-    ci_up[,i] = x$avar[[i]]$uci
-    ci_lw[,i] = x$avar[[i]]$lci
-    av[,i] = x$avar[[i]]$allan
+    ci_up[,i] = x$avar[[i]]$uci[index_to_keep]
+    ci_lw[,i] = x$avar[[i]]$lci[index_to_keep]
+    av[,i] = x$avar[[i]]$allan[index_to_keep]
   }
 
   # Axes
