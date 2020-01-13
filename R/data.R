@@ -11,3 +11,32 @@
 #' }
 #' @source The IMU data of the navchip sensor comes from Geodetic Engineering Laboratory (TOPO) and Swiss Federal Institute of Technology Lausanne (EPFL).
 "navchip_av"
+
+#' @title Allan variance of IMU Data from an ADIS 16405 sensor
+#' @description This data set contains Allan variance of gyroscope and accelerometer data from an ADIS 16405 sensor.
+#' @format A list of the following elements:
+#' \describe{
+#'  \item{\code{sensor}}{Name of the sensor.}
+#'  \item{\code{freq}}{The frequency at which the error signal is measured.}
+#'  \item{\code{n}}{Sample size of the data.}
+#'  \item{\code{type}}{The types of sensors considered in the data.}
+#'  \item{\code{axis}}{The axes of sensors considered in the data.}
+#'  \item{\code{avar}}{A list containing the computed Allan variance based on the data.}
+#' }
+#' @source The IMU data comes from Department of Geomatics Engineering, University of Calgary.
+"adis_av"
+
+#' @title Allan variance of IMU Data from a KVH1750 IMU  sensor
+#' @description This data set contains Allan variance of gyroscope and accelerometer data from an KVH1750 sensor.
+#' @format A list of the following elements:
+#' \describe{
+#'  \item{\code{sensor}}{Name of the sensor.}
+#'  \item{\code{freq}}{The frequency at which the error signal is measured.}
+#'  \item{\code{n}}{Sample size of the data.}
+#'  \item{\code{type}}{The types of sensors considered in the data.}
+#'  \item{\code{axis}}{The axes of sensors considered in the data.}
+#'  \item{\code{avar}}{A list containing the computed Allan variance based on the data.}
+#' }
+#' @source The IMU data comes from Department of Geomatics Engineering, University of Calgary.
+"kvh1750_av"
+
