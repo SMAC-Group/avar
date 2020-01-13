@@ -643,6 +643,7 @@ plot.imu_avar = function(x, xlab = NULL, ylab = NULL, main = NULL,
 #'  \item{"av"}{The \code{avar} object computed from the provided data.}
 #' }
 #' @importFrom stats dnorm
+#' @rdname avlr
 #' @examples
 #' \donttest{
 #' set.seed(999)
@@ -666,7 +667,13 @@ plot.imu_avar = function(x, xlab = NULL, ylab = NULL, main = NULL,
 #' plot(fit, decomp = TRUE)
 #' plot(fit, decomp = TRUE, show_scales = TRUE)
 #' }
-avlr = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
+avlr = function(x, ...){
+  UseMethod("avlr")
+}
+
+#' @rdname avlr
+#' @export
+avlr.default = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
                 ci = FALSE, B = 100, alpha = 0.05){
 
   if(is.null(x) | length(x) <=1){
@@ -822,31 +829,9 @@ fit_avlr = function(qn, wn, rw, dr, ad, scales){
 }
 
 
-#' @title Computes the Allan Variance Linear Regression estimator
-#'
-#' @description
-#' Estimate the parameters of time series models based on the Allan Variance Linear Regression (AVLR) approach
-#' @param x     A \code{vec} of time series observations or an \code{imu} object.
-#' @param qn    A \code{vec} specifying on which scales the parameters of a Quantization Noise (QN) should be computed.
-#' @param wn    A \code{vec} specifying on which scales the parameters of a White Noise (WN) should be computed.
-#' @param rw    A \code{vec} specifying on which scales the parameters of a Random Wakk (RW) should be computed.
-#' @param dr    A \code{vec} specifying on which scales the parameters of a Drift (DR) should be computed.
-#' @param ci    A \code{boolean} to compute parameter confidence intervals.
-#' @param B     A \code{double} for the number of bootstrap replicates to compute the parameter confidence intervals.
-#' @param alpha A \code{double} defining the level of the confidence interval (1 - `alpha`).
-#' @return avlr   A \code{list} that contains:
-#' \itemize{
-#'  \item{"estimates"}{The estimated value of the parameters.}
-#'  \item{"implied_ad"}{The Allan deviation implied by the estimated parameters.}
-#'  \item{"implied_ad_decomp"}{The Allan deviation implied by the estimated parameters for each individual model (if more than one is specified).}
-#'  \item{"av"}{The \code{avar} object computed from the provided data.}
-#' }
-#' @importFrom stats dnorm
-#' @examples
-#' \donttest{
-#' TO DO
-#' }
-avlr_imu_avar = function(x, qn_gyro = NULL, wn_gyro = NULL, rw_gyro = NULL, dr_gyro = NULL,
+#' @rdname avlr
+#' @export
+avlr.imu_avar = function(x, qn_gyro = NULL, wn_gyro = NULL, rw_gyro = NULL, dr_gyro = NULL,
                             qn_acc = NULL, wn_acc = NULL, rw_acc = NULL, dr_acc = NULL,
                             B = 100, alpha = 0.05){
 
@@ -977,7 +962,9 @@ avlr_imu_avar = function(x, qn_gyro = NULL, wn_gyro = NULL, rw_gyro = NULL, dr_g
     acc_out = NULL
   }
 
-  list(gyro = gyro_out, acc = acc_out, imu_av = x)
+  out = list(gyro = gyro_out, acc = acc_out, imu_av = x)
+  class(out) = "imu_avlr"
+  invisible(out)
 }
 
 
