@@ -865,9 +865,12 @@ avlr.imu_avar = function(x, qn_gyro = NULL, wn_gyro = NULL, rw_gyro = NULL, dr_g
     if (!is.null(dr_gyro))
       dr_gyro = rep(dr_gyro,  m) + J*rep(0:(m-1), each = length(dr_gyro))
 
+    # Index gyro
+    ind_gyro = 1:(length(x$type)) * (x$type %in% "Gyroscope")
+    ind_gyro = ind_gyro[ind_gyro > 0]
     ad_gyro = NULL
     for (i in 1:m){
-      ad_gyro = c(ad_gyro, sqrt(x$avar[[i]]$allan))
+      ad_gyro = c(ad_gyro, sqrt(x$avar[[ind_gyro[i]]]$allan))
     }
     scales_gyro = rep(scales, m)
 
@@ -923,9 +926,12 @@ avlr.imu_avar = function(x, qn_gyro = NULL, wn_gyro = NULL, rw_gyro = NULL, dr_g
     if (!is.null(dr_acc))
       dr_acc = rep(dr_acc,  m) + J*rep(0:(m-1), each = length(dr_acc))
 
+    # Find index accel
+    ind_acc = 1:(length(x$type)) * (x$type %in% "Accelerometer")
+    ind_acc = ind_acc[ind_acc > 0]
     ad_acc = NULL
     for (i in 1:m){
-      ad_acc = c(ad_acc, sqrt(x$avar[[i]]$allan))
+      ad_acc = c(ad_acc, sqrt(x$avar[[ind_acc[i]]]$allan))
     }
     scales_acc = rep(scales, m)
 
@@ -1021,7 +1027,7 @@ print.avlr = function(x, ...) {
 #' \donttest{
 #' # TO DO
 #' }
-print_imu_avlr = function(x, ...) {
+print.imu_avlr = function(x, ...) {
   if("Gyroscope" %in% x$imu_av$type){
     cat("\n Estimates for gyroscopes: \n")
     estimates = t(t(x$gyro$estimates))
@@ -1040,7 +1046,7 @@ print_imu_avlr = function(x, ...) {
 }
 
 #' TO DO
-test = function(x, xlab = NULL, ylab = NULL, main = NULL,
+plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
                          col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
                          ci_ad = NULL, point_pch = NULL, point_cex = NULL, ...){
   type = unique(x$imu_av$type)
@@ -1124,7 +1130,7 @@ test = function(x, xlab = NULL, ylab = NULL, main = NULL,
 
   # Main Title
   if (is.null(main)){
-    main = paste("Allan Variance Representation - ", x$sensor, " @ ", x$freq, " Hz", sep="")
+    main = paste("Allan Variance Representation - ", x$imu_av$sensor, " @ ", x$imu_av$freq, " Hz", sep="")
   }
 
   # Labels
@@ -1142,7 +1148,7 @@ test = function(x, xlab = NULL, ylab = NULL, main = NULL,
 
   # Gyro
   if (!is.null(gyro_index)){
-    y_range = c(min(ci_lw[,gyro_index]), max(ci_up[,gyro_index]))
+    y_range = c(min(ci_lw[,gyro_index]), max(c(ci_up[,gyro_index], x$gyro$implied_ad[1:length(scales)])))
     y_low = floor(log10(y_range[1]))
     y_high = ceiling(log10(y_range[2]))
 
@@ -1157,7 +1163,7 @@ test = function(x, xlab = NULL, ylab = NULL, main = NULL,
       plot(NA, xlim = range(scales), ylim = y_range, xaxt="n", yaxt="n", log = "xy", bty = "n")
       box(col = "grey")
 
-      mtext(paste("Axis - ", x$gyro$axis[gyro_index][i], sep = ""), 3, line = 0.5)
+      mtext(paste("Axis - ", x$imu_av$axis[gyro_index][i], sep = ""), 3, line = 0.5)
 
       if (i == 1){
         axis(2, at = 10^y_ticks, labels = y_labels, padj = -0.2, cex = 1.25)
@@ -1191,7 +1197,7 @@ test = function(x, xlab = NULL, ylab = NULL, main = NULL,
 
   # Accel
   if (!is.null(accel_index)){
-    y_range = c(min(ci_lw[,accel_index]), max(ci_up[,accel_index]))
+    y_range = c(min(ci_lw[,accel_index]), max(c(ci_up[,accel_index], x$acc$implied_ad[1:length(scales)])))
     y_low = floor(log10(y_range[1]))
     y_high = ceiling(log10(y_range[2]))
 
@@ -1220,7 +1226,7 @@ test = function(x, xlab = NULL, ylab = NULL, main = NULL,
       }
 
       if (is.null(gyro_index)){
-        mtext(paste("Axis - ", x$axis[gyro_index][i], sep = ""), 3, line = 0.5)
+        mtext(paste("Axis - ", x$imu_av$axis[gyro_index][i], sep = ""), 3, line = 0.5)
       }
 
       abline(h = 10^y_ticks, col = "grey85")
