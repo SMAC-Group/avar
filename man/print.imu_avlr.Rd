@@ -2,24 +2,10 @@
 % Please edit documentation in R/avar.r
 \name{print.imu_avlr}
 \alias{print.imu_avlr}
-\title{Print imu_avlr object}
+\title{TO DO}
 \usage{
 \method{print}{imu_avlr}(x, ...)
 }
-\arguments{
-\item{x}{A \code{imu_avlr} object}
-
-\item{...}{Other arguments passed to specific methods}
-}
-\value{
-Text output via print
-}
 \description{
-Displays information about the imu_avlr object
+TO DO
 }
-\examples{
-\donttest{
-# TO DO
-}
-}
-\keyword{internal}

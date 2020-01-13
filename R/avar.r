@@ -1014,19 +1014,7 @@ print.avlr = function(x, ...) {
 }
 
 
-#' Print imu_avlr object
-#'
-#' Displays information about the imu_avlr object
-#' @method print imu_avlr
-#' @export
-#' @keywords internal
-#' @param x   A \code{imu_avlr} object
-#' @param ... Other arguments passed to specific methods
-#' @return Text output via print
-#' @examples
-#' \donttest{
-#' # TO DO
-#' }
+#' TO DO
 print.imu_avlr = function(x, ...) {
   if("Gyroscope" %in% x$imu_av$type){
     cat("\n Estimates for gyroscopes: \n")
@@ -1044,6 +1032,7 @@ print.imu_avlr = function(x, ...) {
     print(estimates)
   }
 }
+
 
 #' TO DO
 plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
