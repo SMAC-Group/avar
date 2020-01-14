@@ -1330,7 +1330,7 @@ plot.avlr = function(x, decomp = FALSE,
     x_high = ceiling(log2(x_range[2]))
   }
 
-
+  #compute y range
   y_range = range(cbind(x$av$adev - x$av$adev*x$av$errors, x$av$adev + x$av$adev*x$av$errors))
   y_low = floor(log10(y_range[1]))
   y_high = ceiling(log10(y_range[2]))
@@ -1375,10 +1375,9 @@ plot.avlr = function(x, decomp = FALSE,
        log = "xy", xaxt = 'n', yaxt = 'n', bty = "n", ann = FALSE)
   win_dim = par("usr")
 
-  par(new = TRUE)
-  plot(NA, xlim = x_range, ylim = 10^c(win_dim[3], win_dim[4] + 0.09*(win_dim[4] - win_dim[3])),
-       xlab = xlab, ylab = ylab, log = "xy", xaxt = 'n', yaxt = 'n', bty = "n")
-  win_dim = par("usr")
+  #par(new = TRUE)
+  #plot(NA, xlim = x_range, ylim = 10^c(win_dim[3], win_dim[4] + 0.09*(win_dim[4] - win_dim[3])), xlab = xlab, ylab = ylab, log = "xy", xaxt = 'n', yaxt = 'n', bty = "n")
+  #win_dim = par("usr")
 
   # Add Grid
   if(length(x$av$levels) >=10){
@@ -1388,24 +1387,17 @@ plot.avlr = function(x, decomp = FALSE,
   }
   abline(h = 10^y_ticks, lty = 1, col = "grey95")
 
-  # Add Title
-  x_vec = 10^c(win_dim[1], win_dim[2], win_dim[2], win_dim[1])
-  y_vec = 10^c(win_dim[4], win_dim[4],
-               win_dim[4] - 0.09*(win_dim[4] - win_dim[3]),
-               win_dim[4] - 0.09*(win_dim[4] - win_dim[3]))
-  polygon(x_vec, y_vec, col = "grey95", border = NA)
-  text(x = 10^mean(c(win_dim[1], win_dim[2])), y = 10^(win_dim[4] - 0.09/2*(win_dim[4] - win_dim[3])), main)
-
-  # Add Axes and Box
-  lines(x_vec[1:2], rep(10^(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])),2), col = 1)
   #y_ticks = y_ticks[(2^y_ticks) < 10^(win_dim[4] - 0.09*(win_dim[4] - win_dim[3]))]
   y_labels = y_labels[1:length(y_ticks)]
-  box()
+
+  #x axis
   if(length(x$av$levels) >=10){
     axis(1, at = 10^x_ticks, labels = x_labels, padj = 0.3)
   }else{
     axis(1, at = 2^x_ticks, labels = x_labels, padj = 0.3)
   }
+
+  #yaxis
   axis(2, at = 10^y_ticks, labels = y_labels, padj = -0.2)
 
   # CI for AD
@@ -1449,17 +1441,31 @@ plot.avlr = function(x, decomp = FALSE,
   lines(x$av$levels, x$av$adev, type = "p", col = col_ad, pch = point_pch, cex = point_cex)
 
   if (show_scales){
-      process_cols = col_decomp
-      counter = 0
-      for (i in 1:4){
-        if (!is.na(x$scales_used[i,1])){
-          counter = counter + 1
-          lines(x$av$levels[(x$scales_used[i,1]):(x$scales_used[i,2])],
-                x$av$adev[(x$scales_used[i,1]):(x$scales_used[i,2])], type = "p",
-                col = process_cols[counter], pch = point_pch, cex = point_cex)
-        }
+    process_cols = col_decomp
+    counter = 0
+    for (i in 1:4){
+      if (!is.na(x$scales_used[i,1])){
+        counter = counter + 1
+        lines(x$av$levels[(x$scales_used[i,1]):(x$scales_used[i,2])],
+              x$av$adev[(x$scales_used[i,1]):(x$scales_used[i,2])], type = "p",
+              col = process_cols[counter], pch = point_pch, cex = point_cex)
       }
+    }
   }
+
+  # Add Title
+  x_vec = 10^c(win_dim[1], win_dim[2], win_dim[2], win_dim[1])
+  y_vec = 10^c(win_dim[4], win_dim[4],
+               win_dim[4] - 0.09*(win_dim[4] - win_dim[3]),
+               win_dim[4] - 0.09*(win_dim[4] - win_dim[3]))
+  polygon(x_vec, y_vec, col = "grey95", border = NA)
+  text(x = 10^mean(c(win_dim[1], win_dim[2])), y = 10^(win_dim[4] - 0.09/2*(win_dim[4] - win_dim[3])), main)
+
+  # Add line below title
+  lines(x_vec[1:2], rep(10^(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])),2), col = 1)
+
+  #add box around plot
+  box()
 
   # Add legend
   CI_conf = .95
@@ -1522,7 +1528,6 @@ plot.avlr = function(x, decomp = FALSE,
     }
   }
 }
-
 
 #' Compute bootstrap confidence intervals for the AVLR estimator
 #'
