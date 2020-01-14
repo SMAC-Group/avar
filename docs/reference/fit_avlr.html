@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Authors • avar</title>
+<title>Internal function to the Allan Variance Linear Regression estimator — fit_avlr • avar</title>
 
 
 <!-- jquery -->
@@ -27,13 +27,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Authors" />
+<meta property="og:title" content="Internal function to the Allan Variance Linear Regression estimator — fit_avlr" />
+<meta property="og:description" content="Estimate the parameters of time series models based on the Allan Variance Linear Regression (AVLR) approach" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -53,7 +54,7 @@
   </head>
 
   <body>
-    <div class="container template-authors">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -65,7 +66,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">avar</a>
+        <a class="navbar-link" href="../index.html">avar</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
@@ -73,10 +74,10 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="articles/avar-example.html">Examples</a>
+  <a href="../articles/avar-example.html">Examples</a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -96,54 +97,62 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Authors</h1>
+    <h1>Internal function to the Allan Variance Linear Regression estimator</h1>
+    <small class="dont-index">Source: <a href='https://github.com/SMAC-Group/avar/blob/master/R/avar.r'><code>R/avar.r</code></a></small>
+    <div class="hidden name"><code>fit_avlr.Rd</code></div>
     </div>
 
-    <ul class="list-unstyled">
-      <li>
-        <p><strong>Stéphane Guerrier</strong>. Author, maintainer. 
-        </p>
-      </li>
-      <li>
-        <p><strong>James Balamuta</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong>Gaetan Bakalli</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong>Roberto Molinari</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong>Justin Lee</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong>Ahmed Radi</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong>Haotian Xu</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong>Yuming Zhang</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong>Nathanael Claussen</strong>. Author. 
-        </p>
-      </li>
+    <div class="ref-description">
+    <p>Estimate the parameters of time series models based on the Allan Variance Linear Regression (AVLR) approach</p>
+    </div>
+
+    <pre class="usage"><span class='fu'>fit_avlr</span>(<span class='no'>qn</span>, <span class='no'>wn</span>, <span class='no'>rw</span>, <span class='no'>dr</span>, <span class='no'>ad</span>, <span class='no'>scales</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>qn</th>
+      <td><p>A <code>vec</code> specifying on which scales the parameters of a Quantization Noise (QN) should be computed.</p></td>
+    </tr>
+    <tr>
+      <th>wn</th>
+      <td><p>A <code>vec</code> specifying on which scales the parameters of a White Noise (WN) should be computed.</p></td>
+    </tr>
+    <tr>
+      <th>rw</th>
+      <td><p>A <code>vec</code> specifying on which scales the parameters of a Random Wakk (RW) should be computed.</p></td>
+    </tr>
+    <tr>
+      <th>dr</th>
+      <td><p>A <code>vec</code> specifying on which scales the parameters of a Drift (DR) should be computed.</p></td>
+    </tr>
+    <tr>
+      <th>ad</th>
+      <td><p>A <code>vec</code> of the Allan variance.</p></td>
+    </tr>
+    <tr>
+      <th>scales</th>
+      <td><p>A <code>vec</code> of the scales.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A <code>list</code> with the estimated parameters.</p>
+
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
     </ul>
 
   </div>
-
 </div>
-
 
       <footer>
       <div class="copyright">

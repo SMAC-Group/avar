@@ -2,10 +2,26 @@
 % Please edit documentation in R/avar.r
 \name{print.imu_avlr}
 \alias{print.imu_avlr}
-\title{TO DO}
+\title{Print imu_avlr object}
 \usage{
-\method{print}{imu_avlr}(x, ...)
+\method{print}{avlr}(x, ...)
+}
+\arguments{
+\item{x}{A \code{avlr} object}
+
+\item{...}{Other arguments passed to specific methods}
+}
+\value{
+Text output via print
 }
 \description{
-TO DO
+Displays information about the avlr object
 }
+\examples{
+\donttest{
+data(navchip_av)
+navchip_avlr = avlr(navchip_av, wn_gyro = 1:20, rw_gyro = 1:20, wn_acc = 1:20, rw_acc = 1:20)
+print(navchip_avlr)
+}
+}
+\keyword{internal}

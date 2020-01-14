@@ -2,13 +2,59 @@
 % Please edit documentation in R/avar.r
 \name{plot.imu_avlr}
 \alias{plot.imu_avlr}
-\title{TO DO}
+\title{Plot the AVLR with the Allan Deviation for IMU}
 \usage{
-\method{plot}{imu_avlr}(x, xlab = NULL, ylab = NULL, main = NULL,
+\method{plot}{avlr}(x, xlab = NULL, ylab = NULL, main = NULL,
   col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL,
   nb_ticks_y = NULL, ci_ad = NULL, point_pch = NULL,
   point_cex = NULL, ...)
 }
+\arguments{
+\item{x}{An \code{avlr} object.}
+
+\item{xlab}{A \code{string} that gives a title for the x axis.}
+
+\item{ylab}{A \code{string} that gives a title for the y axis.}
+
+\item{main}{A \code{string} that gives an overall title for the plot.}
+
+\item{col_ad}{A \code{string} that specifies the color of the line allan deviation line.}
+
+\item{col_ci}{A \code{string} that specifies the color of the shaded area covered by the confidence intervals.}
+
+\item{nb_ticks_x}{An \code{integer} that specifies the maximum number of ticks for the x-axis.}
+
+\item{nb_ticks_y}{An \code{integer} that specifies the maximum number of ticks for the y-axis.}
+
+\item{ci_ad}{A \code{boolean} that determines whether to plot the confidence interval shaded area.}
+
+\item{point_pch}{A \code{double} that specifies the symbol type to be plotted.}
+
+\item{point_cex}{A \code{double} that specifies the size of each symbol to be plotted.}
+
+\item{...}{Additional arguments affecting the plot.}
+
+\item{decomp}{A \code{boolean} that determines whether the contributions of each individual model are plotted.}
+
+\item{units}{A \code{string} that specifies the units of time plotted on the x axis.}
+
+\item{legend_position}{A \code{string} that specifies the position of the legend (use \code{legend_position = NA} to remove legend).}
+
+\item{show_scales}{A \code{boolean} that specifies if the scales used for each process should be plotted.}
+}
+\value{
+Plot of Allan deviation and relative confidence intervals for each scale.
+}
 \description{
-TO DO
+Displays a plot of the Allan deviation (AD) with the CI values and the AD implied by the estimated parameters for the IMU.
+}
+\examples{
+\donttest{
+data(navchip_av)
+navchip_avlr = avlr(navchip_av, wn_gyro = 1:20, rw_gyro = 1:20, wn_acc = 1:20, rw_acc = 1:20)
+plot(navchip_avlr)
+}
+}
+\author{
+Stephane Guerrier and Justin Lee
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Authors • avar</title>
+<title>Allan variance of IMU Data from an ADIS 16405 sensor — adis_av • avar</title>
 
 
 <!-- jquery -->
@@ -27,13 +27,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Authors" />
+<meta property="og:title" content="Allan variance of IMU Data from an ADIS 16405 sensor — adis_av" />
+<meta property="og:description" content="This data set contains Allan variance of gyroscope and accelerometer data from an ADIS 16405 sensor." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -53,7 +54,7 @@
   </head>
 
   <body>
-    <div class="container template-authors">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -65,7 +66,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">avar</a>
+        <a class="navbar-link" href="../index.html">avar</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
@@ -73,10 +74,10 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="articles/avar-example.html">Examples</a>
+  <a href="../articles/avar-example.html">Examples</a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -96,54 +97,44 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Authors</h1>
+    <h1>Allan variance of IMU Data from an ADIS 16405 sensor</h1>
+    <small class="dont-index">Source: <a href='https://github.com/SMAC-Group/avar/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>adis_av.Rd</code></div>
     </div>
 
-    <ul class="list-unstyled">
-      <li>
-        <p><strong>Stéphane Guerrier</strong>. Author, maintainer. 
-        </p>
-      </li>
-      <li>
-        <p><strong>James Balamuta</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong>Gaetan Bakalli</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong>Roberto Molinari</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong>Justin Lee</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong>Ahmed Radi</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong>Haotian Xu</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong>Yuming Zhang</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong>Nathanael Claussen</strong>. Author. 
-        </p>
-      </li>
+    <div class="ref-description">
+    <p>This data set contains Allan variance of gyroscope and accelerometer data from an ADIS 16405 sensor.</p>
+    </div>
+
+    <pre class="usage"><span class='no'>adis_av</span></pre>
+
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A list of the following elements:</p><dl class='dl-horizontal'>
+ <dt><code>sensor</code></dt><dd><p>Name of the sensor.</p></dd>
+ <dt><code>freq</code></dt><dd><p>The frequency at which the error signal is measured.</p></dd>
+ <dt><code>n</code></dt><dd><p>Sample size of the data.</p></dd>
+ <dt><code>type</code></dt><dd><p>The types of sensors considered in the data.</p></dd>
+ <dt><code>axis</code></dt><dd><p>The axes of sensors considered in the data.</p></dd>
+ <dt><code>avar</code></dt><dd><p>A list containing the computed Allan variance based on the data.</p></dd>
+</dl>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>The IMU data comes from Department of Geomatics Engineering, University of Calgary.</p>
+
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#format">Format</a></li>
+      <li><a href="#source">Source</a></li>
     </ul>
 
   </div>
-
 </div>
-
 
       <footer>
       <div class="copyright">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate Theoretical Allan Variance for Random Walk Process — av_rw • avar</title>
+<title>Plot the AVLR with the Allan Deviation for IMU — plot.imu_avlr • avar</title>
 
 
 <!-- jquery -->
@@ -33,9 +33,8 @@
 
 
 
-<meta property="og:title" content="Calculate Theoretical Allan Variance for Random Walk Process — av_rw" />
-<meta property="og:description" content="This function allows us to calculate the theoretical allan variance for
-random walk process." />
+<meta property="og:title" content="Plot the AVLR with the Allan Deviation for IMU — plot.imu_avlr" />
+<meta property="og:description" content="Displays a plot of the Allan deviation (AD) with the CI values and the AD implied by the estimated parameters for the IMU." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -100,56 +99,108 @@ random walk process." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate Theoretical Allan Variance for Random Walk Process</h1>
-    <small class="dont-index">Source: <a href='https://github.com/SMAC-Group/avar/blob/master/R/av_processes.R'><code>R/av_processes.R</code></a></small>
-    <div class="hidden name"><code>av_rw.Rd</code></div>
+    <h1>Plot the AVLR with the Allan Deviation for IMU</h1>
+    <small class="dont-index">Source: <a href='https://github.com/SMAC-Group/avar/blob/master/R/avar.r'><code>R/avar.r</code></a></small>
+    <div class="hidden name"><code>plot.imu_avlr.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function allows us to calculate the theoretical allan variance for
-random walk process.</p>
+    <p>Displays a plot of the Allan deviation (AD) with the CI values and the AD implied by the estimated parameters for the IMU.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>av_rw</span>(<span class='no'>omega2</span>, <span class='no'>n</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for avlr</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>col_ad</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col_ci</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>nb_ticks_x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>nb_ticks_y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ci_ad</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>point_pch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>point_cex</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>omega2</th>
-      <td><p>A <code>double</code> value for the noise parameter \(\omega ^2\).</p></td>
+      <th>x</th>
+      <td><p>An <code>avlr</code> object.</p></td>
     </tr>
     <tr>
-      <th>n</th>
-      <td><p>An <code>integer</code> value for the size of the cluster.</p></td>
+      <th>xlab</th>
+      <td><p>A <code>string</code> that gives a title for the x axis.</p></td>
+    </tr>
+    <tr>
+      <th>ylab</th>
+      <td><p>A <code>string</code> that gives a title for the y axis.</p></td>
+    </tr>
+    <tr>
+      <th>main</th>
+      <td><p>A <code>string</code> that gives an overall title for the plot.</p></td>
+    </tr>
+    <tr>
+      <th>col_ad</th>
+      <td><p>A <code>string</code> that specifies the color of the line allan deviation line.</p></td>
+    </tr>
+    <tr>
+      <th>col_ci</th>
+      <td><p>A <code>string</code> that specifies the color of the shaded area covered by the confidence intervals.</p></td>
+    </tr>
+    <tr>
+      <th>nb_ticks_x</th>
+      <td><p>An <code>integer</code> that specifies the maximum number of ticks for the x-axis.</p></td>
+    </tr>
+    <tr>
+      <th>nb_ticks_y</th>
+      <td><p>An <code>integer</code> that specifies the maximum number of ticks for the y-axis.</p></td>
+    </tr>
+    <tr>
+      <th>ci_ad</th>
+      <td><p>A <code>boolean</code> that determines whether to plot the confidence interval shaded area.</p></td>
+    </tr>
+    <tr>
+      <th>point_pch</th>
+      <td><p>A <code>double</code> that specifies the symbol type to be plotted.</p></td>
+    </tr>
+    <tr>
+      <th>point_cex</th>
+      <td><p>A <code>double</code> that specifies the size of each symbol to be plotted.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments affecting the plot.</p></td>
+    </tr>
+    <tr>
+      <th>decomp</th>
+      <td><p>A <code>boolean</code> that determines whether the contributions of each individual model are plotted.</p></td>
+    </tr>
+    <tr>
+      <th>units</th>
+      <td><p>A <code>string</code> that specifies the units of time plotted on the x axis.</p></td>
+    </tr>
+    <tr>
+      <th>legend_position</th>
+      <td><p>A <code>string</code> that specifies the position of the legend (use <code>legend_position = NA</code> to remove legend).</p></td>
+    </tr>
+    <tr>
+      <th>show_scales</th>
+      <td><p>A <code>boolean</code> that specifies if the scales used for each process should be plotted.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>double</code> indicating the theoretical allan variance for the random walk
-process.</p>
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
-
-    <p>This function is based on the calculation of the theoretical allan variance
-for random walk process raised in "Allan Variance of Time Series Models for
-Measurement Data" by Nien Fan Zhang, 2008, Metrologia, 45(5): 549.
-This calculation is fundamental and necessary for the study in "A Study of the Allan Variance
-for Constant-Mean Non-Stationary Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.</p>
+    <p>Plot of Allan deviation and relative confidence intervals for each scale.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>av1</span> <span class='kw'>=</span> <span class='fu'>av_rw</span>(<span class='kw'>omega2</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='no'>av2</span> <span class='kw'>=</span> <span class='fu'>av_rw</span>(<span class='kw'>omega2</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>8</span>)</div></pre>
+    <pre class="examples"><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#note">Note</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p>Stephane Guerrier and Justin Lee</p>
   </div>
 </div>
 

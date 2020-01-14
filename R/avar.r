@@ -979,8 +979,6 @@ avlr.imu_avar = function(x, qn_gyro = NULL, wn_gyro = NULL, rw_gyro = NULL, dr_g
 
 
 
-
-
 #' Print avlr object
 #'
 #' Displays information about the avlr object
@@ -1018,7 +1016,21 @@ print.avlr = function(x, ...) {
 }
 
 
-#' TO DO
+#' Print imu_avlr object
+#'
+#' Displays information about the avlr object
+#' @method print avlr
+#' @export
+#' @keywords internal
+#' @param x   A \code{avlr} object
+#' @param ... Other arguments passed to specific methods
+#' @return Text output via print
+#' @examples
+#' \donttest{
+#' data(navchip_av)
+#' navchip_avlr = avlr(navchip_av, wn_gyro = 1:20, rw_gyro = 1:20, wn_acc = 1:20, rw_acc = 1:20)
+#' print(navchip_avlr)
+#' }
 print.imu_avlr = function(x, ...) {
   if("Gyroscope" %in% x$imu_av$type){
     cat("\n Estimates for gyroscopes: \n")
@@ -1038,7 +1050,36 @@ print.imu_avlr = function(x, ...) {
 }
 
 
-#' TO DO
+#' @title Plot the AVLR with the Allan Deviation for IMU
+#'
+#' @description
+#' Displays a plot of the Allan deviation (AD) with the CI values and the AD implied by the estimated parameters for the IMU.
+#' @method plot avlr
+#' @param x                An \code{avlr} object.
+#' @param decomp           A \code{boolean} that determines whether the contributions of each individual model are plotted.
+#' @param units            A \code{string} that specifies the units of time plotted on the x axis.
+#' @param xlab             A \code{string} that gives a title for the x axis.
+#' @param ylab             A \code{string} that gives a title for the y axis.
+#' @param main             A \code{string} that gives an overall title for the plot.
+#' @param col_ad           A \code{string} that specifies the color of the line allan deviation line.
+#' @param col_ci           A \code{string} that specifies the color of the shaded area covered by the confidence intervals.
+#' @param ci_ad            A \code{boolean} that determines whether to plot the confidence interval shaded area.
+#' @param nb_ticks_x       An \code{integer} that specifies the maximum number of ticks for the x-axis.
+#' @param nb_ticks_y       An \code{integer} that specifies the maximum number of ticks for the y-axis.
+#' @param legend_position  A \code{string} that specifies the position of the legend (use \code{legend_position = NA} to remove legend).
+#' @param point_pch        A \code{double} that specifies the symbol type to be plotted.
+#' @param point_cex        A \code{double} that specifies the size of each symbol to be plotted.
+#' @param show_scales      A \code{boolean} that specifies if the scales used for each process should be plotted.
+#' @param ...              Additional arguments affecting the plot.
+#' @return Plot of Allan deviation and relative confidence intervals for each scale.
+#' @author Stephane Guerrier and Justin Lee
+#' @export
+#' @examples
+#' \donttest{
+#' data(navchip_av)
+#' navchip_avlr = avlr(navchip_av, wn_gyro = 1:20, rw_gyro = 1:20, wn_acc = 1:20, rw_acc = 1:20)
+#' plot(navchip_avlr)
+#' }
 plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
                          col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
                          ci_ad = NULL, point_pch = NULL, point_cex = NULL, ...){
