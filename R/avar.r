@@ -1,24 +1,24 @@
 #' @title Compute the Empirical Allan Variance
 #'
-#' @description This function estimates the Allan variance.
+#' @description
+#' This function estimates the Allan variance.
 #' @param x     A \code{vec} of time series observations or an \code{imu} object.
 #' @param type  A \code{string} containing either \code{"mo"} for Maximal Overlap or \code{"to"} for Tau Overlap.
-#' @param freq  An \code{integer} with the frequency at which the error signal is measured.
 #' @param ...   Further arguments passed to other methods.
 #' @return  If the input \code{x} is a \code{vec}, then the function returns a \code{list} that contains:
 #' \itemize{
 #'  \item{"levels": }{The averaging time at each level.}
 #'  \item{"allan": }{The estimated Allan variance.}
 #'  \item{"type": }{Type of estimator (\code{mo} or \code{to}).}
-#' }.
+#' }
 #' If the input \code{x} is an \code{imu} object, then the function returns a \code{list} that contains:
 #' \itemize{
 #'  \item{"sensor": }{Name of the sensor.}
-#'  \item{"freq"}{The frequency at which the error signal is measured.}
-#'  \item{"n"}{Sample size of the data.}
-#'  \item{"type"}{The types of sensors considered in the data.}
-#'  \item{"axis"}{The axes of sensors considered in the data.}
-#'  \item{"avar"}{A list containing the computed Allan variance based on the data.}
+#'  \item{"freq": }{The frequency at which the error signal is measured.}
+#'  \item{"n": }{Sample size of the data.}
+#'  \item{"type": }{The types of sensors considered in the data.}
+#'  \item{"axis": }{The axes of sensors considered in the data.}
+#'  \item{"avar": }{A list containing the computed Allan variance based on the data.}
 #' }
 #' @details
 #' The decomposition and the amount of time it takes to perform this function depends on whether you are using
@@ -45,6 +45,7 @@
 #'
 #' @references Long-Memory Processes, the Allan Variance and Wavelets, D. B. Percival and P. Guttorp
 #' @rdname avar
+#' @export
 #' @examples
 #' set.seed(999)
 #' Xt = rnorm(10000)

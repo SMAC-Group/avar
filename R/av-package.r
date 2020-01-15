@@ -1,4 +1,3 @@
-#' avar
 #' @keywords internal
 #' @importFrom Rcpp evalCpp
 #' @importFrom grDevices hcl
