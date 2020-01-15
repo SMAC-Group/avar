@@ -2,9 +2,9 @@
 % Please edit documentation in R/avar.r
 \name{plot.imu_avar}
 \alias{plot.imu_avar}
-\title{Plot Allan Deviation}
+\title{Plot Allan Deviation based on IMU Data}
 \usage{
-\method{plot}{avar}(x, xlab = NULL, ylab = NULL, main = NULL,
+\method{plot}{imu_avar}(x, xlab = NULL, ylab = NULL, main = NULL,
   col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL,
   nb_ticks_y = NULL, ci_ad = NULL, point_pch = NULL,
   point_cex = NULL, ...)
@@ -38,7 +38,7 @@
 A plot of the Allan deviation and relative confidence interval for each scale.
 }
 \description{
-Displays a plot of Allan deviation with its corresponding pointwise confidence intervals.
+Displays a plot of Allan deviation based on IMU data with its corresponding pointwise confidence intervals.
 }
 \examples{
 data("navchip_av")
