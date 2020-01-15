@@ -10,9 +10,9 @@
 \usage{
 avar(x, ...)
 
-\method{avar}{default}(x, type = "mo", freq = 1)
+\method{avar}{default}(x, type = "mo", freq = 1, ...)
 
-\method{avar}{imu}(x, type = "mo")
+\method{avar}{imu}(x, type = "mo", ...)
 }
 \arguments{
 \item{x}{A \code{vec} of time series observations or an \code{imu} object.}

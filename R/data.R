@@ -40,8 +40,8 @@
 #' @source The IMU data comes from Department of Geomatics Engineering, University of Calgary.
 "kvh1750_av"
 
-#' #' @title Allan variance of IMU Data from a imar sensor
-#' #' @description This data set contains Allan variance of gyroscope and accelerometer data from an imar sensor.
+#' #' @title Allan variance of IMU Data from IMAR Gyroscopes
+#' #' @description This data set contains Allan variance of IMAR gyroscopes data.
 #' #' @format A list of the following elements:
 #' #' \describe{
 #' #'  \item{\code{sensor}}{Name of the sensor.}
@@ -52,10 +52,10 @@
 #' #'  \item{\code{avar}}{A list containing the computed Allan variance based on the data.}
 #' #' }
 #' #' @source The IMU data comes from Geodetic Engineering Laboratory (TOPO) and Swiss Federal Institute of Technology Lausanne (EPFL).
-#' "imar_av"
-#'
-#' #' @title Allan variance of IMU Data from a ln200 sensor
-#' #' @description This data set contains Allan variance of gyroscope and accelerometer data from an imar sensor.
+"imar_av"
+
+#' #' @title Allan variance of IMU Data from a LN200 sensor
+#' #' @description This data set contains Allan variance of LN200 gyroscope and accelerometer data.
 #' #' @format A list of the following elements:
 #' #' \describe{
 #' #'  \item{\code{sensor}}{Name of the sensor.}
@@ -66,4 +66,4 @@
 #' #'  \item{\code{avar}}{A list containing the computed Allan variance based on the data.}
 #' #' }
 #' #' @source The IMU data comes from Geodetic Engineering Laboratory (TOPO) and Swiss Federal Institute of Technology Lausanne (EPFL).
-#' "ln200_av"
+"ln200_av"

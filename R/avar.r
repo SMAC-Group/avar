@@ -47,7 +47,7 @@ avar = function(x, ...){
 
 #' @rdname avar
 #' @export
-avar.default = function(x, type = "mo", freq = 1) {
+avar.default = function(x, type = "mo", freq = 1, ...) {
 
   if(is.null(x) | length(x) <=1 | dim(as.matrix(x))[2] >1){
     stop("Provide a vector or an 'imu' object")
@@ -77,7 +77,7 @@ avar.default = function(x, type = "mo", freq = 1) {
 
 #' @rdname avar
 #' @export
-avar.imu = function(x, type = "mo"){
+avar.imu = function(x, type = "mo", ...){
   # Retrive sensor name
   if (!is.null(attr(x, "stype"))){
     sensor_name = attr(x, "stype")
@@ -678,7 +678,7 @@ avlr = function(x, ...){
 #' @rdname avlr
 #' @export
 avlr.default = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
-                ci = FALSE, B = 100, alpha = 0.05){
+                ci = FALSE, B = 100, alpha = 0.05, ...){
 
   if(is.null(x) | length(x) <=1){
     stop("Please provide a time series vector or an 'imu' object")
@@ -837,7 +837,7 @@ fit_avlr = function(qn, wn, rw, dr, ad, scales){
 #' @export
 avlr.imu_avar = function(x, qn_gyro = NULL, wn_gyro = NULL, rw_gyro = NULL, dr_gyro = NULL,
                             qn_acc = NULL, wn_acc = NULL, rw_acc = NULL, dr_acc = NULL,
-                            B = 100, alpha = 0.05){
+                            B = 100, alpha = 0.05, ...){
 
   if(sum(sapply(list(qn_gyro,wn_gyro,rw_gyro,dr_gyro), is.null)) == 4 && "Gyroscope" %in% x$type){
     stop("Please specify a least one process (Gyro).")
