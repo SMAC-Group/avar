@@ -54,16 +54,16 @@
 #' @source The IMU data comes from Geodetic Engineering Laboratory (TOPO) and Swiss Federal Institute of Technology Lausanne (EPFL).
 "imar_av"
 
-#' @title Allan variance of IMU Data from a LN200 sensor
-#' @description This data set contains Allan variance of LN200 gyroscope and accelerometer data.
-#' @format A list of the following elements:
-#' \itemize{
-#'  \item "sensor": Name of the sensor.
-#'  \item "freq": The frequency at which the error signal is measured.
-#'  \item "n": Sample size of the data.
-#'  \item "type": The types of sensors considered in the data.
-#'  \item "axis": The axes of sensors considered in the data.
-#'  \item "avar": A list containing the computed Allan variance based on the data.
-#' }
-#' @source The IMU data comes from Geodetic Engineering Laboratory (TOPO) and Swiss Federal Institute of Technology Lausanne (EPFL).
-"ln200_av"
+#' #' @title Allan variance of IMU Data from a LN200 sensor
+#' #' @description This data set contains Allan variance of LN200 gyroscope and accelerometer data.
+#' #' @format A list of the following elements:
+#' #' \itemize{
+#' #'  \item "sensor": Name of the sensor.
+#' #'  \item "freq": The frequency at which the error signal is measured.
+#' #'  \item "n": Sample size of the data.
+#' #'  \item "type": The types of sensors considered in the data.
+#' #'  \item "axis": The axes of sensors considered in the data.
+#' #'  \item "avar": A list containing the computed Allan variance based on the data.
+#' #' }
+#' #' @source The IMU data comes from Geodetic Engineering Laboratory (TOPO) and Swiss Federal Institute of Technology Lausanne (EPFL).
+#' "ln200_av"

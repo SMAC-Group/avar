@@ -8,12 +8,32 @@
 \usage{
 avlr(x, ...)
 
-\method{avlr}{default}(x, qn = NULL, wn = NULL, rw = NULL,
-  dr = NULL, ci = FALSE, B = 100, alpha = 0.05, ...)
+\method{avlr}{default}(
+  x,
+  qn = NULL,
+  wn = NULL,
+  rw = NULL,
+  dr = NULL,
+  ci = FALSE,
+  B = 100,
+  alpha = 0.05,
+  ...
+)
 
-\method{avlr}{imu_avar}(x, qn_gyro = NULL, wn_gyro = NULL,
-  rw_gyro = NULL, dr_gyro = NULL, qn_acc = NULL, wn_acc = NULL,
-  rw_acc = NULL, dr_acc = NULL, B = 100, alpha = 0.05, ...)
+\method{avlr}{imu_avar}(
+  x,
+  qn_gyro = NULL,
+  wn_gyro = NULL,
+  rw_gyro = NULL,
+  dr_gyro = NULL,
+  qn_acc = NULL,
+  wn_acc = NULL,
+  rw_acc = NULL,
+  dr_acc = NULL,
+  B = 100,
+  alpha = 0.05,
+  ...
+)
 }
 \arguments{
 \item{x}{A \code{vec} of time series observations or an \code{imu} object.}

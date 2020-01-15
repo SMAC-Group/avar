@@ -29,7 +29,7 @@ Suggests:
     rmarkdown
 LinkingTo: Rcpp, RcppArmadillo
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 VignetteBuilder: knitr
 URL: https://github.com/SMAC-Group/avar
 BugReports: https://github.com/SMAC-Group/avar/issues

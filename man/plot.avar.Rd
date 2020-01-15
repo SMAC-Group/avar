@@ -4,10 +4,22 @@
 \alias{plot.avar}
 \title{Plot Allan Deviation}
 \usage{
-\method{plot}{avar}(x, units = NULL, xlab = NULL, ylab = NULL,
-  main = NULL, col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL,
-  nb_ticks_y = NULL, legend_position = NULL, ci_ad = NULL,
-  point_cex = NULL, point_pch = NULL, ...)
+\method{plot}{avar}(
+  x,
+  units = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  main = NULL,
+  col_ad = NULL,
+  col_ci = NULL,
+  nb_ticks_x = NULL,
+  nb_ticks_y = NULL,
+  legend_position = NULL,
+  ci_ad = NULL,
+  point_cex = NULL,
+  point_pch = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{An \code{avar} object.}
