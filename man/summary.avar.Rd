@@ -12,11 +12,11 @@
 \item{...}{Additional arguments affecting the summary produced.
 A \code{table} that contains:
 \itemize{
- \item{"Time": }{The averaging time at each level.}
- \item{"AVar": }{The estimated Allan variance.}
- \item{"ADev": }{The estimated Allan deviation.}
- \item{"Lower CI": }{The lower bound of the confidence interval for the Allan deviation (ADev).}
- \item{"Upper CI": }{The upper bound of the confidence interval for the Allan deviation (ADev).}
+ \item "Time": The averaging time at each level.
+ \item "AVar": The estimated Allan variance.
+ \item "ADev": The estimated Allan deviation.
+ \item "Lower CI": The lower bound of the confidence interval for the Allan deviation (ADev).
+ \item "Upper CI": The upper bound of the confidence interval for the Allan deviation (ADev).
 }}
 }
 \description{

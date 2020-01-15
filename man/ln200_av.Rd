@@ -3,34 +3,23 @@
 \docType{data}
 \name{ln200_av}
 \alias{ln200_av}
-\title{#' @title Allan variance of IMU Data from a LN200 sensor
-#' @description This data set contains Allan variance of LN200 gyroscope and accelerometer data.
-#' @format A list of the following elements:
-#' \describe{
-#'  \item{\code{sensor}}{Name of the sensor.}
-#'  \item{\code{freq}}{The frequency at which the error signal is measured.}
-#'  \item{\code{n}}{Sample size of the data.}
-#'  \item{\code{type}}{The types of sensors considered in the data.}
-#'  \item{\code{axis}}{The axes of sensors considered in the data.}
-#'  \item{\code{avar}}{A list containing the computed Allan variance based on the data.}
-#' }
-#' @source The IMU data comes from Geodetic Engineering Laboratory (TOPO) and Swiss Federal Institute of Technology Lausanne (EPFL).}
-\format{An object of class \code{NULL} of length 0.}
+\title{Allan variance of IMU Data from a LN200 sensor}
+\format{A list of the following elements:
+\itemize{
+ \item "sensor": Name of the sensor.
+ \item "freq": The frequency at which the error signal is measured.
+ \item "n": Sample size of the data.
+ \item "type": The types of sensors considered in the data.
+ \item "axis": The axes of sensors considered in the data.
+ \item "avar": A list containing the computed Allan variance based on the data.
+}}
+\source{
+The IMU data comes from Geodetic Engineering Laboratory (TOPO) and Swiss Federal Institute of Technology Lausanne (EPFL).
+}
 \usage{
 ln200_av
 }
 \description{
-#' @title Allan variance of IMU Data from a LN200 sensor
-#' @description This data set contains Allan variance of LN200 gyroscope and accelerometer data.
-#' @format A list of the following elements:
-#' \describe{
-#'  \item{\code{sensor}}{Name of the sensor.}
-#'  \item{\code{freq}}{The frequency at which the error signal is measured.}
-#'  \item{\code{n}}{Sample size of the data.}
-#'  \item{\code{type}}{The types of sensors considered in the data.}
-#'  \item{\code{axis}}{The axes of sensors considered in the data.}
-#'  \item{\code{avar}}{A list containing the computed Allan variance based on the data.}
-#' }
-#' @source The IMU data comes from Geodetic Engineering Laboratory (TOPO) and Swiss Federal Institute of Technology Lausanne (EPFL).
+This data set contains Allan variance of LN200 gyroscope and accelerometer data.
 }
 \keyword{datasets}

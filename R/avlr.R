@@ -23,16 +23,16 @@
 #'
 #' @return If the input \code{x} is a \code{vec}, then the function returns a \code{list} that contains:
 #' \itemize{
-#'  \item{"estimates" }{The estimated value of the parameters.}
-#'  \item{"implied_ad" }{The Allan deviation implied by the estimated parameters.}
-#'  \item{"implied_ad_decomp" }{The Allan deviation implied by the estimated parameters for each individual model (if more than one is specified).}
-#'  \item{"av" }{The \code{avar} object computed from the provided data.}
+#'  \item "estimates": The estimated value of the parameters.
+#'  \item "implied_ad": The Allan deviation implied by the estimated parameters.
+#'  \item "implied_ad_decomp": The Allan deviation implied by the estimated parameters for each individual model (if more than one is specified).
+#'  \item "av": The \code{avar} object computed from the provided data.
 #' }
 #' If the input \code{x} is of the class \code{imu_avar}, then the function returns a \code{list} that contains:
 #' \itemize{
-#'  \item{"gyro" }{The estimation results correseponding to the gyroscope component.}
-#'  \item{"acc" }{The estimation results correseponding to the accelerometer component.}
-#'  \item{"imu_av" }{The \code{imu_avar} object computed based on the IMU data.}
+#'  \item "gyro": The estimation results correseponding to the gyroscope component.
+#'  \item "acc": The estimation results correseponding to the accelerometer component.
+#'  \item "imu_av": The \code{imu_avar} object computed based on the IMU data.
 #' }
 #' @importFrom stats dnorm
 #' @rdname avlr
@@ -969,8 +969,8 @@ plot.avlr = function(x, decomp = FALSE,
 #' @param alpha A \code{double} defining the level of the confidence interval (1 - `alpha`).
 #' @return   A \code{list} that contains:
 #' \itemize{
-#'  \item{"ci"}{The 1-\code{alpha} confidence intervals.}
-#'  \item{"sd"}{The standard deviation of the estimated parameters.}
+#'  \item "ci": The 1-\code{alpha} confidence intervals.
+#'  \item "sd": The standard deviation of the estimated parameters.
 #' }
 boostrap_ci_avlr = function(model, B, n, qn, wn, rw, dr, alpha){
   results = matrix(NA, B, model$plength)

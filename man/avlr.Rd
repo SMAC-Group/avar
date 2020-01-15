@@ -53,16 +53,16 @@ avlr(x, ...)
 \value{
 If the input \code{x} is a \code{vec}, then the function returns a \code{list} that contains:
 \itemize{
- \item{"estimates" }{The estimated value of the parameters.}
- \item{"implied_ad" }{The Allan deviation implied by the estimated parameters.}
- \item{"implied_ad_decomp" }{The Allan deviation implied by the estimated parameters for each individual model (if more than one is specified).}
- \item{"av" }{The \code{avar} object computed from the provided data.}
+ \item "estimates": The estimated value of the parameters.
+ \item "implied_ad": The Allan deviation implied by the estimated parameters.
+ \item "implied_ad_decomp": The Allan deviation implied by the estimated parameters for each individual model (if more than one is specified).
+ \item "av": The \code{avar} object computed from the provided data.
 }
 If the input \code{x} is of the class \code{imu_avar}, then the function returns a \code{list} that contains:
 \itemize{
- \item{"gyro" }{The estimation results correseponding to the gyroscope component.}
- \item{"acc" }{The estimation results correseponding to the accelerometer component.}
- \item{"imu_av" }{The \code{imu_avar} object computed based on the IMU data.}
+ \item "gyro": The estimation results correseponding to the gyroscope component.
+ \item "acc": The estimation results correseponding to the accelerometer component.
+ \item "imu_av": The \code{imu_avar} object computed based on the IMU data.
 }
 }
 \description{

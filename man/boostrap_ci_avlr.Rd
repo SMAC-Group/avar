@@ -26,8 +26,8 @@ boostrap_ci_avlr(model, B, n, qn, wn, rw, dr, alpha)
 \value{
 A \code{list} that contains:
 \itemize{
- \item{"ci"}{The 1-\code{alpha} confidence intervals.}
- \item{"sd"}{The standard deviation of the estimated parameters.}
+ \item "ci": The 1-\code{alpha} confidence intervals.
+ \item "sd": The standard deviation of the estimated parameters.
 }
 }
 \description{

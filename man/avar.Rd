@@ -24,18 +24,18 @@ avar(x, type = "mo", ...)
 \value{
 If the input \code{x} is a \code{vec}, then the function returns a \code{list} that contains:
 \itemize{
- \item{"levels": }{The averaging time at each level.}
- \item{"allan": }{The estimated Allan variance.}
- \item{"type": }{Type of estimator (\code{mo} or \code{to}).}
+ \item "levels": The averaging time at each level.
+ \item "allan": The estimated Allan variance.
+ \item "type": Type of estimator (\code{mo} or \code{to}).
 }
 If the input \code{x} is an \code{imu} object, then the function returns a \code{list} that contains:
 \itemize{
- \item{"sensor": }{Name of the sensor.}
- \item{"freq": }{The frequency at which the error signal is measured.}
- \item{"n": }{Sample size of the data.}
- \item{"type": }{The types of sensors considered in the data.}
- \item{"axis": }{The axes of sensors considered in the data.}
- \item{"avar": }{A list containing the computed Allan variance based on the data.}
+ \item "sensor": Name of the sensor.
+ \item "freq": The frequency at which the error signal is measured.
+ \item "n": Sample size of the data.
+ \item "type": The types of sensors considered in the data.
+ \item "axis": The axes of sensors considered in the data.
+ \item "avar": A list containing the computed Allan variance based on the data.
 }
 }
 \description{
