@@ -6,14 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>avar — avar • avar</title>
-
+<title>Compute the Empirical Allan Variance — avar • avar</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -32,12 +30,12 @@
 
 
 
+<meta property="og:title" content="Compute the Empirical Allan Variance — avar" />
 
-<meta property="og:title" content="avar — avar" />
 <meta property="og:description" content="This function estimates the Allan variance." />
+
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
-
 
 
 
@@ -67,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">avar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -80,6 +78,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/SMAC-Group/av">
@@ -99,23 +98,25 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>avar</h1>
+    <h1>Compute the Empirical Allan Variance</h1>
     <small class="dont-index">Source: <a href='https://github.com/SMAC-Group/avar/blob/master/R/av-package.r'><code>R/av-package.r</code></a>, <a href='https://github.com/SMAC-Group/avar/blob/master/R/avar.r'><code>R/avar.r</code></a></small>
     <div class="hidden name"><code>avar.Rd</code></div>
     </div>
 
     <div class="ref-description">
+    
     <p>This function estimates the Allan variance.</p>
+    
     </div>
 
-    <pre class="usage"><span class='fu'>avar</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>avar</span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mo"</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>avar</span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mo"</span>, <span class='kw'>freq</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='fu'>avar</span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mo"</span>, <span class='kw'>freq</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for imu</span>
-<span class='fu'>avar</span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mo"</span>)</pre>
-
+<span class='fu'>avar</span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mo"</span>, <span class='no'>...</span>)</pre>
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -128,23 +129,32 @@
       <td><p>A <code>string</code> containing either <code>"mo"</code> for Maximal Overlap or <code>"to"</code> for Tau Overlap.</p></td>
     </tr>
     <tr>
-      <th>freq</th>
-      <td><p>An <code>integer</code> with the frequency at which the error signal is measured.</p></td>
+      <th>...</th>
+      <td><p>Further arguments passed to other methods.</p></td>
     </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>list</code> that contains:</p><ul>
+    <p>If the input <code>x</code> is a <code>vec</code>, then the function returns a <code>list</code> that contains:</p><ul>
 <li><p>"levels": The averaging time at each level.</p></li>
 <li><p>"allan": The estimated Allan variance.</p></li>
 <li><p>"type": Type of estimator (<code>mo</code> or <code>to</code>).</p></li>
+</ul><p>If the input <code>x</code> is an <code>imu</code> object, then the function returns a <code>list</code> that contains:</p><ul>
+<li><p>"sensor": Name of the sensor.</p></li>
+<li><p>"freq": The frequency at which the error signal is measured.</p></li>
+<li><p>"n": Sample size of the data.</p></li>
+<li><p>"type": The types of sensors considered in the data.</p></li>
+<li><p>"axis": The axes of sensors considered in the data.</p></li>
+<li><p>"avar": A list containing the computed Allan variance based on the data.</p></li>
 </ul>
 
+    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The decomposition and the amount of time it takes to perform this function depends on whether you are using
 the Maximal Overlap or the Tau Overlap.</p>
+    
     <h2 class="hasAnchor" id="maximal-overlap-allan-variance"><a class="anchor" href="#maximal-overlap-allan-variance"></a>Maximal Overlap Allan Variance</h2>
 
     
@@ -155,6 +165,7 @@ Based on the latter, we have \(M = N - 2n\) levels of decomposition.
 The Maximal-overlap estimator is given by:
 $$\frac{1}{{2\left( {N - 2k + 1} \right)}}\sum\limits_{t = 2k}^N {{{\left[ {{{\bar Y}_t}\left( k \right) - {{\bar Y}_{t - k}}\left( k \right)} \right]}^2}} $$</p>
 <p>where $$ {{\bar y}_t}\left( \tau  \right) = \frac{1}{\tau }\sum\limits_{i = 0}^{\tau  - 1} {{{\bar y}_{t - i}}} $$.</p>
+    
     <h2 class="hasAnchor" id="tau-overlap-allan-variance"><a class="anchor" href="#tau-overlap-allan-variance"></a>Tau-Overlap Allan Variance</h2>
 
     
@@ -164,9 +175,11 @@ Therefore, \(n\) can be selected from \(\left\{ {n|n &lt; \left\lfloor {{{\log }
 Based on the latter, we have \(m = \left\lfloor {\frac{{N - 1}}{n}} \right\rfloor  - 1\) levels of decomposition.
 The tau-overlap estimator is given by:</p>
 <p>where \( {{\bar y}_t}\left( \tau  \right) = \frac{1}{\tau }\sum\limits_{i = 0}^{\tau  - 1} {{{\bar y}_{t - i}}} \).</p>
+    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Long-Memory Processes, the Allan Variance and Wavelets, D. B. Percival and P. Guttorp</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>999</span>)
@@ -178,11 +191,17 @@ The tau-overlap estimator is given by:</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      
       <li><a href="#value">Value</a></li>
+
       <li><a href="#details">Details</a></li>
+
       <li><a href="#maximal-overlap-allan-variance">Maximal Overlap Allan Variance</a></li>
+
       <li><a href="#tau-overlap-allan-variance">Tau-Overlap Allan Variance</a></li>
+
       <li><a href="#references">References</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

@@ -1,6 +1,5 @@
 ---
-title: "Allan Variance Linear Regression Estimator Example"
-author: "Gaetan Bakalli"
+title: "Allan Variance Linear Regression Estimation Examples"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -16,15 +15,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-The first step is to load the package:
 
 ```{r, include=T}
 library(avar)
 ```
 
-## Data Analysis
+## Simulated Data
 
-To understand the features of the `avar` package, we are going to make use of simulated data of sample size $n = 10^5$ coming from a White Noise (WN) plus Random Walk (RW) model. The corresponding (maximum-overlap) Allan Variance representation is given in the following figure: 
+To understand the features of the `avar` package, we first illustrate with a simulated data of sample size $n = 10^5$ coming from a White Noise (WN) plus Random Walk (RW) model. The corresponding (maximum-overlap) Allan Variance representation is given in the following figure: 
 
 ```{r, fig.height = 7, fig.width = 7, fig.align = 'center', fig.cap = "Allan Variance Representation."}
 set.seed(2710)
@@ -54,7 +52,7 @@ fit
 
 Now that we have computed the parameters of interest, we can visually check if the chosen latent model fits the data at hand well. To do so we can simply use the `plot` function and, if we would like to observe how the individual processes contribute to the overall fit, we can set the parameter `decomp = TRUE`.
 
-```{r, fig.height = 7, fig.width = 7, fig.align = 'center', fig.cap = "Empirical AV with AV implied by the latent model WN + RW"}
+```{r, fig.height = 7, fig.width = 7, fig.align = 'center', fig.cap = "Empirical AV with AV implied by the latent model"}
 plot(fit)
 plot(fit, decomp = TRUE)
 ```
@@ -72,3 +70,29 @@ fit_ci$ci
 load("fit_ci.rda")
 fit_ci$ci
 ```
+
+
+## Real IMU Data
+
+We can further illustrate the features of the `avar` package using the Allan variance computed based on real IMU data. Specifically, we consider the Allan variance of IMU data collected from a navchip sensor, i.e. `navchip_av`, whose sample size is about $n = 3 \cdot 10^6$. The Allan variance representation corresponding to this dataset is given in the following figure: 
+
+```{r, fig.height = 8, fig.width = 8, fig.align = 'center', fig.cap = "Allan Variance Representation."}
+data("navchip_av")
+plot(navchip_av)
+```
+
+Based on the graph, we can see that for the gyroscope components, the underlying model should include a Quantization Noise (QN) for the first 4 scales, a WN for the 6th to 8th scales, and a RW for the 10th to 13th scales. Similarly for the accelerometer components, the underlying model should include a WN for the first 6 scales and a RW for the 14th to 16th scales. Therefore, we can estimate the underlying model with the following:
+
+```{r}
+fit2 = avlr(navchip_av, qn_gyro = 1:4, wn_gyro = 6:8, rw_gyro = 10:13,
+           wn_acc = 1:6, rw_acc = 14:16)
+fit2
+```
+
+And we can visualize to check if the estimated underlying model fits the data well simply with the `plot` function. 
+
+```{r, fig.height = 8, fig.width = 8, fig.align = 'center', fig.cap = "Empirical AV with AV implied by the latent model"}
+plot(fit2)
+```
+
+

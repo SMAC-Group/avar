@@ -8,12 +8,10 @@
 
 <title>Calculate Theoretical Allan Variance for Stationary White Noise Process — av_wn • avar</title>
 
-
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -32,13 +30,13 @@
 
 
 
-
 <meta property="og:title" content="Calculate Theoretical Allan Variance for Stationary White Noise Process — av_wn" />
+
 <meta property="og:description" content="This function allows us to calculate the theoretical allan variance for stationary
 white noise process." />
+
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
-
 
 
 
@@ -68,7 +66,7 @@ white noise process." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">avar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -81,6 +79,7 @@ white noise process." />
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/SMAC-Group/av">
@@ -106,12 +105,14 @@ white noise process." />
     </div>
 
     <div class="ref-description">
+    
     <p>This function allows us to calculate the theoretical allan variance for stationary
 white noise process.</p>
+    
     </div>
 
     <pre class="usage"><span class='fu'>av_wn</span>(<span class='no'>sigma2</span>, <span class='no'>n</span>)</pre>
-
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -124,11 +125,12 @@ white noise process.</p>
       <td><p>An <code>integer</code> value for the size of the cluster.</p></td>
     </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A <code>double</code> indicating the theoretical allan variance for the white noise
 process.</p>
+    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>This function is based on the calculation of the theoretical allan variance
@@ -136,6 +138,7 @@ for stationary white noise process raised in "Allan Variance of Time Series Mode
 Measurement Data" by Nien Fan Zhang, 2008, Metrologia, 45(5): 549.
 This calculation is fundamental and necessary for the study in "A Study of the Allan Variance
 for Constant-Mean Non-Stationary Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>av1</span> <span class='kw'>=</span> <span class='fu'>av_wn</span>(<span class='kw'>sigma2</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>)
@@ -145,8 +148,11 @@ for Constant-Mean Non-Stationary Processes" by Xu et al., 2017, IEEE Signal Proc
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      
       <li><a href="#value">Value</a></li>
+
       <li><a href="#note">Note</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

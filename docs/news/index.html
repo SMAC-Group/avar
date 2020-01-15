@@ -8,12 +8,10 @@
 
 <title>Changelog • avar</title>
 
-
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -32,11 +30,10 @@
 
 
 
-
 <meta property="og:title" content="Changelog" />
+
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
-
 
 
 
@@ -66,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">avar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -79,6 +76,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/SMAC-Group/av">
@@ -102,14 +100,21 @@
       <small>Source: <a href='https://github.com/SMAC-Group/avar/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="avar-010" class="section level1">
+    <div id="avar-0-1-1" class="section level1">
 <h1 class="page-header">
-<a href="#avar-010" class="anchor"></a>avar 0.1.0<small> 2019-08-30 </small>
+<a href="#avar-0-1-1" class="anchor"></a>avar 0.1.1<small> Unreleased </small>
 </h1>
 <div id="features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#features" class="anchor"></a>Features</h2>
 <p>This package provides the tools necessary to compute the empirical Allan Variance (AV) and use it to estimate the parameters of (latent) time series models. The estimation of the AV is performed through the estimator proposed by Allan (1966) and, based on this quantity, the Allan Variance Linear Regression (AVLR) approach is often used by engineers to retrieve the parameters of time series models which are assumed to underlie the observed signals (see for example Guerrier, Molinari, and Stebler 2016). These estimators are implemented in this package along with the relevant plotting and summary functions.</p>
+<p>Compared to the 0.1.0 version, we add the application of Allan variance on IMU data. Specifically, we add the following new features:</p>
+<ul>
+<li>New function avar.imu() which allows the computation of Allan variance based on IMU data;</li>
+<li>New function plot.imu_avar() which allows to plot the Allan variance computed based on IMU data;</li>
+<li>New function avlr.imu_avar() which allows to compute the Allan Variance Linear Regression estimator based on IMU data;</li>
+<li>A few datasets of Allan variance based on real IMU data as examples to test the new functions.</li>
+</ul>
 </div>
 </div>
   </div>
@@ -118,7 +123,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#avar-010">0.1.0</a></li>
+        <li><a href="#avar-0-1-1">0.1.1</a></li>
       </ul>
     </div>
   </div>

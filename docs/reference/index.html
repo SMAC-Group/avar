@@ -8,12 +8,10 @@
 
 <title>Function reference • avar</title>
 
-
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -32,11 +30,10 @@
 
 
 
-
 <meta property="og:title" content="Function reference" />
+
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
-
 
 
 
@@ -66,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">avar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -79,6 +76,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/SMAC-Group/av">
@@ -112,7 +110,7 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-allan-variance" class="hasAnchor"><a href="#section-allan-variance" class="anchor"></a>Allan Variance</h2>
+          <h2 id="section-allan-variance" class="hasAnchor"><a href="#section-allan-variance" class="anchor"></a>Allan variance</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -121,13 +119,7 @@
         <td>
           <p><code><a href="avar.html">avar()</a></code> </p>
         </td>
-        <td><p>avar</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot.avar.html">plot(<i>&lt;avar&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot Allan Deviation</p></td>
+        <td><p>Compute the Empirical Allan Variance</p></td>
       </tr><tr>
         
         <td>
@@ -140,11 +132,17 @@
           <p><code><a href="summary.avar.html">summary(<i>&lt;avar&gt;</i>)</a></code> </p>
         </td>
         <td><p>Summary Allan Variance</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot.avar.html">plot(<i>&lt;avar&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plot Allan Deviation</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-allan-variance-for-imu" class="hasAnchor"><a href="#section-allan-variance-for-imu" class="anchor"></a>Allan Variance for IMU</h2>
+          <h2 id="section-allan-variance-based-on-imu-data" class="hasAnchor"><a href="#section-allan-variance-based-on-imu-data" class="anchor"></a>Allan variance based on IMU data</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -153,18 +151,18 @@
         <td>
           <p><code><a href="avar.html">avar()</a></code> </p>
         </td>
-        <td><p>avar</p></td>
+        <td><p>Compute the Empirical Allan Variance</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="plot.imu_avar.html">plot(<i>&lt;avar&gt;</i>)</a></code> </p>
+          <p><code><a href="plot.imu_avar.html">plot(<i>&lt;imu_avar&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Plot Allan Deviation</p></td>
+        <td><p>Plot Allan Deviation based on IMU Data</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-estimation-of-time-series-parameters" class="hasAnchor"><a href="#section-estimation-of-time-series-parameters" class="anchor"></a>Estimation of time series parameters</h2>
+          <h2 id="section-estimation-of-time-series-models" class="hasAnchor"><a href="#section-estimation-of-time-series-models" class="anchor"></a>Estimation of time series models</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -174,23 +172,23 @@
           <p><code><a href="avlr.html">avlr()</a></code> </p>
         </td>
         <td><p>Computes the Allan Variance Linear Regression estimator</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot.avlr.html">plot(<i>&lt;avlr&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot the AVLR with the Allan Deviation</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="print.avlr.html">print(<i>&lt;avlr&gt;</i>)</a></code> </p>
         </td>
         <td><p>Print avlr object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot.avlr.html">plot(<i>&lt;avlr&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plot the AVLR with the Allan Deviation</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-estimation-of-time-series-parameters-for-imu" class="hasAnchor"><a href="#section-estimation-of-time-series-parameters-for-imu" class="anchor"></a>Estimation of time series parameters for IMU</h2>
+          <h2 id="section-estimation-of-time-series-models-based-on-imu-data" class="hasAnchor"><a href="#section-estimation-of-time-series-models-based-on-imu-data" class="anchor"></a>Estimation of time series models based on IMU data</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -203,21 +201,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="print.imu_avlr.html">print(<i>&lt;avlr&gt;</i>)</a></code> </p>
+          <p><code><a href="print.imu_avlr.html">print(<i>&lt;imu_avlr&gt;</i>)</a></code> </p>
         </td>
         <td><p>Print imu_avlr object</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="plot.imu_avlr.html">plot(<i>&lt;avlr&gt;</i>)</a></code> </p>
+          <p><code><a href="plot.imu_avlr.html">plot(<i>&lt;imu_avlr&gt;</i>)</a></code> </p>
         </td>
         <td><p>Plot the AVLR with the Allan Deviation for IMU</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="boostrap_ci_avlr.html">boostrap_ci_avlr()</a></code> </p>
-        </td>
-        <td><p>Compute bootstrap confidence intervals for the AVLR estimator</p></td>
       </tr>
     </tbody>
     </table>
@@ -226,10 +218,10 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-allan-variance">Allan Variance</a></li>
-      <li><a href="#section-allan-variance-for-imu">Allan Variance for IMU</a></li>
-      <li><a href="#section-estimation-of-time-series-parameters">Estimation of time series parameters</a></li>
-      <li><a href="#section-estimation-of-time-series-parameters-for-imu">Estimation of time series parameters for IMU</a></li>
+      <li><a href="#section-allan-variance">Allan variance</a></li>
+      <li><a href="#section-allan-variance-based-on-imu-data">Allan variance based on IMU data</a></li>
+      <li><a href="#section-estimation-of-time-series-models">Estimation of time series models</a></li>
+      <li><a href="#section-estimation-of-time-series-models-based-on-imu-data">Estimation of time series models based on IMU data</a></li>
     </ul>
   </div>
 </div>

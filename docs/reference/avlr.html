@@ -8,12 +8,10 @@
 
 <title>Computes the Allan Variance Linear Regression estimator — avlr • avar</title>
 
-
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -32,12 +30,12 @@
 
 
 
-
 <meta property="og:title" content="Computes the Allan Variance Linear Regression estimator — avlr" />
+
 <meta property="og:description" content="Estimate the parameters of time series models based on the Allan Variance Linear Regression (AVLR) approach" />
+
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
-
 
 
 
@@ -67,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">avar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -80,6 +78,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/SMAC-Group/av">
@@ -100,31 +99,37 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Computes the Allan Variance Linear Regression estimator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/SMAC-Group/avar/blob/master/R/avar.r'><code>R/avar.r</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/SMAC-Group/avar/blob/master/R/avlr.R'><code>R/avlr.R</code></a></small>
     <div class="hidden name"><code>avlr.Rd</code></div>
     </div>
 
     <div class="ref-description">
+    
     <p>Estimate the parameters of time series models based on the Allan Variance Linear Regression (AVLR) approach</p>
+    
     </div>
 
     <pre class="usage"><span class='fu'>avlr</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for default</span>
 <span class='fu'>avlr</span>(<span class='no'>x</span>, <span class='kw'>qn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rw</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>dr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)
+  <span class='kw'>dr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for imu_avar</span>
 <span class='fu'>avlr</span>(<span class='no'>x</span>, <span class='kw'>qn_gyro</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wn_gyro</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>rw_gyro</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dr_gyro</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>qn_acc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wn_acc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>rw_acc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dr_acc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</pre>
-
+  <span class='kw'>rw_acc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dr_acc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='no'>...</span>)</pre>
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
       <td><p>A <code>vec</code> of time series observations or an <code>imu</code> object.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Further arguments passed to other methods.</p></td>
     </tr>
     <tr>
       <th>qn</th>
@@ -154,17 +159,54 @@
       <th>alpha</th>
       <td><p>A <code>double</code> defining the level of the confidence interval (1 - `alpha`).</p></td>
     </tr>
+    <tr>
+      <th>qn_gyro</th>
+      <td><p>A <code>vec</code> specifying on which scales the parameters of a Quantization Noise (QN) should be computed for the gyroscope component.</p></td>
+    </tr>
+    <tr>
+      <th>wn_gyro</th>
+      <td><p>A <code>vec</code> specifying on which scales the parameters of a White Noise (WN) should be computed for the gyroscope component.</p></td>
+    </tr>
+    <tr>
+      <th>rw_gyro</th>
+      <td><p>A <code>vec</code> specifying on which scales the parameters of a Random Wakk (RW) should be computed for the gyroscope component.</p></td>
+    </tr>
+    <tr>
+      <th>dr_gyro</th>
+      <td><p>A <code>vec</code> specifying on which scales the parameters of a Drift (DR) should be computed for the gyroscope component.</p></td>
+    </tr>
+    <tr>
+      <th>qn_acc</th>
+      <td><p>A <code>vec</code> specifying on which scales the parameters of a Quantization Noise (QN) should be computed for the accelerometer component.</p></td>
+    </tr>
+    <tr>
+      <th>wn_acc</th>
+      <td><p>A <code>vec</code> specifying on which scales the parameters of a White Noise (WN) should be computed for the accelerometer component.</p></td>
+    </tr>
+    <tr>
+      <th>rw_acc</th>
+      <td><p>A <code>vec</code> specifying on which scales the parameters of a Random Wakk (RW) should be computed for the accelerometer component.</p></td>
+    </tr>
+    <tr>
+      <th>dr_acc</th>
+      <td><p>A <code>vec</code> specifying on which scales the parameters of a Drift (DR) should be computed for the accelerometer component.</p></td>
+    </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>avlr   A <code>list</code> that contains:</p><ul>
-<li><p>"estimates"The estimated value of the parameters.</p></li>
-<li><p>"implied_ad"The Allan deviation implied by the estimated parameters.</p></li>
-<li><p>"implied_ad_decomp"The Allan deviation implied by the estimated parameters for each individual model (if more than one is specified).</p></li>
-<li><p>"av"The <code>avar</code> object computed from the provided data.</p></li>
+    <p>If the input <code>x</code> is a <code>vec</code>, then the function returns a <code>list</code> that contains:</p><ul>
+<li><p>"estimates": The estimated value of the parameters.</p></li>
+<li><p>"implied_ad": The Allan deviation implied by the estimated parameters.</p></li>
+<li><p>"implied_ad_decomp": The Allan deviation implied by the estimated parameters for each individual model (if more than one is specified).</p></li>
+<li><p>"av": The <code>avar</code> object computed from the provided data.</p></li>
+</ul><p>If the input <code>x</code> is of the class <code>imu_avar</code>, then the function returns a <code>list</code> that contains:</p><ul>
+<li><p>"gyro": The estimation results correseponding to the gyroscope component.</p></li>
+<li><p>"acc": The estimation results correseponding to the accelerometer component.</p></li>
+<li><p>"imu_av": The <code>imu_avar</code> object computed based on the IMU data.</p></li>
 </ul>
 
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>999</span>)
@@ -195,7 +237,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      
       <li><a href="#value">Value</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

@@ -12,7 +12,7 @@ version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-
 downloads](http://cranlogs.r-pkg.org/badges/avar)](http://www.r-pkg.org/pkg/avar)
 [![CRAN RStudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/grand-total/avar)](http://www.r-pkg.org/pkg/avar)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2019--09--01-yellowgreen.svg)](https://github.com/SMAC-Group/avar)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2020--01--15-yellowgreen.svg)](https://github.com/SMAC-Group/avar)
 
 # Welcome to the `avar` package <a href="https://smac-group.com/"><img src="man/figures/logo.png" align="right" style="width: 16%; height: 16%"/></a>
 

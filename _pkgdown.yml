@@ -4,27 +4,27 @@ template:
 
 
 reference:
-  - title: Allan Variance
+  - title: Allan variance
     contents:
     - avar
-    - plot.avar
     - print.avar
     - summary.avar
-  - title: Allan Variance for IMU
+    - plot.avar
+  - title: Allan variance based on IMU data
     contents:
     - avar.imu
     - plot.imu_avar
-  - title: Estimation of time series parameters
+  - title: Estimation of time series models
     contents:
     - avlr
-    - plot.avlr
     - print.avlr
-  - title: Estimation of time series parameters for IMU
+    - plot.avlr
+  - title: Estimation of time series models based on IMU data
     contents:
     - avlr.imu_avar
     - print.imu_avlr
     - plot.imu_avlr
-    - boostrap_ci_avlr
+
 
 
 navbar:

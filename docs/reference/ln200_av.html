@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute bootstrap confidence intervals for the AVLR estimator — boostrap_ci_avlr • avar</title>
+<title>Allan variance of IMU Data from a LN200 sensor — ln200_av • avar</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Compute bootstrap confidence intervals for the AVLR estimator — boostrap_ci_avlr" />
+<meta property="og:title" content="Allan variance of IMU Data from a LN200 sensor — ln200_av" />
 
-<meta property="og:description" content="Compute bootstrap confidence intervals for the AVLR estimator" />
+<meta property="og:description" content="This data set contains Allan variance of LN200 gyroscope and accelerometer data." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -98,72 +98,43 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute bootstrap confidence intervals for the AVLR estimator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/SMAC-Group/avar/blob/master/R/avlr.R'><code>R/avlr.R</code></a></small>
-    <div class="hidden name"><code>boostrap_ci_avlr.Rd</code></div>
+    <h1>Allan variance of IMU Data from a LN200 sensor</h1>
+    <small class="dont-index">Source: <a href='https://github.com/SMAC-Group/avar/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>ln200_av.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Compute bootstrap confidence intervals for the AVLR estimator</p>
+    <p>This data set contains Allan variance of LN200 gyroscope and accelerometer data.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>boostrap_ci_avlr</span>(<span class='no'>model</span>, <span class='no'>B</span>, <span class='no'>n</span>, <span class='no'>qn</span>, <span class='no'>wn</span>, <span class='no'>rw</span>, <span class='no'>dr</span>, <span class='no'>alpha</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>model</th>
-      <td><p>A <code>ts.model</code> object that was estimated with the avlr function.</p></td>
-    </tr>
-    <tr>
-      <th>B</th>
-      <td><p>A <code>double</code> for the number of bootsrap replicates to compute the confidence intervals.</p></td>
-    </tr>
-    <tr>
-      <th>n</th>
-      <td><p>A <code>double</code> with the sample size.</p></td>
-    </tr>
-    <tr>
-      <th>qn</th>
-      <td><p>A <code>vec</code> specifying on which scales the parameters of a Quantization Noise (QN) was computed.</p></td>
-    </tr>
-    <tr>
-      <th>wn</th>
-      <td><p>A <code>vec</code> specifying on which scales the parameters of a White Noise (WN) was computed.</p></td>
-    </tr>
-    <tr>
-      <th>rw</th>
-      <td><p>A <code>vec</code> specifying on which scales the parameters of a Random Wakk (RW) was computed.</p></td>
-    </tr>
-    <tr>
-      <th>dr</th>
-      <td><p>A <code>vec</code> specifying on which scales the parameters of a Drift (DR) was computed.</p></td>
-    </tr>
-    <tr>
-      <th>alpha</th>
-      <td><p>A <code>double</code> defining the level of the confidence interval (1 - `alpha`).</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <pre class="usage"><span class='no'>ln200_av</span></pre>
+        
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A <code>list</code> that contains:</p><ul>
-<li><p>"ci": The 1-<code>alpha</code> confidence intervals.</p></li>
-<li><p>"sd": The standard deviation of the estimated parameters.</p></li>
+    <p>A list of the following elements:</p><ul>
+<li><p>"sensor": Name of the sensor.</p></li>
+<li><p>"freq": The frequency at which the error signal is measured.</p></li>
+<li><p>"n": Sample size of the data.</p></li>
+<li><p>"type": The types of sensors considered in the data.</p></li>
+<li><p>"axis": The axes of sensors considered in the data.</p></li>
+<li><p>"avar": A list containing the computed Allan variance based on the data.</p></li>
 </ul>
+    
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
+    <p>The IMU data comes from Geodetic Engineering Laboratory (TOPO) and Swiss Federal Institute of Technology Lausanne (EPFL).</p>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
+      <li><a href="#format">Format</a></li>
+
+      <li><a href="#source">Source</a></li>
           </ul>
 
   </div>
