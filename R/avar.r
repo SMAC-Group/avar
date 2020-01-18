@@ -93,8 +93,12 @@ avar.imu = function(x, type = "mo", ...){
   if (!is.null(attr(x, "stype"))){
     sensor_name = attr(x, "stype")
   }else{
-    warning("Unknown sensor name. IMU object is missing some information.")
-    sensor_name = NULL
+    if(!is.null(attr(x, "name"))){
+      sensor_name = attr(x, "name")
+    }else{
+      warning("Unknown sensor name. IMU object is missing some information.")
+      sensor_name = "IMU"
+    }
   }
 
   # Retrive freq
