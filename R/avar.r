@@ -447,6 +447,15 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 plot.imu_avar = function(x, xlab = NULL, ylab = NULL, main = NULL,
                          col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
                          ci_ad = NULL, point_pch = NULL, point_cex = NULL, ...){
+
+
+  # #for debugging
+  # xlab = NULL; ylab = NULL; main = NULL;
+  # col_ad = NULL; col_ci = NULL; nb_ticks_x = NULL; nb_ticks_y = NULL;
+  # ci_ad = NULL; point_pch = NULL; point_cex = NULL
+  # data("imar_av")
+  # x = imar_av
+
   type = unique(x$type)
 
   if ("Gyroscope" %in% type){
@@ -575,6 +584,11 @@ plot.imu_avar = function(x, xlab = NULL, ylab = NULL, main = NULL,
         mtext("Gyroscope", 2, line = 4.5)
         mtext(ylab, 2, line = 2.5)
       }
+
+      if (length(gyro_index) == 3 && i == 2){
+        mtext(xlab, 1, line = 3.5)
+      }
+
 
       abline(h = 10^y_ticks, col = "grey85")
       abline(v = 10^x_ticks, col = "grey85")
