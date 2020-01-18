@@ -250,7 +250,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
                      legend_position = NULL, ci_ad = NULL, point_cex = NULL,
                      point_pch = NULL, ...){
 
-  #for debugging
+  # #for debugging
   # class(Xt_av)
   # x = Xt_av
   # units = NULL; xlab = NULL; ylab = NULL; main = NULL;
@@ -268,7 +268,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   }
 
   if (is.null(ylab)){
-    ylab = expression(paste("Allan Variance  ", nu, sep = ""))
+    ylab = expression(paste("Allan Variance  ", hat(phi)^2, sep = ""))
   }else{
     ylab = ylab
   }
@@ -390,20 +390,20 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
     if (legend_position == "topleft"){
       legend_position = 10^c(1.1*win_dim[1], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
       legend(x = legend_position[1], y = legend_position[2],
-             legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(nu)))),
-                        as.expression(bquote(paste("CI(",hat(nu),", ",.(CI_conf),")")))),
+             legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)^2))),
+                        as.expression(bquote(paste("CI(",hat(phi)^2,", ",.(CI_conf),")")))),
              pch = c(16, 15), lty = c(1, NA), col = c(col_ad, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
     }else{
       if (legend_position == "topright"){
         legend_position = 10^c(0.7*win_dim[2], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
         legend(x = legend_position[1], y = legend_position[2],
-               legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(nu)))),
-                          as.expression(bquote(paste("CI(",hat(nu),", ",.(CI_conf),")")))),
+               legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)^2))),
+                          as.expression(bquote(paste("CI(",hat(phi)^2,", ",.(CI_conf),")")))),
                pch = c(16, 15), lty = c(1, NA), col = c(col_ad, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
       }else{
         legend(legend_position,
-               legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(nu)))),
-                          as.expression(bquote(paste("CI(",hat(nu),", ",.(CI_conf),")")))),
+               legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)^2))),
+                          as.expression(bquote(paste("CI(",hat(phi)^2,", ",.(CI_conf),")")))),
                pch = c(16, 15), lty = c(1, NA), col = c(col_ad, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
       }
     }
