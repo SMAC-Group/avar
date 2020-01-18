@@ -4,20 +4,10 @@
 \alias{plot.imu_avlr}
 \title{Plot the AVLR with the Allan Deviation for IMU}
 \usage{
-\method{plot}{imu_avlr}(
-  x,
-  xlab = NULL,
-  ylab = NULL,
-  main = NULL,
-  col_ad = NULL,
-  col_ci = NULL,
-  nb_ticks_x = NULL,
-  nb_ticks_y = NULL,
-  ci_ad = NULL,
-  point_pch = NULL,
-  point_cex = NULL,
-  ...
-)
+\method{plot}{imu_avlr}(x, xlab = NULL, ylab = NULL, main = NULL,
+  col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL,
+  nb_ticks_y = NULL, ci_ad = NULL, point_pch = NULL,
+  point_cex = NULL, ...)
 }
 \arguments{
 \item{x}{An \code{avlr} object.}

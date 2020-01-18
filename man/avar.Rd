@@ -3,6 +3,7 @@
 \docType{package}
 \name{avar}
 \alias{avar}
+\alias{avar-package}
 \alias{avar.default}
 \alias{avar.imu}
 \title{Compute the Empirical Allan Variance}
