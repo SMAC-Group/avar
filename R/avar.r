@@ -246,6 +246,14 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
                      legend_position = NULL, ci_ad = NULL, point_cex = NULL,
                      point_pch = NULL, ...){
 
+  #for debugging
+  # class(Xt_av)
+  # x = Xt_av
+  # units = NULL; xlab = NULL; ylab = NULL; main = NULL;
+  # col_ad = NULL; col_ci = NULL; nb_ticks_x = NULL; nb_ticks_y = NULL;
+  # legend_position = NULL; ci_ad = NULL; point_cex = NULL;
+  # point_pch = NULL
+
   # Labels
   if (is.null(xlab)){
     if (is.null(units)){
@@ -256,14 +264,14 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   }
 
   if (is.null(ylab)){
-    ylab = expression(paste("Allan Deviation ", phi, sep = ""))
+    ylab = expression(paste("Allan Variance  ", nu, sep = ""))
   }else{
     ylab = ylab
   }
 
   # Main Title
   if (is.null(main)){
-    main = "Allan Deviation Representation"
+    main = "Allan Variance Representation"
   }
 
   # Line and CI colors
@@ -285,7 +293,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
     x_high = ceiling(log2(x_range[2]))
   }
 
-  y_range = range(cbind(x$adev - x$adev*x$errors, x$adev + x$adev*x$errors))
+  y_range = range(cbind(x$allan - x$allan*x$errors, x$allan + x$allan*x$errors))
   y_low = floor(log10(y_range[1]))
   y_high = ceiling(log10(y_range[2]))
 
@@ -330,7 +338,7 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   win_dim = par("usr")
 
   par(new = TRUE)
-  plot(NA, xlim = x_range, ylim = 10^c(win_dim[3], win_dim[4] + 0.45*(win_dim[4] - win_dim[3])),
+  plot(NA, xlim = x_range, ylim = 10^c(win_dim[3], win_dim[4] + 0.15*(win_dim[4] - win_dim[3])),
        xlab = xlab, ylab = ylab, log = "xy", xaxt = 'n', yaxt = 'n', bty = "n")
   win_dim = par("usr")
 
@@ -365,33 +373,33 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 
   # CI for AD
   if (ci_ad == TRUE || is.null(ci_ad)){
-    polygon(c(x$levels, rev(x$levels)), c(x$adev - x$errors*x$adev, rev(x$adev + x$errors*x$adev)),
+    polygon(c(x$levels, rev(x$levels)), c(x$allan - x$errors*x$allan, rev(x$allan + x$errors*x$allan)),
             border = NA, col = col_ci)
   }
 
   # Add legend
   CI_conf = .95
 
-  ad_title_part1 = "Empirical AD "
+  ad_title_part1 = "Empirical AV "
 
   if (!is.na(legend_position)){
     if (legend_position == "topleft"){
       legend_position = 10^c(1.1*win_dim[1], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
       legend(x = legend_position[1], y = legend_position[2],
-             legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
-                        as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")")))),
+             legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(nu)))),
+                        as.expression(bquote(paste("CI(",hat(nu),", ",.(CI_conf),")")))),
              pch = c(16, 15), lty = c(1, NA), col = c(col_ad, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
     }else{
       if (legend_position == "topright"){
         legend_position = 10^c(0.7*win_dim[2], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
         legend(x = legend_position[1], y = legend_position[2],
-               legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
-                          as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")")))),
+               legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(nu)))),
+                          as.expression(bquote(paste("CI(",hat(nu),", ",.(CI_conf),")")))),
                pch = c(16, 15), lty = c(1, NA), col = c(col_ad, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
       }else{
         legend(legend_position,
-               legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
-                          as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")")))),
+               legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(nu)))),
+                          as.expression(bquote(paste("CI(",hat(nu),", ",.(CI_conf),")")))),
                pch = c(16, 15), lty = c(1, NA), col = c(col_ad, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
       }
     }
@@ -405,8 +413,8 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   if (is.null(point_cex)){
     point_cex = 1.25
   }
-  lines(x$levels, x$adev, type = "l", col = col_ad, pch = 16)
-  lines(x$levels, x$adev, type = "p", col = col_ad, pch = point_pch, cex = point_cex)
+  lines(x$levels, x$allan, type = "l", col = col_ad, pch = 16)
+  lines(x$levels, x$allan, type = "p", col = col_ad, pch = point_pch, cex = point_cex)
 }
 
 #' @title Plot Allan Deviation based on IMU Data
