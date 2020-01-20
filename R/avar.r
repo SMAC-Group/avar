@@ -449,38 +449,54 @@ plot.imu_avar = function(x, xlab = NULL, ylab = NULL, main = NULL,
                          ci_ad = NULL, point_pch = NULL, point_cex = NULL, ...){
 
 
-  # #for debugging
+  # # #for debugging
   # xlab = NULL; ylab = NULL; main = NULL;
   # col_ad = NULL; col_ci = NULL; nb_ticks_x = NULL; nb_ticks_y = NULL;
   # ci_ad = NULL; point_pch = NULL; point_cex = NULL
-  # data("imar_av")
-  # x = imar_av
+  # load("~/github_repo/avar/data/kvh1750_av.rda")
+  # x = kvh1750_av
+  # ci_ad = T
+
 
   type = unique(x$type)
 
+  #set gyro inder
   if ("Gyroscope" %in% type){
     gyro_index = which(x$type == "Gyroscope")
   }else{
     gyro_index = NULL
   }
 
+  #set accelerometer index
   if ("Accelerometer" %in% type){
     accel_index = which(x$type == "Accelerometer")
   }else{
     accel_index = NULL
   }
 
+  #specify grid of image
   ncol = length(unique(x$axis))
   nrow = length(type)
 
+  #specify number of ts and length of ts
   m = length(x$avar)
   J = length(x$avar[[1]]$allan)
+
+  #calculate CI
+  lci_mat = uci_mat = matrix(NA, ncol= m, nrow = J)
+
+  #for all ts store calculated lci and uci
+  for(i in seq(m)){
+    lci_mat[,i] = x$avar[[i]]$allan - x$avar[[i]]$errors*x$avar[[i]]$allan
+    uci_mat[,i] = x$avar[[i]]$allan + x$avar[[i]]$errors*x$avar[[i]]$allan
+  }
+
 
   # remove negative CI values
   index_to_remove = c()
   for (i in 1:m) {
-    if(length(which(x$avar[[i]]$lci<0)) > 0){
-      index_to_remove = c(index_to_remove, which(x$avar[[i]]$lci<0))
+    if(length(which(lci_mat[,i]<0)) > 0){
+      index_to_remove = c(index_to_remove, which(lci_mat[,i]<0))
     }
   }
   if (!is.null(index_to_remove)){
@@ -493,11 +509,12 @@ plot.imu_avar = function(x, xlab = NULL, ylab = NULL, main = NULL,
   J = length(index_to_keep)
   scales = x$avar[[1]]$levels[index_to_keep]
 
+  #store CI
   ci_up = ci_lw = av = matrix(NA, J, m)
 
   for (i in 1:m){
-    ci_up[,i] = x$avar[[i]]$uci[index_to_keep]
-    ci_lw[,i] = x$avar[[i]]$lci[index_to_keep]
+    ci_up[,i] = uci_mat[,i][index_to_keep]
+    ci_lw[,i] = lci_mat[,i][index_to_keep]
     av[,i] = x$avar[[i]]$allan[index_to_keep]
   }
 
@@ -550,7 +567,7 @@ plot.imu_avar = function(x, xlab = NULL, ylab = NULL, main = NULL,
   }
 
   if (is.null(ylab)){
-    ylab = expression(paste("Allan Deviation ", phi, sep = ""))
+    ylab = expression(paste("Allan Variance ", hat(phi)^2, sep = ""))
   }
 
 
@@ -585,7 +602,7 @@ plot.imu_avar = function(x, xlab = NULL, ylab = NULL, main = NULL,
         mtext(ylab, 2, line = 2.5)
       }
 
-      if (length(gyro_index) == 3 && i == 2){
+      if (length(gyro_index) == 3 && i == 2 && nrow==1){
         mtext(xlab, 1, line = 3.5)
       }
 
@@ -593,15 +610,15 @@ plot.imu_avar = function(x, xlab = NULL, ylab = NULL, main = NULL,
       abline(h = 10^y_ticks, col = "grey85")
       abline(v = 10^x_ticks, col = "grey85")
 
-      # CI for AD
+      # CI for AV
       if(ci_ad == TRUE || is.null(ci_ad)){
         polygon(c(scales, rev(scales)), c(ci_lw[,gyro_index[i]], rev(ci_up[,gyro_index[i]])),
                 border = NA, col = col_ci)
       }
 
       # Add AD
-      lines(scales, sqrt(av[,gyro_index[i]]), type = "l", col = col_ad, pch = 16)
-      lines(scales, sqrt(av[,gyro_index[i]]), type = "p", col = col_ad, pch = point_pch, cex = point_cex)
+      lines(scales, (av[,gyro_index[i]]), type = "l", col = col_ad, pch = 16)
+      lines(scales, (av[,gyro_index[i]]), type = "p", col = col_ad, pch = point_pch, cex = point_cex)
 
       if (is.null(accel_index)){
         axis(1, at = 10^x_ticks, labels = x_labels, padj = -0.2, cex = 1.25)
@@ -653,8 +670,8 @@ plot.imu_avar = function(x, xlab = NULL, ylab = NULL, main = NULL,
       }
 
       # Add AD
-      lines(scales, sqrt(av[,accel_index[i]]), type = "l", col = col_ad, pch = 16)
-      lines(scales, sqrt(av[,accel_index[i]]), type = "p", col = col_ad, pch = point_pch, cex = point_cex)
+      lines(scales, (av[,accel_index[i]]), type = "l", col = col_ad, pch = 16)
+      lines(scales, (av[,accel_index[i]]), type = "p", col = col_ad, pch = point_pch, cex = point_cex)
       axis(1, at = 10^x_ticks, labels = x_labels, padj = -0.2, cex = 1.25)
     }
   }
