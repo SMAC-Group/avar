@@ -716,8 +716,22 @@ plot.avlr = function(x, decomp = FALSE,
                      legend_position = NULL, ci_ad = NULL, point_cex = NULL,
                      point_pch = NULL, show_scales = FALSE, ...){
 
+  # #for debugging
+  # load("~/github_repo/avar/data/navchip_av.rda")
+  # navchip_gyro_z = navchip_av$avar$`Gyro. Z`
+  # navchip_gyro_z_mod = avlr(navchip_gyro_z, qn = 1:4, wn = 5:7, rw = 12:20)
+  # x = navchip_gyro_z_mod
+  # decomp = FALSE;
+  # units = NULL; xlab = NULL; ylab = NULL; main = NULL;
+  # col_ad = NULL; col_ci = NULL; nb_ticks_x = NULL; nb_ticks_y = NULL;
+  # legend_position = NULL; ci_ad = NULL; point_cex = NULL;
+  # point_pch = NULL; show_scales = FALSE
+  # class(x)
+  # x = imar_gyro_x_mod
+
 
   # Labels
+  #xlabel
   if (is.null(xlab)){
     if (is.null(units)){
       xlab = expression(paste("Scale ", tau, sep =""))
@@ -726,6 +740,7 @@ plot.avlr = function(x, decomp = FALSE,
     }
   }
 
+  #ylabel
   if (is.null(ylab)){
     ylab = expression(paste("Allan Deviation ", phi, sep = ""))
   }else{
@@ -757,7 +772,7 @@ plot.avlr = function(x, decomp = FALSE,
   }
 
   #compute y range
-  y_range = range(cbind(x$av$adev - x$av$adev*x$av$errors, x$av$adev + x$av$adev*x$av$errors))
+  y_range = range(cbind(x$av$adev - x$av$adev*x$av$errors, x$av$adev + x$av$adev*x$av$errors, x$implied_ad))
   y_low = floor(log10(y_range[1]))
   y_high = ceiling(log10(y_range[2]))
 
@@ -795,11 +810,23 @@ plot.avlr = function(x, decomp = FALSE,
     legend_position = "bottomleft"
     #}
   }
-
+  #par("usr")
   # Main Plot
   plot(NA, xlim = x_range, ylim = y_range, xlab = xlab, ylab = ylab,
-       log = "xy", xaxt = 'n', yaxt = 'n', bty = "n", ann = FALSE)
+      log = "xy", xaxt = 'n', yaxt = 'n', bty = "n", ann = FALSE)
+  #par("usr")
   win_dim = par("usr")
+
+  #replot main plot with extra space on top for main title ploted later
+  y_vec_2 = 10^c(win_dim[4], win_dim[4],
+               win_dim[4] - 0.15*(win_dim[4] - win_dim[3]),
+               win_dim[4] - 0.15*(win_dim[4] - win_dim[3]))
+
+  space_title =    y_vec_2[1] - y_vec_2[4]
+  par(new = TRUE)
+  plot(NA, xlim = x_range, ylim = c(y_range[1], y_range[2]+ space_title), xlab = xlab, ylab = ylab,
+       log = "xy", xaxt = 'n', yaxt = 'n', bty = "n", ann = FALSE)
+
 
   #par(new = TRUE)
   #plot(NA, xlim = x_range, ylim = 10^c(win_dim[3], win_dim[4] + 0.09*(win_dim[4] - win_dim[3])), xlab = xlab, ylab = ylab, log = "xy", xaxt = 'n', yaxt = 'n', bty = "n")
@@ -879,6 +906,9 @@ plot.avlr = function(x, decomp = FALSE,
     }
   }
 
+  #recalculate win dim since added space for main title when plotting main plot
+  win_dim = par("usr")
+
   # Add Title
   x_vec = 10^c(win_dim[1], win_dim[2], win_dim[2], win_dim[1])
   y_vec = 10^c(win_dim[4], win_dim[4],
@@ -927,7 +957,7 @@ plot.avlr = function(x, decomp = FALSE,
       pch_legend = c(16,15, 1, rep(16,U))
     }else{
       legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
-                       as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AV")
+                       as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AD")
       col_legend = c(col_ad, col_ci,"#F47F24")
       p_cex_legend = c(1.25, 3, 1.5)
       lty_legend = c(1, NA)
