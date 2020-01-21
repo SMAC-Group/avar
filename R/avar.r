@@ -215,14 +215,14 @@ summary.avar = function(object, ...) {
 #' @title Plot Allan Deviation
 #'
 #' @description
-#' Displays a plot of Allan deviation with its corresponding pointwise confidence intervals.
+#' Displays a plot of Allan variance with its corresponding pointwise confidence intervals.
 #' @method plot avar
 #' @param x                An \code{avar} object.
 #' @param units            A \code{string} that specifies the units of time plotted on the x axis.
 #' @param xlab             A \code{string} that gives a title for the x axis.
 #' @param ylab             A \code{string} that gives a title for the y axis.
 #' @param main             A \code{string} that gives an overall title for the plot.
-#' @param col_ad           A \code{string} that specifies the color of the line allan deviation line.
+#' @param col_ad           A \code{string} that specifies the color of the line allan variance line.
 #' @param col_ci           A \code{string} that specifies the color of the shaded area covered by the confidence intervals.
 #' @param ci_ad            A \code{boolean} that determines whether to plot the confidence interval shaded area.
 #' @param nb_ticks_x       An \code{integer} that specifies the maximum number of ticks for the x-axis.
@@ -447,16 +447,16 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   lines(x$levels, x$allan, type = "p", col = col_ad, pch = point_pch, cex = point_cex)
 }
 
-#' @title Plot Allan Deviation based on IMU Data
+#' @title Plot Allan Variance based on IMU Data
 #'
 #' @description
-#' Displays a plot of Allan deviation based on IMU data with its corresponding pointwise confidence intervals.
+#' Displays a plot of Allan variance based on IMU data with its corresponding pointwise confidence intervals.
 #' @method plot imu_avar
 #' @param x                An \code{avar} object.
 #' @param xlab             A \code{string} that gives a title for the x axis.
 #' @param ylab             A \code{string} that gives a title for the y axis.
 #' @param main             A \code{string} that gives an overall title for the plot.
-#' @param col_ad           A \code{string} that specifies the color of the line allan deviation line.
+#' @param col_ad           A \code{string} that specifies the color of the line allan variance line.
 #' @param col_ci           A \code{string} that specifies the color of the shaded area covered by the confidence intervals.
 #' @param ci_ad            A \code{boolean} that determines whether to plot the confidence interval shaded area.
 #' @param nb_ticks_x       An \code{integer} that specifies the maximum number of ticks for the x-axis.

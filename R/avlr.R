@@ -442,13 +442,13 @@ print.imu_avlr = function(x, ...) {
 #' @title Plot the AVLR with the Allan Deviation for IMU
 #'
 #' @description
-#' Displays a plot of the Allan deviation (AD) with the CI values and the AD implied by the estimated parameters for the IMU.
+#' Displays a plot of the Allan variance (AV) with the CI values and the AV implied by the estimated parameters for the IMU.
 #' @method plot imu_avlr
 #' @param x                An \code{avlr} object.
 #' @param xlab             A \code{string} that gives a title for the x axis.
 #' @param ylab             A \code{string} that gives a title for the y axis.
 #' @param main             A \code{string} that gives an overall title for the plot.
-#' @param col_ad           A \code{string} that specifies the color of the line allan deviation line.
+#' @param col_ad           A \code{string} that specifies the color of the line allan variance line.
 #' @param col_ci           A \code{string} that specifies the color of the shaded area covered by the confidence intervals.
 #' @param nb_ticks_x       An \code{integer} that specifies the maximum number of ticks for the x-axis.
 #' @param nb_ticks_y       An \code{integer} that specifies the maximum number of ticks for the y-axis.
@@ -468,6 +468,16 @@ print.imu_avlr = function(x, ...) {
 plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
                          col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
                          ci_ad = NULL, point_pch = NULL, point_cex = NULL, ...){
+
+  # #for debugging
+  # load("~/github_repo/avar/data/ln200_av.rda")
+  # fit_ln200 = avlr(ln200_av, wn_gyro = 1:18, qn_acc = 1:16, rw_acc = 18:22)
+  # plot(fit_ln200)
+  # x = fit_ln200
+  # class(fit_ln200)
+
+
+
   type = unique(x$imu_av$type)
 
   if ("Gyroscope" %in% type){
@@ -488,14 +498,28 @@ plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
   m = length(x$imu_av$avar)
   J = length(x$imu_av$avar[[1]]$allan)
 
+  #define empty matrices for CI of allan variance
+  lci_mat = uci_mat = matrix(NA, ncol= m, nrow = J)
+
+  #calculate CI for allan variance for all ts
+  for(i in seq(m)){
+    lci_mat[,i] = x$imu_av$avar[[i]]$allan - x$imu_av$avar[[i]]$errors*x$imu_av$avar[[i]]$allan
+    uci_mat[,i] = x$imu_av$avar[[i]]$allan + x$imu_av$avar[[i]]$errors*x$imu_av$avar[[i]]$allan
+  }
+
   # remove negative CI values
   index_to_remove = c()
   for (i in 1:m) {
-    if(length(which(x$imu_av$avar[[i]]$lci<0)) > 0){
-      index_to_remove = c(index_to_remove, which(x$imu_av$avar[[i]]$lci<0))
+    if(length(which(lci_mat[,i]<0)) > 0){
+      index_to_remove = c(index_to_remove, which(lci_mat[,i]<0))
     }
   }
-  index_to_remove = unique(index_to_remove)
+  if(!is.null(index_to_remove)){
+    index_to_remove = unique(index_to_remove)
+  }else{
+    index_to_remove = 0
+  }
+
   index_to_keep = which(seq(1:J) != index_to_remove)
 
   J = length(index_to_keep)
@@ -504,8 +528,8 @@ plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
   ci_up = ci_lw = av = matrix(NA, J, m)
 
   for (i in 1:m){
-    ci_up[,i] = x$imu_av$avar[[i]]$uci[index_to_keep]
-    ci_lw[,i] = x$imu_av$avar[[i]]$lci[index_to_keep]
+    ci_up[,i] = uci_mat[,i][index_to_keep]
+    ci_lw[,i] = lci_mat[,i][index_to_keep]
     av[,i] = x$imu_av$avar[[i]]$allan[index_to_keep]
   }
 
@@ -558,7 +582,7 @@ plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
   }
 
   if (is.null(ylab)){
-    ylab = expression(paste("Allan Deviation ", phi, sep = ""))
+    ylab = expression(paste("Allan Variance ", hat(phi)^2, sep = ""))
   }
 
 
@@ -567,7 +591,7 @@ plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
 
   # Gyro
   if (!is.null(gyro_index)){
-    y_range = c(min(ci_lw[,gyro_index]), max(c(ci_up[,gyro_index], x$gyro$implied_ad[1:length(scales)])))
+    y_range = c(min(ci_lw[,gyro_index]), max(c(ci_up[,gyro_index], x$gyro$implied_ad[1:length(scales)]^2)))
     y_low = floor(log10(y_range[1]))
     y_high = ceiling(log10(y_range[2]))
 
@@ -596,27 +620,27 @@ plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
       abline(h = 10^y_ticks, col = "grey85")
       abline(v = 10^x_ticks, col = "grey85")
 
-      # CI for AD
+      # CI for AV
       if(ci_ad == TRUE || is.null(ci_ad)){
         polygon(c(scales, rev(scales)), c(ci_lw[,gyro_index[i]], rev(ci_up[,gyro_index[i]])),
                 border = NA, col = col_ci)
       }
 
-      # Add AD
-      lines(scales, sqrt(av[,gyro_index[i]]), type = "l", col = col_ad, pch = 16)
-      lines(scales, sqrt(av[,gyro_index[i]]), type = "p", col = col_ad, pch = point_pch, cex = point_cex)
+      # Add AV
+      lines(scales, (av[,gyro_index[i]]), type = "l", col = col_ad, pch = 16)
+      lines(scales, (av[,gyro_index[i]]), type = "p", col = col_ad, pch = point_pch, cex = point_cex)
 
       if (is.null(accel_index)){
         axis(1, at = 10^x_ticks, labels = x_labels, padj = -0.2, cex = 1.25)
       }
 
-      lines(scales,x$gyro$implied_ad[1:length(scales)], type = "b", lwd = 1.75, col = "#F47F24", pch = 1, cex = 1.5)
+      lines(scales,x$gyro$implied_ad[1:length(scales)]^2, type = "b", lwd = 1.75, col = "#F47F24", pch = 1, cex = 1.5)
     }
   }
 
   # Accel
   if (!is.null(accel_index)){
-    y_range = c(min(ci_lw[,accel_index]), max(c(ci_up[,accel_index], x$acc$implied_ad[1:length(scales)])))
+    y_range = c(min(ci_lw[,accel_index]), max(c(ci_up[,accel_index], x$acc$implied_ad[1:length(scales)]^2)))
     y_low = floor(log10(y_range[1]))
     y_high = ceiling(log10(y_range[2]))
 
@@ -651,17 +675,17 @@ plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
       abline(h = 10^y_ticks, col = "grey85")
       abline(v = 10^x_ticks, col = "grey85")
 
-      # CI for AD
+      # CI for AV
       if(ci_ad == TRUE || is.null(ci_ad)){
         polygon(c(scales, rev(scales)), c(ci_lw[,accel_index[i]], rev(ci_up[,accel_index[i]])),
                 border = NA, col = col_ci)
       }
 
-      lines(scales,x$acc$implied_ad[1:length(scales)], type = "b", lwd = 1.75, col = "#F47F24", pch = 1, cex = 1.5)
+      lines(scales,x$acc$implied_ad[1:length(scales)]^2, type = "b", lwd = 1.75, col = "#F47F24", pch = 1, cex = 1.5)
 
-      # Add AD
-      lines(scales, sqrt(av[,accel_index[i]]), type = "l", col = col_ad, pch = 16)
-      lines(scales, sqrt(av[,accel_index[i]]), type = "p", col = col_ad, pch = point_pch, cex = point_cex)
+      # Add AV
+      lines(scales, (av[,accel_index[i]]), type = "l", col = col_ad, pch = 16)
+      lines(scales, (av[,accel_index[i]]), type = "p", col = col_ad, pch = point_pch, cex = point_cex)
       axis(1, at = 10^x_ticks, labels = x_labels, padj = -0.2, cex = 1.25)
     }
   }
@@ -672,10 +696,10 @@ plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
 }
 
 
-#' @title Plot the AVLR with the Allan Deviation
+#' @title Plot the AVLR with the Allan Variance
 #'
 #' @description
-#' Displays a plot of the Allan deviation (AD) with the CI values and the AD implied by the estimated parameters.
+#' Displays a plot of the Allan variance (AV) with the CI values and the AV implied by the estimated parameters.
 #' @method plot avlr
 #' @param x                An \code{avlr} object.
 #' @param decomp           A \code{boolean} that determines whether the contributions of each individual model are plotted.
@@ -683,7 +707,7 @@ plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
 #' @param xlab             A \code{string} that gives a title for the x axis.
 #' @param ylab             A \code{string} that gives a title for the y axis.
 #' @param main             A \code{string} that gives an overall title for the plot.
-#' @param col_ad           A \code{string} that specifies the color of the line allan deviation line.
+#' @param col_ad           A \code{string} that specifies the color of the line allan variance line.
 #' @param col_ci           A \code{string} that specifies the color of the shaded area covered by the confidence intervals.
 #' @param nb_ticks_x       An \code{integer} that specifies the maximum number of ticks for the x-axis.
 #' @param nb_ticks_y       An \code{integer} that specifies the maximum number of ticks for the y-axis.

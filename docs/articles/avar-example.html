@@ -65,7 +65,7 @@
     <div class="page-header toc-ignore">
       <h1>Allan Variance Linear Regression Estimation Examples</h1>
             
-            <h4 class="date">2020-01-15</h4>
+            <h4 class="date">2020-01-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/SMAC-Group/avar/blob/master/vignettes/avar-example.Rmd"><code>vignettes/avar-example.Rmd</code></a></small>
       <div class="hidden name"><code>avar-example.Rmd</code></div>
@@ -74,57 +74,57 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(avar)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(avar)</span></code></pre></div>
 <div id="simulated-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#simulated-data" class="anchor"></a>Simulated Data</h2>
 <p>To understand the features of the <code>avar</code> package, we first illustrate with a simulated data of sample size <span class="math inline">\(n = 10^5\)</span> coming from a White Noise (WN) plus Random Walk (RW) model. The corresponding (maximum-overlap) Allan Variance representation is given in the following figure:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">2710</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># Simulate data</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">n =<span class="st"> </span><span class="fl">1e5</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">data =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(n, <span class="dv">0</span>, <span class="fl">0.01</span>) <span class="op">+</span><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cumsum">cumsum</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(n, <span class="dv">0</span>, <span class="fl">3.162278e-05</span>))</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co"># Compute the Maximum-Overlap Allan Variance</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">allan_variance =<span class="st"> </span><span class="kw"><a href="../reference/avar.html">avar</a></span>(data, <span class="dt">type =</span> <span class="st">"mo"</span>)</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co"># Log-Log representation of the Allan Variance</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(allan_variance)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">2710</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co"># Simulate data</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>n =<span class="st"> </span><span class="fl">1e5</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>data =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(n, <span class="dv">0</span>, <span class="fl">0.01</span>) <span class="op">+</span><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cumsum">cumsum</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(n, <span class="dv">0</span>, <span class="fl">3.162278e-05</span>))</span>
+<span id="cb2-6"><a href="#cb2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co"># Compute the Maximum-Overlap Allan Variance</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>allan_variance =<span class="st"> </span><span class="kw"><a href="../reference/avar.html">avar</a></span>(data, <span class="dt">type =</span> <span class="st">"mo"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9"></a></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co"># Log-Log representation of the Allan Variance</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(allan_variance)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="avar-example_files/figure-html/unnamed-chunk-2-1.png" alt="Allan Variance Representation." width="672"><p class="caption">
 Allan Variance Representation.
 </p>
 </div>
 <p>Based on this graph, it is possible to detect the models underlying the simulated data. Indeed, we can see that our model should include a WN process when considering the first 7 scales and a RW process when considering the last 3 scales. Therefore, using these scales we can make use of the traditional “Allan Variance slope method” to estimate the parameters of these two processes.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Specify the scale at which we want to fit the WN and RW processes</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">wn =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">7</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">rw =<span class="st"> </span><span class="dv">13</span><span class="op">:</span><span class="dv">15</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># Compute the Allan Variance Linear Regression Estimator (AVLR)</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">fit =<span class="st"> </span><span class="kw"><a href="../reference/avlr.html">avlr</a></span>(allan_variance, <span class="dt">wn =</span> wn, <span class="dt">rw =</span> rw)</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">fit</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;  Estimates: </span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt;           Value</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; WN 1.007431e-02</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; RW 1.358511e-05</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Specify the scale at which we want to fit the WN and RW processes</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>wn =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">7</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>rw =<span class="st"> </span><span class="dv">13</span><span class="op">:</span><span class="dv">15</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co"># Compute the Allan Variance Linear Regression Estimator (AVLR)</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>fit =<span class="st"> </span><span class="kw"><a href="../reference/avlr.html">avlr</a></span>(allan_variance, <span class="dt">wn =</span> wn, <span class="dt">rw =</span> rw)</span>
+<span id="cb3-7"><a href="#cb3-7"></a>fit</span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; </span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt;  Estimates: </span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt;           Value</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt; WN 1.007431e-02</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt; RW 1.358511e-05</span></span></code></pre></div>
 <p>Now that we have computed the parameters of interest, we can visually check if the chosen latent model fits the data at hand well. To do so we can simply use the <code>plot</code> function and, if we would like to observe how the individual processes contribute to the overall fit, we can set the parameter <code>decomp = TRUE</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(fit)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(fit)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="avar-example_files/figure-html/unnamed-chunk-4-1.png" alt="Empirical AV with AV implied by the latent model" width="672"><p class="caption">
 Empirical AV with AV implied by the latent model
 </p>
 </div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(fit, <span class="dt">decomp =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(fit, <span class="dt">decomp =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="avar-example_files/figure-html/unnamed-chunk-4-2.png" alt="Empirical AV with AV implied by the latent model" width="672"><p class="caption">
 Empirical AV with AV implied by the latent model
 </p>
 </div>
 <p>As we can see, the model fits the data well. Therefore, we are going to compute the confidence intervals for these parameters by specifiying the option <code>ci = TRUE</code>. These confidence intervals are computed via parametric bootstrap for which the number of replications can be defined through the parameter <code>B</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># AVLR estimator with 95% confidence intervals</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">fit_ci =<span class="st"> </span><span class="kw"><a href="../reference/avlr.html">avlr</a></span>(allan_variance, <span class="dt">wn =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">7</span>, <span class="dt">rw =</span> <span class="dv">13</span><span class="op">:</span><span class="dv">15</span>, <span class="dt">ci =</span> <span class="ot">TRUE</span>, <span class="dt">B =</span> <span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">fit_ci<span class="op">$</span>ci</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># AVLR estimator with 95% confidence intervals</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>fit_ci =<span class="st"> </span><span class="kw"><a href="../reference/avlr.html">avlr</a></span>(allan_variance, <span class="dt">wn =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">7</span>, <span class="dt">rw =</span> <span class="dv">13</span><span class="op">:</span><span class="dv">15</span>, <span class="dt">ci =</span> <span class="ot">TRUE</span>, <span class="dt">B =</span> <span class="dv">100</span>)</span>
+<span id="cb6-3"><a href="#cb6-3"></a>fit_ci<span class="op">$</span>ci</span></code></pre></div>
 <pre><code>#&gt; $mu
 #&gt; [1] 0.0100782190 0.0000121613
 #&gt; 
@@ -139,31 +139,31 @@ Empirical AV with AV implied by the latent model
 <div id="real-imu-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#real-imu-data" class="anchor"></a>Real IMU Data</h2>
-<p>We can further illustrate the features of the <code>avar</code> package using the Allan variance computed based on real IMU data. Specifically, we consider the Allan variance of IMU data collected from a navchip sensor, i.e. <code>navchip_av</code>, whose sample size is about <span class="math inline">\(n = 3 \cdot 10^6\)</span>. The Allan variance representation corresponding to this dataset is given in the following figure:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"navchip_av"</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(navchip_av)</a></code></pre></div>
+<p>We can further illustrate the features of the <code>avar</code> package using the Allan variance computed based on real IMU data. Specifically, we consider the Allan variance of IMU data collected from a navchip sensor, i.e. <code>navchip_av</code>, whose sample size is about <span class="math inline">\(n = 3 \cdot 10^6\)</span>. The Allan variance representation corresponding to this dataset is given in the following figure:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"navchip_av"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(navchip_av)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="avar-example_files/figure-html/unnamed-chunk-7-1.png" alt="Allan Variance Representation." width="768"><p class="caption">
 Allan Variance Representation.
 </p>
 </div>
 <p>Based on the graph, we can see that for the gyroscope components, the underlying model should include a Quantization Noise (QN) for the first 4 scales, a WN for the 6th to 8th scales, and a RW for the 10th to 13th scales. Similarly for the accelerometer components, the underlying model should include a WN for the first 6 scales and a RW for the 14th to 16th scales. Therefore, we can estimate the underlying model with the following:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">fit2 =<span class="st"> </span><span class="kw"><a href="../reference/avlr.html">avlr</a></span>(navchip_av, <span class="dt">qn_gyro =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">wn_gyro =</span> <span class="dv">6</span><span class="op">:</span><span class="dv">8</span>, <span class="dt">rw_gyro =</span> <span class="dv">10</span><span class="op">:</span><span class="dv">13</span>,</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">           <span class="dt">wn_acc =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">rw_acc =</span> <span class="dv">14</span><span class="op">:</span><span class="dv">16</span>)</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">fit2</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt;  Estimates for gyroscopes: </span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt;           Value</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; WN 5.945877e-05</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; QN 7.208553e-06</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; RW 3.062325e-05</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;  Estimates for accelerometers: </span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;           Value</span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; WN 5.233402e-04</span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; RW 6.422082e-05</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>fit2 =<span class="st"> </span><span class="kw"><a href="../reference/avlr.html">avlr</a></span>(navchip_av, <span class="dt">qn_gyro =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">wn_gyro =</span> <span class="dv">6</span><span class="op">:</span><span class="dv">8</span>, <span class="dt">rw_gyro =</span> <span class="dv">10</span><span class="op">:</span><span class="dv">13</span>,</span>
+<span id="cb9-2"><a href="#cb9-2"></a>           <span class="dt">wn_acc =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">rw_acc =</span> <span class="dv">14</span><span class="op">:</span><span class="dv">16</span>)</span>
+<span id="cb9-3"><a href="#cb9-3"></a>fit2</span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="co">#&gt; </span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="co">#&gt;  Estimates for gyroscopes: </span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt;           Value</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt; WN 5.945877e-05</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt; QN 7.208553e-06</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="co">#&gt; RW 3.062325e-05</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt; </span></span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="co">#&gt;  Estimates for accelerometers: </span></span>
+<span id="cb9-12"><a href="#cb9-12"></a><span class="co">#&gt;           Value</span></span>
+<span id="cb9-13"><a href="#cb9-13"></a><span class="co">#&gt; WN 5.233402e-04</span></span>
+<span id="cb9-14"><a href="#cb9-14"></a><span class="co">#&gt; RW 6.422082e-05</span></span></code></pre></div>
 <p>And we can visualize to check if the estimated underlying model fits the data well simply with the <code>plot</code> function.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(fit2)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(fit2)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="avar-example_files/figure-html/unnamed-chunk-9-1.png" alt="Empirical AV with AV implied by the latent model" width="768"><p class="caption">
 Empirical AV with AV implied by the latent model
@@ -173,6 +173,7 @@ Empirical AV with AV implied by the latent model
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>

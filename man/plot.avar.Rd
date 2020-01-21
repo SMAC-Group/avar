@@ -20,7 +20,7 @@
 
 \item{main}{A \code{string} that gives an overall title for the plot.}
 
-\item{col_ad}{A \code{string} that specifies the color of the line allan deviation line.}
+\item{col_ad}{A \code{string} that specifies the color of the line allan variance line.}
 
 \item{col_ci}{A \code{string} that specifies the color of the shaded area covered by the confidence intervals.}
 
@@ -42,7 +42,7 @@
 A plot of the Allan deviation and relative confidence interval for each scale.
 }
 \description{
-Displays a plot of Allan deviation with its corresponding pointwise confidence intervals.
+Displays a plot of Allan variance with its corresponding pointwise confidence intervals.
 }
 \examples{
 \donttest{

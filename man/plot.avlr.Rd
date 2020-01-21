@@ -2,7 +2,7 @@
 % Please edit documentation in R/avlr.R
 \name{plot.avlr}
 \alias{plot.avlr}
-\title{Plot the AVLR with the Allan Deviation}
+\title{Plot the AVLR with the Allan Variance}
 \usage{
 \method{plot}{avlr}(x, decomp = FALSE, units = NULL, xlab = NULL,
   ylab = NULL, main = NULL, col_ad = NULL, col_ci = NULL,
@@ -23,7 +23,7 @@
 
 \item{main}{A \code{string} that gives an overall title for the plot.}
 
-\item{col_ad}{A \code{string} that specifies the color of the line allan deviation line.}
+\item{col_ad}{A \code{string} that specifies the color of the line allan variance line.}
 
 \item{col_ci}{A \code{string} that specifies the color of the shaded area covered by the confidence intervals.}
 
@@ -47,7 +47,7 @@
 Plot of Allan deviation and relative confidence intervals for each scale.
 }
 \description{
-Displays a plot of the Allan deviation (AD) with the CI values and the AD implied by the estimated parameters.
+Displays a plot of the Allan variance (AV) with the CI values and the AV implied by the estimated parameters.
 }
 \examples{
 \donttest{

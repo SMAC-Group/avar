@@ -8,10 +8,12 @@
 
 <title>Calculate Theoretical Covariance Matrix of Bias-Instability Process — covmat_bi • avar</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -30,13 +32,13 @@
 
 
 
-<meta property="og:title" content="Calculate Theoretical Covariance Matrix of Bias-Instability Process — covmat_bi" />
 
+<meta property="og:title" content="Calculate Theoretical Covariance Matrix of Bias-Instability Process — covmat_bi" />
 <meta property="og:description" content="This function allows us to calculate the theoretical covariance matrix of a bias-instability
 process." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -79,7 +81,6 @@ process." />
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/SMAC-Group/av">
@@ -105,14 +106,12 @@ process." />
     </div>
 
     <div class="ref-description">
-    
     <p>This function allows us to calculate the theoretical covariance matrix of a bias-instability
 process.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>covmat_bi</span>(<span class='no'>sigma2</span>, <span class='no'>n_total</span>, <span class='no'>n_block</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -130,11 +129,10 @@ process.</p>
 process.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The theoretical covariance <code>matrix</code> of the bias-instability process.</p>
-    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>This function helps calculate the theoretical covariance matrix of a non-stationary
@@ -142,7 +140,6 @@ process, bias-instability. It is helpful to calculate the theoretical allan vari
 non-stationary processes, which can be used to compare with the theoretical allan variance
 of stationary processes as shown in "A Study of the Allan Variance for Constant-Mean Non-Stationary
 Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–1260.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>covmat1</span> <span class='kw'>=</span> <span class='fu'>covmat_bi</span>(<span class='kw'>sigma2</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>n_total</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>n_block</span> <span class='kw'>=</span> <span class='fl'>10</span>)
@@ -152,11 +149,8 @@ Processes" by Xu et al., 2017, IEEE Signal Processing Letters, 24(8): 1257–126
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#note">Note</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
