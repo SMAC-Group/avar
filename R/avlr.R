@@ -741,17 +741,23 @@ plot.avlr = function(x, decomp = FALSE,
                      point_pch = NULL, show_scales = FALSE, ...){
 
   # #for debugging
-  # load("~/github_repo/avar/data/navchip_av.rda")
-  # navchip_gyro_z = navchip_av$avar$`Gyro. Z`
-  # navchip_gyro_z_mod = avlr(navchip_gyro_z, qn = 1:4, wn = 5:7, rw = 12:20)
-  # x = navchip_gyro_z_mod
-  # decomp = TRUE;
+  # decomp = FALSE;
   # units = NULL; xlab = NULL; ylab = NULL; main = NULL;
   # col_ad = NULL; col_ci = NULL; nb_ticks_x = NULL; nb_ticks_y = NULL;
   # legend_position = NULL; ci_ad = NULL; point_cex = NULL;
-  # point_pch = NULL; show_scales = TRUE
-  # class(x)
-
+  # point_pch = NULL; show_scales = FALSE
+  #
+  # #Sample size
+  # N = 100000
+  # # Model
+  # mod = WN(sigma2 = 1) + RW(gamma2 = 1e-4)
+  # # Simulate time series
+  # set.seed(12)
+  # Xt = gen_gts(n = n, model = mod)
+  # # Compute AV
+  # av = avar(Xt)
+  # fit = avlr(av, wn = 1:6, rw = 8:12)
+  # x = fit
 
 
   # Labels
@@ -897,7 +903,7 @@ plot.avlr = function(x, decomp = FALSE,
 
   # CI for AD
   if (ci_ad == TRUE || is.null(ci_ad)){
-    polygon(c(x$av$levels, rev(x$av$levels)), c(x$av$adev - x$av$errors*x$av$adev, rev(x$av$adev + x$av$errors*x$av$adev)),
+    polygon(c(x$av$levels, rev(x$av$levels)), c(x$av$allan - x$av$errors*x$av$allan, rev(x$av$allan + x$av$errors*x$av$allan)),
             border = NA, col = col_ci)
   }
 
