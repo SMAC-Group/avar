@@ -251,12 +251,13 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
                      point_pch = NULL, ...){
 
   # #for debugging
-  # class(Xt_av)
-  # x = Xt_av
   # units = NULL; xlab = NULL; ylab = NULL; main = NULL;
   # col_ad = NULL; col_ci = NULL; nb_ticks_x = NULL; nb_ticks_y = NULL;
   # legend_position = NULL; ci_ad = NULL; point_cex = NULL;
   # point_pch = NULL
+  #
+  # data("ln200_av")
+  # x = ln200_gyro_y = ln200_av$avar$`Gyro. Y`
 
   # Labels
   if (is.null(xlab)){
@@ -367,6 +368,14 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   lines(x_vec[1:2], rep(10^(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])),2), col = 1)
   #y_ticks = y_ticks[(2^y_ticks) < 10^(win_dim[4] - 0.09*(win_dim[4] - win_dim[3]))]
   y_labels = y_labels[1:length(y_ticks)]
+
+  #identify maximum ylim point before title and delete last tick if higher than limit of the title box
+  ylim_plot = y_vec[3]
+  if(10^y_ticks[length(y_ticks)] > ylim_plot){
+      y_ticks = y_ticks[-length(y_ticks)]
+      }
+
+
   box()
   if(length(x$levels) >=10){
     axis(1, at = 10^x_ticks, labels = x_labels, padj = 0.3)
