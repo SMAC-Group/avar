@@ -255,7 +255,6 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   # col_ad = NULL; col_ci = NULL; nb_ticks_x = NULL; nb_ticks_y = NULL;
   # legend_position = NULL; ci_ad = NULL; point_cex = NULL;
   # point_pch = NULL
-  #
   # data("ln200_av")
   # x = ln200_gyro_y = ln200_av$avar$`Gyro. Y`
 
@@ -366,14 +365,33 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
 
   # Add Axes and Box
   lines(x_vec[1:2], rep(10^(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])),2), col = 1)
+
   #y_ticks = y_ticks[(2^y_ticks) < 10^(win_dim[4] - 0.09*(win_dim[4] - win_dim[3]))]
   y_labels = y_labels[1:length(y_ticks)]
 
+
+  ######################
+
   #identify maximum ylim point before title and delete last tick if higher than limit of the title box
-  ylim_plot = y_vec[3]
+  title_plot_space = 10^c(win_dim[4], win_dim[4],
+               win_dim[4] - 0.09*(win_dim[4] - win_dim[3]),
+               win_dim[4] - 0.09*(win_dim[4] - win_dim[3]))
+  ylim_plot = title_plot_space[3]
+
+  #yaxis
+  #plot axis without ticks and labels
+  axis(side = 2, labels = F, at = range(10^y_ticks), tck = 0)
+
+  #check if tick last actual tick is higher thant begining of the main title box
   if(10^y_ticks[length(y_ticks)] > ylim_plot){
-      y_ticks = y_ticks[-length(y_ticks)]
-      }
+    y_ticks = y_ticks[-length(y_ticks)]
+  }
+
+  #ylabels
+  y_labels = y_labels[1:length(y_ticks)]
+  axis(2, at = 10^y_ticks, labels = y_labels, padj = -0.2)
+
+  ##############3
 
 
   box()
@@ -382,7 +400,6 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
   }else{
     axis(1, at = 2^x_ticks, labels = x_labels, padj = 0.3)
   }
-  axis(2, at = 10^y_ticks, labels = y_labels, padj = -0.2)
 
   # CI for AD
   if (ci_ad == TRUE || is.null(ci_ad)){

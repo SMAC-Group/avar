@@ -721,13 +721,13 @@ plot.avlr = function(x, decomp = FALSE,
   # navchip_gyro_z = navchip_av$avar$`Gyro. Z`
   # navchip_gyro_z_mod = avlr(navchip_gyro_z, qn = 1:4, wn = 5:7, rw = 12:20)
   # x = navchip_gyro_z_mod
-  # decomp = FALSE;
+  # decomp = TRUE;
   # units = NULL; xlab = NULL; ylab = NULL; main = NULL;
   # col_ad = NULL; col_ci = NULL; nb_ticks_x = NULL; nb_ticks_y = NULL;
   # legend_position = NULL; ci_ad = NULL; point_cex = NULL;
-  # point_pch = NULL; show_scales = FALSE
+  # point_pch = NULL; show_scales = TRUE
   # class(x)
-  # x = imar_gyro_x_mod
+
 
 
   # Labels
@@ -749,7 +749,7 @@ plot.avlr = function(x, decomp = FALSE,
 
   # Main Title
   if (is.null(main)){
-    main = "Allan Deviation Representation"
+    main = "Allan Variance Representation"
   }
 
   # Line and CI colors
@@ -772,7 +772,7 @@ plot.avlr = function(x, decomp = FALSE,
   }
 
   #compute y range
-  y_range = range(cbind(x$av$adev - x$av$adev*x$av$errors, x$av$adev + x$av$adev*x$av$errors, x$implied_ad))
+  y_range = range(cbind(x$av$allan - x$av$allan*x$av$errors, x$av$allan + x$av$allan*x$av$errors, x$implied_ad^2))
   y_low = floor(log10(y_range[1]))
   y_high = ceiling(log10(y_range[2]))
 
@@ -785,6 +785,7 @@ plot.avlr = function(x, decomp = FALSE,
     nb_ticks_y = 5
   }
 
+  # x ticks
   x_ticks = seq(x_low, x_high, by = 1)
   if (length(x_ticks) > nb_ticks_x){
     x_ticks = x_low + ceiling((x_high - x_low)/(nb_ticks_x + 1))*(0:nb_ticks_x)
@@ -796,6 +797,7 @@ plot.avlr = function(x, decomp = FALSE,
     x_labels = sapply(x_ticks, function(i) as.expression(bquote(2^ .(i))))
   }
 
+  # y ticks
   y_ticks <- seq(y_low, y_high, by = 1)
   if (length(y_ticks) > nb_ticks_y){
     y_ticks = y_low + ceiling((y_high - y_low)/(nb_ticks_y + 1))*(0:nb_ticks_y)
@@ -814,7 +816,7 @@ plot.avlr = function(x, decomp = FALSE,
   # Main Plot
   plot(NA, xlim = x_range, ylim = y_range, xlab = xlab, ylab = ylab,
       log = "xy", xaxt = 'n', yaxt = 'n', bty = "n", ann = FALSE)
-  #par("usr")
+
   win_dim = par("usr")
 
   #replot main plot with extra space on top for main title ploted later
@@ -841,7 +843,7 @@ plot.avlr = function(x, decomp = FALSE,
   abline(h = 10^y_ticks, lty = 1, col = "grey95")
 
   #y_ticks = y_ticks[(2^y_ticks) < 10^(win_dim[4] - 0.09*(win_dim[4] - win_dim[3]))]
-  y_labels = y_labels[1:length(y_ticks)]
+
 
   #x axis
   if(length(x$av$levels) >=10){
@@ -850,7 +852,23 @@ plot.avlr = function(x, decomp = FALSE,
     axis(1, at = 2^x_ticks, labels = x_labels, padj = 0.3)
   }
 
+  #identify maximum ylim point before title and delete last tick if higher than limit of the title box
+  y_vec = 10^c(win_dim[4], win_dim[4],
+               win_dim[4] - 0.09*(win_dim[4] - win_dim[3]),
+               win_dim[4] - 0.09*(win_dim[4] - win_dim[3]))
+  ylim_plot = y_vec[3]
+
   #yaxis
+  #plot axis without ticks and labels
+  axis(side = 2, labels = F, at = range(10^y_ticks), tck = 0)
+
+  #check if tick last actual tick is higher thant begining of the main title box
+  if(10^y_ticks[length(y_ticks)] > ylim_plot){
+    y_ticks = y_ticks[-length(y_ticks)]
+  }
+
+  #ylabels
+  y_labels = y_labels[1:length(y_ticks)]
   axis(2, at = 10^y_ticks, labels = y_labels, padj = -0.2)
 
   # CI for AD
@@ -874,15 +892,15 @@ plot.avlr = function(x, decomp = FALSE,
   if(decomp == TRUE){
     # Plot lines of decomp theo
     for (i in 1:U){
-      lines(x$av$levels, x$implied_ad_decomp[,i], col = col_decomp[i])
+      lines(x$av$levels, (x$implied_ad_decomp[,i])^2, col = col_decomp[i])
     }
   }
-  # Plot implied AD
-  lines(t(x$av$levels),x$implied_ad, type = "b", lwd = 2, col = "#F47F24", pch = 1, cex = 1.5)
+  # Plot implied AV
+  lines(t(x$av$levels),x$implied_ad^2, type = "b", lwd = 2, col = "#F47F24", pch = 1, cex = 1.5)
   #lines(t(x$av$levels),x$implied_ad, type = "p", lwd = 2, col = "#F47F24", pch = 1, cex = 1.5)
 
-  # Add AD
-  lines(x$av$levels, x$av$adev, type = "l", col = col_ad, pch = 16)
+  # Add AV
+  lines(x$av$levels, x$av$allan, type = "l", col = col_ad, pch = 16)
 
   if (is.null(point_pch)){
     point_pch = 16
@@ -891,7 +909,7 @@ plot.avlr = function(x, decomp = FALSE,
   if (is.null(point_cex)){
     point_cex = 1.25
   }
-  lines(x$av$levels, x$av$adev, type = "p", col = col_ad, pch = point_pch, cex = point_cex)
+  lines(x$av$levels, x$av$allan, type = "p", col = col_ad, pch = point_pch, cex = point_cex)
 
   if (show_scales){
     process_cols = col_decomp
@@ -900,7 +918,7 @@ plot.avlr = function(x, decomp = FALSE,
       if (!is.na(x$scales_used[i,1])){
         counter = counter + 1
         lines(x$av$levels[(x$scales_used[i,1]):(x$scales_used[i,2])],
-              x$av$adev[(x$scales_used[i,1]):(x$scales_used[i,2])], type = "p",
+              x$av$allan[(x$scales_used[i,1]):(x$scales_used[i,2])], type = "p",
               col = process_cols[counter], pch = point_pch, cex = point_cex)
       }
     }
@@ -925,12 +943,12 @@ plot.avlr = function(x, decomp = FALSE,
 
   # Add legend
   CI_conf = .95
-  ad_title_part1 = "Empirical AD "
+  ad_title_part1 = "Empirical AV "
 
   if(decomp == TRUE){
     if (show_scales){
-      legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
-                       as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AD",
+      legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)^2))),
+                       as.expression(bquote(paste("CI(",hat(phi)^2,", ",.(CI_conf),")"))),"Implied AV",
                        x$process_desc, paste("Scales used for", x$process_desc))
       col_legend = c(col_ad, col_ci,"#F47F24",col_decomp, col_decomp)
       p_cex_legend = c(1.25, 3, 1.5,rep(NA,U), rep(1.35,U))
@@ -938,7 +956,7 @@ plot.avlr = function(x, decomp = FALSE,
       pch_legend = c(16,15, 1, rep(NA,U), rep(16,U))
     }else{
       legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
-                       as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AD",
+                       as.expression(bquote(paste("CI(",hat(phi)^2,", ",.(CI_conf),")"))),"Implied AV",
                        x$process_desc)
       col_legend = c(col_ad, col_ci,"#F47F24",col_decomp)
       p_cex_legend = c(1.25, 3, 1.5,rep(NA,U))
@@ -948,16 +966,16 @@ plot.avlr = function(x, decomp = FALSE,
 
   }else{
     if (show_scales){
-      legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
-                       as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AD",
+      legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)^2))),
+                       as.expression(bquote(paste("CI(",hat(phi)^2,", ",.(CI_conf),")"))),"Implied AV",
                        paste("Scales used for", x$process_desc))
       col_legend = c(col_ad, col_ci,"#F47F24", col_decomp)
       p_cex_legend = c(1.25, 3, 1.5, rep(1.35,U))
       lty_legend = c(1, NA, 1, rep(NA,U))
       pch_legend = c(16,15, 1, rep(16,U))
     }else{
-      legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)))),
-                       as.expression(bquote(paste("CI(",hat(phi),", ",.(CI_conf),")"))),"Implied AD")
+      legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)^2))),
+                       as.expression(bquote(paste("CI(",hat(phi)^2,", ",.(CI_conf),")"))),"Implied AV")
       col_legend = c(col_ad, col_ci,"#F47F24")
       p_cex_legend = c(1.25, 3, 1.5)
       lty_legend = c(1, NA)
