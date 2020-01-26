@@ -8,7 +8,7 @@
   ylab = NULL, main = NULL, col_ad = NULL, col_ci = NULL,
   nb_ticks_x = NULL, nb_ticks_y = NULL, legend_position = NULL,
   ci_ad = NULL, point_cex = NULL, point_pch = NULL,
-  show_scales = FALSE, ...)
+  show_scales = FALSE, text_legend_cex = 1, ...)
 }
 \arguments{
 \item{x}{An \code{avlr} object.}
@@ -40,6 +40,8 @@
 \item{point_pch}{A \code{double} that specifies the symbol type to be plotted.}
 
 \item{show_scales}{A \code{boolean} that specifies if the scales used for each process should be plotted.}
+
+\item{text_legend_cex}{A \code{double} that specifies the size of the legend text.}
 
 \item{...}{Additional arguments affecting the plot.}
 }

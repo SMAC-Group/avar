@@ -469,12 +469,14 @@ plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
                          col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
                          ci_ad = NULL, point_pch = NULL, point_cex = NULL, ...){
 
-  # #for debugging
-  # load("~/github_repo/avar/data/ln200_av.rda")
-  # fit_ln200 = avlr(ln200_av, wn_gyro = 1:18, qn_acc = 1:16, rw_acc = 18:22)
-  # plot(fit_ln200)
-  # x = fit_ln200
-  # class(fit_ln200)
+  #for debugging
+  xlab = NULL; ylab = NULL; main = NULL;
+  col_ad = NULL; col_ci = NULL; nb_ticks_x = NULL; nb_ticks_y = NULL;
+  ci_ad = NULL; point_pch = NULL; point_cex = NULL
+  load("~/github_repo/avar/data/ln200_av.rda")
+  fit_ln200 = avlr(ln200_av, wn_gyro = 1:18, qn_acc = 1:16, rw_acc = 18:22)
+  x = fit_ln200
+  class(fit_ln200)
 
 
 
@@ -634,7 +636,7 @@ plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
         axis(1, at = 10^x_ticks, labels = x_labels, padj = -0.2, cex = 1.25)
       }
 
-      lines(scales,x$gyro$implied_ad[1:length(scales)]^2, type = "b", lwd = 1.75, col = "#F47F24", pch = 1, cex = 1.5)
+      lines(scales,x$gyro$implied_ad[1:length(scales)]^2, type = "l", lwd = 1.75, col = "#F47F24", pch = 1, cex = 1.5)
     }
   }
 
@@ -681,7 +683,7 @@ plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
                 border = NA, col = col_ci)
       }
 
-      lines(scales,x$acc$implied_ad[1:length(scales)]^2, type = "b", lwd = 1.75, col = "#F47F24", pch = 1, cex = 1.5)
+      lines(scales,x$acc$implied_ad[1:length(scales)]^2, type = "l", lwd = 1.75, col = "#F47F24", pch = 1, cex = 1.5)
 
       # Add AV
       lines(scales, (av[,accel_index[i]]), type = "l", col = col_ad, pch = 16)
@@ -716,6 +718,7 @@ plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
 #' @param point_cex        A \code{double} that specifies the size of each symbol to be plotted.
 #' @param point_pch        A \code{double} that specifies the symbol type to be plotted.
 #' @param show_scales      A \code{boolean} that specifies if the scales used for each process should be plotted.
+#' @param text_legend_cex  A \code{double} that specifies the size of the legend text.
 #' @param ...              Additional arguments affecting the plot.
 #' @return Plot of Allan deviation and relative confidence intervals for each scale.
 #' @author Stephane Guerrier and Justin Lee
@@ -738,27 +741,19 @@ plot.avlr = function(x, decomp = FALSE,
                      units = NULL, xlab = NULL, ylab = NULL, main = NULL,
                      col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
                      legend_position = NULL, ci_ad = NULL, point_cex = NULL,
-                     point_pch = NULL, show_scales = FALSE, ...){
+                     point_pch = NULL, show_scales = FALSE, text_legend_cex = 1, ...){
 
   # #for debugging
-  # decomp = FALSE;
+  # decomp = TRUE;
   # units = NULL; xlab = NULL; ylab = NULL; main = NULL;
   # col_ad = NULL; col_ci = NULL; nb_ticks_x = NULL; nb_ticks_y = NULL;
   # legend_position = NULL; ci_ad = NULL; point_cex = NULL;
-  # point_pch = NULL; show_scales = FALSE
+  # point_pch = NULL; show_scales = TRUE;text_legend_cex = 1
   #
-  # #Sample size
-  # N = 100000
-  # # Model
-  # mod = WN(sigma2 = 1) + RW(gamma2 = 1e-4)
-  # # Simulate time series
-  # set.seed(12)
-  # Xt = gen_gts(n = n, model = mod)
-  # # Compute AV
-  # av = avar(Xt)
-  # fit = avlr(av, wn = 1:6, rw = 8:12)
-  # x = fit
-
+  # load("~/github_repo/avar/data/imar_av.rda")
+  # imar_gyro_x = imar_av$avar$`Gyro. X`
+  # imar_gyro_x_mod = avlr(imar_gyro_x, wn = 1:14)
+  # x=imar_gyro_x_mod
 
   # Labels
   #xlabel
@@ -821,7 +816,8 @@ plot.avlr = function(x, decomp = FALSE,
     x_ticks = x_low + ceiling((x_high - x_low)/(nb_ticks_x + 1))*(0:nb_ticks_x)
   }
 
-  if(length(x$av$clusters) >= 10){
+  #define xlabels
+  if(length(x$av$levels) >= 10){
     x_labels = sapply(x_ticks, function(i) as.expression(bquote(10^ .(i))))
   }else{
     x_labels = sapply(x_ticks, function(i) as.expression(bquote(2^ .(i))))
@@ -851,12 +847,12 @@ plot.avlr = function(x, decomp = FALSE,
 
   #replot main plot with extra space on top for main title ploted later
   y_vec_2 = 10^c(win_dim[4], win_dim[4],
-               win_dim[4] - 0.15*(win_dim[4] - win_dim[3]),
-               win_dim[4] - 0.15*(win_dim[4] - win_dim[3]))
+               win_dim[4] - .15*(win_dim[4] - win_dim[3]),
+               win_dim[4] - .15*(win_dim[4] - win_dim[3]))
 
   space_title =    y_vec_2[1] - y_vec_2[4]
   par(new = TRUE)
-  plot(NA, xlim = x_range, ylim = c(y_range[1], y_range[2]+ space_title), xlab = xlab, ylab = ylab,
+  plot(NA, xlim = x_range, ylim = c(y_range[1], y_range[2]+ 5*space_title), xlab = xlab, ylab = ylab,
        log = "xy", xaxt = 'n', yaxt = 'n', bty = "n", ann = FALSE)
 
 
@@ -975,6 +971,7 @@ plot.avlr = function(x, decomp = FALSE,
   CI_conf = .95
   ad_title_part1 = "Empirical AV "
 
+
   if(decomp == TRUE){
     if (show_scales){
       legend_names = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)^2))),
@@ -1012,22 +1009,24 @@ plot.avlr = function(x, decomp = FALSE,
       pch_legend = c(16,15,1)
     }
   }
+
+
   if (!is.na(legend_position)){
     if (legend_position == "topleft"){
       legend_position = 10^c(1.1*win_dim[1], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
       legend(x = legend_position[1], y = legend_position[2],
              legend = legend_names, pch = pch_legend, lty = lty_legend,
-             col = col_legend, cex = 1, pt.cex = p_cex_legend, bty = "n")
+             col = col_legend, cex = text_legend_cex, pt.cex = p_cex_legend, bty = "n")
     }else{
       if (legend_position == "topright"){
         legend_position = 10^c(0.7*win_dim[2], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
         legend(x = legend_position[1], y = legend_position[2],
                legend =legend_names, pch = pch_legend, lty = lty_legend,
-               col = col_legend, cex = 1, pt.cex = p_cex_legend, bty = "n")
+               col = col_legend, cex = text_legend_cex, pt.cex = p_cex_legend, bty = "n")
       }else{
         legend(legend_position,
                legend = legend_names, pch = pch_legend, lty = lty_legend,
-               col = col_legend, cex = 1, pt.cex = p_cex_legend, bty = "n")
+               col = col_legend, cex = text_legend_cex, pt.cex = p_cex_legend, bty = "n")
       }
     }
   }

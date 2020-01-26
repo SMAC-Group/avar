@@ -230,6 +230,7 @@ summary.avar = function(object, ...) {
 #' @param legend_position  A \code{string} that specifies the position of the legend (use \code{legend_position = NA} to remove legend).
 #' @param point_pch        A \code{double} that specifies the symbol type to be plotted.
 #' @param point_cex        A \code{double} that specifies the size of each symbol to be plotted.
+#' @param text_legend_cex  A \code{double} that specifies the size of the legend text.
 #' @param ...              Additional arguments affecting the plot.
 #' @return A plot of the Allan deviation and relative confidence interval for each scale.
 #' @author Stephane Guerrier, Nathanael Claussen and Justin Lee
@@ -248,15 +249,23 @@ summary.avar = function(object, ...) {
 plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
                      col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL, nb_ticks_y = NULL,
                      legend_position = NULL, ci_ad = NULL, point_cex = NULL,
-                     point_pch = NULL, ...){
+                     point_pch = NULL, text_legend_cex = 1, ...){
 
   # #for debugging
-  # units = NULL; xlab = NULL; ylab = NULL; main = NULL;
-  # col_ad = NULL; col_ci = NULL; nb_ticks_x = NULL; nb_ticks_y = NULL;
-  # legend_position = NULL; ci_ad = NULL; point_cex = NULL;
-  # point_pch = NULL
-  # data("ln200_av")
-  # x = ln200_gyro_y = ln200_av$avar$`Gyro. Y`
+  # # Sample size
+  # N = 100000
+  #
+  # # Model
+  # mod = WN(sigma2 = 1) + RW(gamma2 = 1e-4)
+  #
+  # # Simulate time series
+  # set.seed(12)
+  # Xt = gen_gts(n = N, model = mod)
+  #
+  # # Compute AV
+  # av = avar(Xt)
+  # x = av
+  # plot(x)
 
   # Labels
   if (is.null(xlab)){
@@ -315,6 +324,8 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
     x_ticks = x_low + ceiling((x_high - x_low)/(nb_ticks_x + 1))*(0:nb_ticks_x)
   }
 
+
+  #define xlabels
   if(length(x$levels) >= 10){
     x_labels = sapply(x_ticks, function(i) as.expression(bquote(10^ .(i))))
   }else{
@@ -418,19 +429,19 @@ plot.avar = function(x, units = NULL, xlab = NULL, ylab = NULL, main = NULL,
       legend(x = legend_position[1], y = legend_position[2],
              legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)^2))),
                         as.expression(bquote(paste("CI(",hat(phi)^2,", ",.(CI_conf),")")))),
-             pch = c(16, 15), lty = c(1, NA), col = c(col_ad, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
+             pch = c(16, 15), lty = c(1, NA), col = c(col_ad, col_ci), cex = text_legend_cex, pt.cex = c(1.25, 3), bty = "n")
     }else{
       if (legend_position == "topright"){
         legend_position = 10^c(0.7*win_dim[2], 0.98*(win_dim[4] - 0.09*(win_dim[4] - win_dim[3])))
         legend(x = legend_position[1], y = legend_position[2],
                legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)^2))),
                           as.expression(bquote(paste("CI(",hat(phi)^2,", ",.(CI_conf),")")))),
-               pch = c(16, 15), lty = c(1, NA), col = c(col_ad, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
+               pch = c(16, 15), lty = c(1, NA), col = c(col_ad, col_ci), cex = text_legend_cex, pt.cex = c(1.25, 3), bty = "n")
       }else{
         legend(legend_position,
                legend = c(as.expression(bquote(paste(.(ad_title_part1), hat(phi)^2))),
                           as.expression(bquote(paste("CI(",hat(phi)^2,", ",.(CI_conf),")")))),
-               pch = c(16, 15), lty = c(1, NA), col = c(col_ad, col_ci), cex = 1, pt.cex = c(1.25, 3), bty = "n")
+               pch = c(16, 15), lty = c(1, NA), col = c(col_ad, col_ci), cex = text_legend_cex, pt.cex = c(1.25, 3), bty = "n")
       }
     }
   }
