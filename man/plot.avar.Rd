@@ -7,7 +7,7 @@
 \method{plot}{avar}(x, units = NULL, xlab = NULL, ylab = NULL,
   main = NULL, col_ad = NULL, col_ci = NULL, nb_ticks_x = NULL,
   nb_ticks_y = NULL, legend_position = NULL, ci_ad = NULL,
-  point_cex = NULL, point_pch = NULL, ...)
+  point_cex = NULL, point_pch = NULL, text_legend_cex = 1, ...)
 }
 \arguments{
 \item{x}{An \code{avar} object.}
@@ -35,6 +35,8 @@
 \item{point_cex}{A \code{double} that specifies the size of each symbol to be plotted.}
 
 \item{point_pch}{A \code{double} that specifies the symbol type to be plotted.}
+
+\item{text_legend_cex}{A \code{double} that specifies the size of the legend text.}
 
 \item{...}{Additional arguments affecting the plot.}
 }
