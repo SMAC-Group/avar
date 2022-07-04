@@ -4,7 +4,8 @@
 \name{ln200_av}
 \alias{ln200_av}
 \title{Allan variance of IMU Data from a LN200 sensor}
-\format{A list of the following elements:
+\format{
+A list of the following elements:
 \itemize{
  \item "sensor": Name of the sensor.
  \item "freq": The frequency at which the error signal is measured.
@@ -12,7 +13,8 @@
  \item "type": The types of sensors considered in the data.
  \item "axis": The axes of sensors considered in the data.
  \item "avar": A list containing the computed Allan variance based on the data.
-}}
+}
+}
 \source{
 The IMU data comes from Geodetic Engineering Laboratory (TOPO) and Swiss Federal Institute of Technology Lausanne (EPFL).
 }

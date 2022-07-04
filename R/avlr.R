@@ -735,7 +735,7 @@ plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
 #' plot.avlr(av, decomp = TRUE, main = "Simulated white noise", xlab = "Scales")
 #' plot.avlr(av, units = "sec", legend_position = "topright")
 #' plot.avlr(av, col_ad = "darkred", col_ci = "pink")
-#' plot(fit, decomp = TRUE, show_scales = TRUE)
+#' plot.avlr(av, decomp = TRUE, show_scales = TRUE)
 #' }
 plot.avlr = function(x, decomp = FALSE,
                      units = NULL, xlab = NULL, ylab = NULL, main = NULL,
