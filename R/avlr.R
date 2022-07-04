@@ -140,6 +140,8 @@ avlr.default = function(x, qn = NULL, wn = NULL, rw = NULL, dr = NULL,
 #' @param scales A \code{vec} of the scales.
 #' @return       A \code{list} with the estimated parameters.
 fit_avlr = function(qn, wn, rw, dr, ad, scales){
+
+
   # Number of processes needed
   n_processes = 4 - sum(sapply(list(qn,wn,rw,dr), is.null))
 
@@ -470,13 +472,13 @@ plot.imu_avlr = function(x, xlab = NULL, ylab = NULL, main = NULL,
                          ci_ad = NULL, point_pch = NULL, point_cex = NULL, ...){
 
   #for debugging
-  xlab = NULL; ylab = NULL; main = NULL;
-  col_ad = NULL; col_ci = NULL; nb_ticks_x = NULL; nb_ticks_y = NULL;
-  ci_ad = NULL; point_pch = NULL; point_cex = NULL
-  load("~/github_repo/avar/data/ln200_av.rda")
-  fit_ln200 = avlr(ln200_av, wn_gyro = 1:18, qn_acc = 1:16, rw_acc = 18:22)
-  x = fit_ln200
-  class(fit_ln200)
+  # xlab = NULL; ylab = NULL; main = NULL;
+  # col_ad = NULL; col_ci = NULL; nb_ticks_x = NULL; nb_ticks_y = NULL;
+  # ci_ad = NULL; point_pch = NULL; point_cex = NULL
+  # load("~/github_repo/avar/data/ln200_av.rda")
+  # fit_ln200 = avlr(ln200_av, wn_gyro = 1:18, qn_acc = 1:16, rw_acc = 18:22)
+  # x = fit_ln200
+  # class(fit_ln200)
 
 
 
