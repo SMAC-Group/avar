@@ -13,7 +13,7 @@ Authors@R: c(
     person("Ahmed", "Radi", role = "aut"),
     person("Haotian", "Xu", role = "aut"),
     person("Yuming", "Zhang", role = "aut"),
-    person("Nathanael", "Claussen", role = "aut")
+    person("Nathanael", "Claussen", role = "aut"),
     person("Lionel", "Voirol", role = "ctb")
     )
 Maintainer: Stéphane Guerrier <stef.guerrier@gmail.com>
