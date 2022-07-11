@@ -1,8 +1,8 @@
 Package: avar
 Type: Package
 Title: Allan Variance 
-Version: 0.1.1
-Date: 2020-01-15
+Version: 0.1.2
+Date: 2022-07-11
 LazyData: true
 Authors@R: c(
     person("Stéphane", "Guerrier", email = "stef.guerrier@gmail.com", role = c("aut","cre")),

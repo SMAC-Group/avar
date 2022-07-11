@@ -1,3 +1,7 @@
+# avar 0.1.2
+
+Corrected a minor bug in the examples in order to stay on CRAN
+
 # avar 0.1.1
 
 ## Features
