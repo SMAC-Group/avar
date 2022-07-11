@@ -14,6 +14,7 @@ Authors@R: c(
     person("Haotian", "Xu", role = "aut"),
     person("Yuming", "Zhang", role = "aut"),
     person("Nathanael", "Claussen", role = "aut")
+    person("Lionel", "Voirol", role = "ctb")
     )
 Maintainer: Stéphane Guerrier <stef.guerrier@gmail.com>
 Description: Implements the allan variance and allan variance linear regression estimator for latent time series models. More details about the method can be found, for example, in Guerrier, S., Molinari, R., & Stebler, Y. (2016) <doi:10.1109/LSP.2016.2541867>. 
