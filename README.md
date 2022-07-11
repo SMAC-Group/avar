@@ -3,12 +3,12 @@
 
 [![R-CMD-check](https://github.com/SMAC-Group/avar/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/SMAC-Group/avar/actions/workflows/R-CMD-check.yaml)
 [![Project Status:
-Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active/)
 [![Licence](https://img.shields.io/badge/licence-AGPL--3.0-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
 [![minimal R
 version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
 [![CRAN RStudio mirror
-downloads](http://cranlogs.r-pkg.org/badges/avar)](http://www.r-pkg.org/pkg/avar)
+downloads](https://cranlogs.r-pkg.org/badges/avar)](https://www.r-pkg.org/pkg/avar)
 [![CRAN RStudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/grand-total/avar)](http://www.r-pkg.org/pkg/avar)
 [![Last-changedate](https://img.shields.io/badge/last%20change-2022--07--11-yellowgreen.svg)](https://github.com/SMAC-Group/avar)
