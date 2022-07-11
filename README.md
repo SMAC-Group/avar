@@ -1,8 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![Travis-CI Build
-Status](https://travis-ci.org/SMAC-Group/avar.svg?branch=master)](https://travis-ci.org/SMAC-Group/avar)
+[![R-CMD-check](https://github.com/SMAC-Group/avar/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/SMAC-Group/avar/actions/workflows/R-CMD-check.yaml)
 [![Project Status:
 Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Licence](https://img.shields.io/badge/licence-AGPL--3.0-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
@@ -12,7 +11,7 @@ version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-
 downloads](http://cranlogs.r-pkg.org/badges/avar)](http://www.r-pkg.org/pkg/avar)
 [![CRAN RStudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/grand-total/avar)](http://www.r-pkg.org/pkg/avar)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2020--01--15-yellowgreen.svg)](https://github.com/SMAC-Group/avar)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2022--07--11-yellowgreen.svg)](https://github.com/SMAC-Group/avar)
 
 # Welcome to the `avar` package <a href="https://smac-group.com/"><img src="man/figures/logo.png" align="right" style="width: 16%; height: 16%"/></a>
 
@@ -61,20 +60,20 @@ devtools::install_github("SMAC-Group/avar", build_vignettes = TRUE)
 
 ## References
 
-<div id="refs" class="references">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-allan1966statistics">
+<div id="ref-allan1966statistics" class="csl-entry">
 
 Allan, David W. 1966. “Statistics of Atomic Frequency Standards.”
-*Proceedings of the IEEE* 54 (2). IEEE: 221–30.
+*Proceedings of the IEEE* 54 (2): 221–30.
 
 </div>
 
-<div id="ref-guerrier2016theoretical">
+<div id="ref-guerrier2016theoretical" class="csl-entry">
 
 Guerrier, Stéphane, Roberto Molinari, and Yannick Stebler. 2016.
 “Theoretical Limitations of Allan Variance-Based Regression for Time
-Series Model Estimation.” *IEEE Signal Processing Letters* 23 (5). IEEE:
+Series Model Estimation.” *IEEE Signal Processing Letters* 23 (5):
 597–601.
 
 </div>
